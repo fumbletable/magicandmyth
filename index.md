@@ -16,15 +16,19 @@ This site is a complete reference for players and referees — ancestries, class
 
 Everything you need to create and play a character.
 
-- [**Character Creation**](players/character-creation) — Step-by-step guide
+- [**Character Creation**](players/character-creation) — Step-by-step walkthrough and the MAGIC System
+- [**Attributes**](players/attributes) — The six attributes, rolling methods, and modifier tables
 - [**Ancestries**](players/ancestries/) — Dwarf, Elf, Gnome, Half-Elf, Half-Orc, Halfling, Human
 - [**Classes**](players/classes/) — Barbarian, Bard, Cleric, Druid, Fighter, Monk, Paladin, Ranger, Thief, Wizard
-- [**Attributes**](players/attributes) — Ability scores, modifiers, and tables
+- [**Weapon Proficiencies**](players/proficiencies/weapon-proficiencies) — Weapons training, fighting styles, maneuvers
+- [**Nonweapon Proficiencies**](players/proficiencies/nonweapon-proficiencies) — Skills, trades, and knowledge
+- [**Class Talents**](players/class-talents) — Optional talents to customize your class
 - [**Equipment**](players/equipment/) — Weapons, armor, and adventuring gear
+- [**Playing Your Character**](players/roleplaying) — Alignments, roleplaying, and NPCs
+- [**Travel & Exploration**](players/travel) — Overland travel, light, climbing, swimming
+- [**Rewards**](players/rewards) — Experience, treasure, renown, and henchmen
 - [**Combat**](players/combat) — How fights work
-- [**Proficiencies**](players/proficiencies/) — Weapon and nonweapon proficiencies
-- [**Spells**](players/spells/) — Arcane and divine spell reference
-
----
-
-*This site is a work in progress. Content is being added regularly as the game develops.*
+- [**Arcane Spells**](players/spells/arcane/) — Wizard and bard spells, Levels 1-9
+- [**Divine Spells**](players/spells/divine/) — Cleric, druid, paladin, and ranger spells
+- [**Multi-Class Characters**](players/multi-class) — Straight and staggered multi-classing
+- [**Strongholds**](players/strongholds) — Building castles, temples, and guild houses
