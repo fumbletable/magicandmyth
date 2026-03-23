@@ -1,7 +1,7 @@
 ---
 title: Arcane Level 9
 parent: Arcane Spells
-grand_parent: Spells
+grand_parent: Players
 nav_order: 9
 ---
 

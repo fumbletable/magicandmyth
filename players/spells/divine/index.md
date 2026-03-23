@@ -1,8 +1,8 @@
 ---
 title: Divine Spells
-parent: Spells
-grand_parent: Players
-nav_order: 2
+layout: default
+parent: Players
+nav_order: 10
 has_children: true
 ---
 

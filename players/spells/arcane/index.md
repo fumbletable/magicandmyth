@@ -1,8 +1,8 @@
 ---
 title: Arcane Spells
-parent: Spells
-grand_parent: Players
-nav_order: 1
+layout: default
+parent: Players
+nav_order: 9
 has_children: true
 ---
 

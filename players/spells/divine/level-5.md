@@ -1,7 +1,7 @@
 ---
 title: Divine Level 5
 parent: Divine Spells
-grand_parent: Spells
+grand_parent: Players
 nav_order: 5
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: Divine Level 4
 parent: Divine Spells
-grand_parent: Spells
+grand_parent: Players
 nav_order: 4
 ---
 
