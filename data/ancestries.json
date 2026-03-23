@@ -1,0 +1,257 @@
+{
+  "ancestries": [
+    {
+      "id": "dwarf",
+      "name": "Dwarf",
+      "description": "Strong and hearty mountain-dwellers, foremost authorities of mining and engineering.",
+      "attributes": {
+        "CON": 2,
+        "CHA": -1
+      },
+      "speed": 25,
+      "languages": ["dwarven", "common"],
+      "bonus_languages": ["gnome", "giant", "goblin", "kobold", "orc"],
+      "senses": {
+        "darkvision": 60
+      },
+      "traits": [
+        {
+          "name": "Protection from Magic",
+          "description": "+2 bonus to Fortitude saving throw, +1 bonus to Will saving throw."
+        },
+        {
+          "name": "Magic Disruption",
+          "description": "Natural defense against magic items (not weapons, armor, shields, gauntlets, girdles). Roll d%: 1-80 works, 81-100 disrupted. Cannot learn arcane spellcasting unless ancestral trait suppressed. Divine spells unaffected."
+        },
+        {
+          "name": "Ancestral Enemies",
+          "description": "+1 to attack rolls against orcs, half-orcs, goblins, and hobgoblins."
+        },
+        {
+          "name": "Giant Guard",
+          "description": "+4 temporary AC bonus against all attacks from Large or bigger creatures."
+        },
+        {
+          "name": "Stonecunning",
+          "description": "Can discern features of slope or worked stone within 20 feet with a Wisdom/Perception check."
+        }
+      ],
+      "proficiencies": {
+        "ancestral": "Minor proficiency in either Engineering or Mining.",
+        "weaponry_optional": "Proficiency in either hammers or picks (one and two-handed versions)."
+      },
+      "weapons_armor": "Any allowed by class. Tend not to use bows or elven armor.",
+      "allowed_classes": ["barbarian", "cleric", "druid", "fighter", "paladin", "ranger", "thief"],
+      "restricted_classes": {
+        "wizard": "Cannot learn arcane spellcasting due to Magic Disruption (unless trait suppressed)."
+      }
+    },
+    {
+      "id": "elf",
+      "name": "Elf",
+      "description": "Deeply historic protectors of the world's natural beauty, patient and long-lived.",
+      "attributes": {
+        "DEX": 1,
+        "WIS": 1,
+        "CON": -1
+      },
+      "speed": 35,
+      "languages": ["elven", "common"],
+      "bonus_languages": ["gnoll", "gnome", "goblin", "halfling", "hobgoblin", "orc"],
+      "senses": {
+        "lowlight_vision": 60
+      },
+      "traits": [
+        {
+          "name": "Superior Focus",
+          "description": "+1 bonus on checks to notice secret or concealed objects."
+        },
+        {
+          "name": "Danger Sense",
+          "description": "+2 bonus on any roll to avoid being surprised or caught flat-footed."
+        },
+        {
+          "name": "Strength of Mind",
+          "description": "Immune to magical sleep effects. +2 Will saving throw vs mind-affecting spells (illusions, charms). Stacks with Wisdom bonus. Requires only 8 hours rest every two days."
+        },
+        {
+          "name": "Improved Initiative",
+          "description": "Base initiative die reduced by one step (d12→d10, d8→d6, d4→d3, etc.)."
+        }
+      ],
+      "proficiencies": {
+        "weaponry_optional": "Free weapon proficiency in one of: longsword, elven thin blade, short sword, rapier, or bow."
+      },
+      "weapons_armor": "Any allowed by class. Tend not to use axes or heavy armor.",
+      "allowed_classes": ["bard", "cleric", "druid", "fighter", "monk", "paladin", "ranger", "thief", "wizard"]
+    },
+    {
+      "id": "gnome",
+      "name": "Gnome",
+      "description": "Enterprising small humanoids, amazing engineers and born illusionists.",
+      "attributes": {
+        "STR": -2,
+        "INT": 1,
+        "CHA": 2
+      },
+      "speed": 25,
+      "languages": ["common", "gnome"],
+      "bonus_languages": ["dwarf", "halfling", "kobold", "goblin"],
+      "senses": {
+        "lowlight_vision": "twice human range"
+      },
+      "traits": [
+        {
+          "name": "Protection from Magic",
+          "description": "+1 bonus to all saving throws."
+        },
+        {
+          "name": "Magic Disruption",
+          "description": "Similar to dwarves but does not disrupt illusion items or items made for gnomes/gnome's class. Cannot cast arcane spells except illusions. Divine spells unaffected."
+        },
+        {
+          "name": "Ancestral Enemies",
+          "description": "+1 bonus to attack rolls against kobolds and goblins."
+        },
+        {
+          "name": "Defensive Training",
+          "description": "+4 temporary AC bonus when fighting gnolls, bugbears, trolls, ogres, and giants."
+        },
+        {
+          "name": "Underground Survival",
+          "description": "Can discern features of natural passages/caverns within 20 feet with Wisdom/Perception check."
+        },
+        {
+          "name": "Illusions",
+          "description": "Once per day, may cast one of: ventriloquism, minor cantrip (temporary effect), phantasmal image (no larger than Tiny). Caster level = character level."
+        }
+      ],
+      "proficiencies": {
+        "ancestral": "Minor proficiency in Gemcutting and Engineering.",
+        "weaponry_optional": "Proficient with shortspear. Double damage when set for charge."
+      },
+      "weapons_armor": "Any allowed by class. Weapons one size smaller, one less damage die category.",
+      "size_note": "Small. Weapons deal one less dice category in damage (e.g., 1d6 becomes 1d4).",
+      "allowed_classes": ["bard", "cleric", "druid", "fighter", "thief"],
+      "restricted_classes": {
+        "wizard": "May only be a specialist illusionist. Only gnomes may multi-class with illusionist."
+      }
+    },
+    {
+      "id": "half-elf",
+      "name": "Half-Elf",
+      "description": "Offspring of elves and humans, ambitious and eager to belong.",
+      "attributes": {
+        "DEX": 1
+      },
+      "speed": 30,
+      "languages": ["common"],
+      "conditional_languages": "Speak elven if raised in elven culture.",
+      "bonus_languages": ["elven", "dwarven", "gnome", "goblin", "halfling", "hobgoblin", "orc"],
+      "senses": {
+        "lowlight_vision": 60
+      },
+      "traits": [
+        {
+          "name": "Enhanced Focus",
+          "description": "+1 bonus on checks to notice secret or concealed objects."
+        },
+        {
+          "name": "Elven Strength of Mind",
+          "description": "50% magic resistance against magical sleep effects. +1 Will saving throw vs mind-affecting spells (illusions, charms). Stacks with Wisdom bonus."
+        },
+        {
+          "name": "Ambitious Start",
+          "description": "One additional proficiency slot at character creation (nonweapon or weapon)."
+        }
+      ],
+      "proficiencies": {
+        "weaponry_optional": "Free proficiency in longsword, elven thin blade, rapier, or any bow."
+      },
+      "weapons_armor": "Any not forbidden by class.",
+      "allowed_classes": ["barbarian", "bard", "cleric", "druid", "fighter", "monk", "paladin", "ranger", "thief", "wizard"]
+    },
+    {
+      "id": "half-orc",
+      "name": "Half-Orc",
+      "description": "Born from the union of orc and human, hardened survivalists with a frightening temper.",
+      "attributes": {
+        "STR": 1,
+        "CON": 1,
+        "CHA": -1
+      },
+      "speed": 30,
+      "languages": ["common", "orc"],
+      "bonus_languages": ["giant", "gnoll", "kobold", "goblin"],
+      "senses": {
+        "darkvision": 60,
+        "lowlight_vision": "human daylight range"
+      },
+      "traits": [
+        {
+          "name": "Frenzy",
+          "description": "Once per day, up to 10 rounds. -2 AC, +2 attack and damage. Fight until -10 HP (then die immediately). Enter as secondary action, exit early costs full round."
+        }
+      ],
+      "proficiencies": {
+        "ancestral": "Minor proficiency in either Wilderness Survival or Mountaineering.",
+        "weaponry_optional": "Proficient in any one axe and unarmed attacks."
+      },
+      "weapons_armor": "Any allowed by class.",
+      "allowed_classes": ["barbarian", "bard", "cleric", "druid", "fighter", "monk", "paladin", "ranger", "thief", "wizard"],
+      "class_notes": {
+        "paladin": "Gnomes and half-orcs often fail to qualify. Only lawful half-orcs may petition."
+      }
+    },
+    {
+      "id": "halfling",
+      "name": "Halfling",
+      "description": "Peaceful, cheerful small folk who are supremely lucky.",
+      "attributes": {
+        "STR": -2,
+        "DEX": 2,
+        "CHA": 1
+      },
+      "speed": 25,
+      "languages": ["common", "halfling"],
+      "bonus_languages": ["dwarven", "elven", "gnome", "giant", "kobold", "goblin"],
+      "senses": {
+        "lowlight_vision": "twice human range"
+      },
+      "traits": [
+        {
+          "name": "Protection from Magic",
+          "description": "+2 bonus to Will saving throw."
+        },
+        {
+          "name": "Poison Resistance",
+          "description": "+2 bonus on Fortitude saves against natural poisons."
+        },
+        {
+          "name": "Uncanny Luck",
+          "description": "One re-roll per day per four levels of experience. Can re-roll own roll or force GM to re-roll."
+        }
+      ],
+      "proficiencies": {
+        "weaponry_optional": "Free proficiency in slings and one of: javelins, throwing dagger, throwing axe, or spear. +1 attack and damage with slings."
+      },
+      "weapons_armor": "Any allowed by class. Weapons one size smaller, one less damage die category.",
+      "size_note": "Small. Weapons deal one less dice category in damage.",
+      "allowed_classes": ["bard", "cleric", "druid", "fighter", "ranger", "thief", "wizard"]
+    },
+    {
+      "id": "human",
+      "name": "Human",
+      "description": "Ambitious, adaptable, and quick to act. The most common ancestry in most settings.",
+      "attributes": {},
+      "speed": 30,
+      "languages": ["common"],
+      "bonus_languages": ["any"],
+      "senses": {},
+      "traits": [],
+      "proficiencies": {},
+      "weapons_armor": "Any allowed by class.",
+      "allowed_classes": ["barbarian", "bard", "cleric", "druid", "fighter", "monk", "paladin", "ranger", "thief", "wizard"]
+    }
+  ]
+}

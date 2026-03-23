@@ -1,0 +1,338 @@
+{
+  "classes": [
+    {
+      "id": "barbarian",
+      "name": "Barbarian",
+      "hit_die": "d12",
+      "allowed_ancestries": ["human", "half-orc", "half-elf"],
+      "alignment": "Any non-lawful",
+      "attribute_requirements": {
+        "note": "Optional. Suffer -10% XP if not met.",
+        "STR": 12,
+        "CON": 12
+      },
+      "prime_example": {
+        "ancestries": ["human", "half-orc"],
+        "requirements": { "STR": 16, "CON": 16 },
+        "bonus": "+10% XP"
+      },
+      "weapon_slots_start": 4,
+      "weapon_slot_rate": "Every 3rd level",
+      "nonproficiency_penalty": -2,
+      "weapon_groups": ["all"],
+      "nwp_slots_start": 3,
+      "nwp_groups": ["General", "Nature"],
+      "armor": "Any (but some abilities restricted in heavy armor)",
+      "saves_level1": { "fort": 5, "reflex": 5, "will": 4 },
+      "level_chart": [
+        { "level": 1, "xp": 0, "hp": "1d12 max", "bth": 1, "special": ["Feral Senses", "Rage 1/day", "Fast Movement +10"] },
+        { "level": 2, "xp": 2000, "hp": "2d12", "bth": 1, "special": ["Uncanny Dodge"] },
+        { "level": 3, "xp": 4000, "hp": "3d12", "bth": 2, "special": [] },
+        { "level": 4, "xp": 8000, "hp": "4d12", "bth": 2, "special": ["Rage 2/day"] },
+        { "level": 5, "xp": 16000, "hp": "5d12", "bth": 3, "special": ["Improved Uncanny Dodge"] }
+      ]
+    },
+    {
+      "id": "bard",
+      "name": "Bard",
+      "hit_die": "d6",
+      "allowed_ancestries": ["human", "half-elf", "halfling", "gnome"],
+      "alignment": "Any neutral (must have neutrality on one axis)",
+      "attribute_requirements": {
+        "note": "No explicit minimum listed, but INT and CHA are primary."
+      },
+      "prime_example": {
+        "ancestries": ["human", "half-elf", "halfling", "gnome"],
+        "requirements": { "INT": 16, "CHA": 16 },
+        "bonus": "+10% XP"
+      },
+      "weapon_slots_start": 2,
+      "weapon_slot_rate": "Every 4th level",
+      "nonproficiency_penalty": -3,
+      "weapon_groups": ["all"],
+      "weapon_restriction": "Any weapon no larger than the bard",
+      "nwp_slots_start": 3,
+      "nwp_groups": ["Academic", "General", "Rogue"],
+      "armor": "Leather, padded, studded leather, brigandine, elven/mithral chain. No shields.",
+      "saves_level1": { "fort": 4, "reflex": 5, "will": 6 }
+    },
+    {
+      "id": "cleric",
+      "name": "Cleric",
+      "hit_die": "d8",
+      "allowed_ancestries": ["all"],
+      "alignment": "Within one step of deity's alignment",
+      "attribute_requirements": {
+        "note": "Optional. Suffer -10% XP if not met.",
+        "WIS": 10
+      },
+      "prime_example": {
+        "ancestries": ["human", "dwarf"],
+        "requirements": { "WIS": 16 },
+        "bonus": "+10% XP",
+        "note": "Specific mythoi may require additional attributes."
+      },
+      "weapon_slots_start": 2,
+      "weapon_slot_rate": "Every 4th level",
+      "nonproficiency_penalty": -3,
+      "weapon_groups": ["clubs_maces", "flails", "picks_hammers", "simple_melee"],
+      "nwp_slots_start": 3,
+      "nwp_groups": ["Academic", "General"],
+      "armor": "Any. Shields allowed. Weapon restrictions vary by mythos.",
+      "saves_level1": { "fort": 5, "reflex": 4, "will": 6 },
+      "spellcasting": {
+        "type": "divine",
+        "attribute": "WIS",
+        "access": "Spheres determined by mythos"
+      }
+    },
+    {
+      "id": "druid",
+      "name": "Druid",
+      "hit_die": "d8",
+      "allowed_ancestries": ["all"],
+      "alignment": "True Neutral",
+      "attribute_requirements": {
+        "note": "Optional. Suffer -10% XP if not met.",
+        "WIS": 15
+      },
+      "prime_example": {
+        "ancestries": ["human", "half-elf"],
+        "requirements": { "WIS": 17 },
+        "bonus": "+10% XP"
+      },
+      "weapon_slots_start": 2,
+      "weapon_slot_rate": "Every 4th level",
+      "nonproficiency_penalty": -3,
+      "weapon_groups": [],
+      "weapons_allowed": ["club", "dagger", "dart", "scimitar", "sickle", "sling", "spear", "staff"],
+      "nwp_slots_start": 3,
+      "nwp_groups": ["Academic", "General", "Nature"],
+      "armor": "Leather, padded, hide. Wooden shields only.",
+      "saves_level1": { "fort": 5, "reflex": 4, "will": 6 },
+      "spellcasting": {
+        "type": "divine",
+        "attribute": "WIS",
+        "access": "Nature-focused spheres"
+      }
+    },
+    {
+      "id": "fighter",
+      "name": "Fighter",
+      "hit_die": "d10",
+      "allowed_ancestries": ["all"],
+      "alignment": "Any",
+      "attribute_requirements": {
+        "note": "Optional. Suffer -10% XP if not met.",
+        "STR": 10
+      },
+      "prime_example": {
+        "ancestries": ["human"],
+        "requirements": { "STR": 16 },
+        "bonus": "+10% XP"
+      },
+      "weapon_slots_start": 4,
+      "weapon_slot_rate": "Every 3rd level",
+      "nonproficiency_penalty": -2,
+      "weapon_groups": ["all"],
+      "nwp_slots_start": 3,
+      "nwp_groups": ["General"],
+      "armor": "Any. Shields allowed.",
+      "saves_level1": { "fort": 5, "reflex": 5, "will": 4 },
+      "special_features": ["Weapon Specialization (fighter only)"]
+    },
+    {
+      "id": "monk",
+      "name": "Monk",
+      "hit_die": "d8",
+      "allowed_ancestries": ["human", "half-elf", "half-orc"],
+      "alignment": "Any lawful",
+      "attribute_requirements": {
+        "note": "Optional. Suffer -10% XP if not met.",
+        "STR": 14,
+        "DEX": 14,
+        "CON": 14,
+        "WIS": 14
+      },
+      "prime_example": {
+        "ancestries": ["human", "half-elf", "half-orc"],
+        "requirements": { "STR": 14, "DEX": 14, "CON": 14, "WIS": 16 },
+        "bonus": "+10% XP"
+      },
+      "weapon_slots_start": 2,
+      "weapon_slot_rate": "Every 4th level",
+      "nonproficiency_penalty": -3,
+      "weapon_groups": ["martial_arts"],
+      "weapon_restriction": "Any weapon no larger than the monk, with exception of ranged or martial arts",
+      "nwp_slots_start": 3,
+      "nwp_groups": ["Academic", "General"],
+      "armor": "None. AC improves with level.",
+      "saves_level1": { "fort": 5, "reflex": 6, "will": 6 }
+    },
+    {
+      "id": "paladin",
+      "name": "Paladin",
+      "hit_die": "d10",
+      "allowed_ancestries": ["all"],
+      "alignment": "Lawful Good",
+      "alignment_note": "Gnomes and half-orcs often fail to qualify due to chaotic/evil tendencies.",
+      "attribute_requirements": {
+        "note": "Optional. Suffer -10% XP if not met.",
+        "STR": 12,
+        "CON": 10,
+        "WIS": 13,
+        "CHA": 15
+      },
+      "prime_example": {
+        "ancestries": ["human"],
+        "requirements": { "STR": 16, "CON": 10, "WIS": 13, "CHA": 16 },
+        "bonus": "+10% XP"
+      },
+      "weapon_slots_start": 4,
+      "weapon_slot_rate": "Every 3rd level",
+      "nonproficiency_penalty": -2,
+      "weapon_groups": ["all"],
+      "nwp_slots_start": 3,
+      "nwp_groups": ["Academic", "General"],
+      "armor": "Any. Shields allowed.",
+      "saves_level1": { "fort": 5, "reflex": 5, "will": 5 },
+      "spellcasting": {
+        "type": "divine",
+        "attribute": "WIS",
+        "access": "Limited divine spells at higher levels"
+      }
+    },
+    {
+      "id": "ranger",
+      "name": "Ranger",
+      "hit_die": "d10",
+      "allowed_ancestries": ["human", "half-elf", "elf"],
+      "alignment": "Any good (lawful good, neutral good, chaotic good)",
+      "attribute_requirements": {
+        "note": "Optional. Suffer -10% XP if not met.",
+        "STR": 13,
+        "DEX": 13,
+        "CON": 14,
+        "WIS": 14
+      },
+      "prime_example": {
+        "ancestries": ["elf", "half-elf"],
+        "requirements": { "STR": 16, "DEX": 16, "WIS": 16 },
+        "bonus": "+10% XP"
+      },
+      "weapon_slots_start": 4,
+      "weapon_slot_rate": "Every 3rd level",
+      "nonproficiency_penalty": -2,
+      "weapon_groups": ["all"],
+      "nwp_slots_start": 3,
+      "nwp_groups": ["General", "Nature"],
+      "armor": "Any (some abilities penalized in heavy armor).",
+      "saves_level1": { "fort": 5, "reflex": 5, "will": 5 },
+      "spellcasting": {
+        "type": "divine",
+        "attribute": "WIS",
+        "access": "Limited divine spells at higher levels"
+      }
+    },
+    {
+      "id": "thief",
+      "name": "Thief",
+      "hit_die": "d6",
+      "allowed_ancestries": ["all"],
+      "alignment": "Any non-lawful",
+      "attribute_requirements": {
+        "note": "Optional. Suffer -10% XP if not met.",
+        "DEX": 14
+      },
+      "prime_example": {
+        "ancestries": ["halfling", "half-elf", "human"],
+        "requirements": { "DEX": 16 },
+        "bonus": "+10% XP"
+      },
+      "weapon_slots_start": 2,
+      "weapon_slot_rate": "Every 4th level",
+      "nonproficiency_penalty": -3,
+      "weapon_groups": ["crossbows", "finesse", "simple_melee", "simple_ranged", "whips"],
+      "nwp_slots_start": 3,
+      "nwp_groups": ["Academic", "General", "Rogue"],
+      "armor": "Leather, padded, studded leather, brigandine, elven/mithral chain. No shields.",
+      "saves_level1": { "fort": 4, "reflex": 5, "will": 4 },
+      "level_chart": [
+        { "level": 1, "xp": 0, "hp": "1d6 max", "bth": 0, "special": ["Dexterous Climb", "Nimble Defense", "Opportune Attack +1", "Rogue Skills (4 bonus NWP)", "Sneak Attack x2", "Trap Lore"] },
+        { "level": 2, "xp": 1250, "hp": "2d6", "bth": 0, "special": ["Opportune Attack +2", "Skill Boost"] },
+        { "level": 3, "xp": 2500, "hp": "3d6", "bth": 1, "special": ["Skill Boost"] },
+        { "level": 4, "xp": 5000, "hp": "4d6", "bth": 1, "special": ["Opportune Attack +3", "Skill Boost"] },
+        { "level": 5, "xp": 10000, "hp": "5d6", "bth": 2, "special": ["Sneak Attack x3"] },
+        { "level": 6, "xp": 20000, "hp": "6d6", "bth": 2, "special": ["Skill Boost"] },
+        { "level": 7, "xp": 40000, "hp": "7d6", "bth": 3, "special": ["Activate Scroll"] },
+        { "level": 8, "xp": 70000, "hp": "8d6", "bth": 3, "special": ["Opportune Attack +4", "Skill Boost"] },
+        { "level": 9, "xp": 110000, "hp": "9d6", "bth": 4, "special": ["Sneak Attack x4"] },
+        { "level": 10, "xp": 160000, "hp": "10d6", "bth": 4, "special": ["Renown", "Skill Boost", "Touch of Fate"] },
+        { "level": 11, "xp": 220000, "hp": "10d6+2", "bth": 5, "special": ["Activate Item"] },
+        { "level": 12, "xp": 440000, "hp": "10d6+4", "bth": 5, "special": ["Skill Boost"] },
+        { "level": 13, "xp": 660000, "hp": "10d6+6", "bth": 6, "special": ["Sneak Attack x5"] },
+        { "level": 14, "xp": 880000, "hp": "10d6+8", "bth": 6, "special": ["Skill Boost"] },
+        { "level": 15, "xp": 1100000, "hp": "10d6+10", "bth": 7, "special": [] },
+        { "level": 16, "xp": 1320000, "hp": "10d6+12", "bth": 7, "special": ["Skill Boost"] },
+        { "level": 17, "xp": 1540000, "hp": "10d6+14", "bth": 8, "special": ["Sneak Attack x6"] },
+        { "level": 18, "xp": 1760000, "hp": "10d6+16", "bth": 8, "special": ["Skill Boost"] },
+        { "level": 19, "xp": 1980000, "hp": "10d6+18", "bth": 9, "special": ["Skill Boost"] },
+        { "level": 20, "xp": 2200000, "hp": "10d6+20", "bth": 9, "special": ["Legend of Thieves"] }
+      ]
+    },
+    {
+      "id": "wizard",
+      "name": "Wizard",
+      "hit_die": "d4",
+      "allowed_ancestries": ["human", "half-elf", "elf", "half-orc", "halfling"],
+      "allowed_ancestries_note": "Dwarves and gnomes cannot be wizards (Magic Disruption). Exception: gnomes may be specialist illusionists.",
+      "alignment": "Any",
+      "attribute_requirements": {
+        "note": "Optional. Suffer -10% XP if not met.",
+        "INT": 14
+      },
+      "prime_example": {
+        "ancestries": ["half-elf", "human"],
+        "requirements": { "INT": 16 },
+        "bonus": "+10% XP",
+        "note": "Gnome illusionists with INT 16+ also qualify."
+      },
+      "weapon_slots_start": 1,
+      "weapon_slot_rate": "Every 6th level",
+      "nonproficiency_penalty": -5,
+      "weapon_groups": [],
+      "weapons_allowed": ["dagger", "dart", "knife", "sling", "staff"],
+      "nwp_slots_start": 3,
+      "nwp_groups": ["Academic", "General"],
+      "armor": "None. Cannot cast spells with somatic components while armored (unless Light Armor Use talent).",
+      "saves_level1": { "fort": 4, "reflex": 5, "will": 6 },
+      "spellcasting": {
+        "type": "arcane",
+        "attribute": "INT",
+        "access": "All schools (generalist) or restricted by specialization"
+      },
+      "level_chart": [
+        { "level": 1, "xp": 0, "hp": "1d4 max", "bth": 0, "special": ["Specialization", "Spellbook", "Spellcraft", "Level 1 Spells"] },
+        { "level": 2, "xp": 2500, "hp": "2d4", "bth": 0, "special": [] },
+        { "level": 3, "xp": 5000, "hp": "3d4", "bth": 0, "special": ["Level 2 Spells"] },
+        { "level": 4, "xp": 10000, "hp": "4d4", "bth": 1, "special": [] },
+        { "level": 5, "xp": 20000, "hp": "5d4", "bth": 1, "special": ["Level 3 Spells"] },
+        { "level": 6, "xp": 40000, "hp": "6d4", "bth": 1, "special": [] },
+        { "level": 7, "xp": 60000, "hp": "7d4", "bth": 2, "special": ["Level 4 Spells"] },
+        { "level": 8, "xp": 90000, "hp": "8d4", "bth": 2, "special": [] },
+        { "level": 9, "xp": 135000, "hp": "9d4", "bth": 2, "special": ["Level 5 Spells", "Magecraft"] },
+        { "level": 10, "xp": 250000, "hp": "10d4", "bth": 3, "special": [] },
+        { "level": 11, "xp": 375000, "hp": "10d4+1", "bth": 3, "special": ["Level 6 Spells"] },
+        { "level": 12, "xp": 750000, "hp": "10d4+2", "bth": 3, "special": [] },
+        { "level": 13, "xp": 1125000, "hp": "10d4+3", "bth": 4, "special": ["Level 7 Spells"] },
+        { "level": 14, "xp": 1500000, "hp": "10d4+4", "bth": 4, "special": [] },
+        { "level": 15, "xp": 1875000, "hp": "10d4+5", "bth": 4, "special": ["Level 8 Spells"] },
+        { "level": 16, "xp": 2250000, "hp": "10d4+6", "bth": 5, "special": [] },
+        { "level": 17, "xp": 2625000, "hp": "10d4+7", "bth": 5, "special": ["Level 9 Spells"] },
+        { "level": 18, "xp": 3000000, "hp": "10d4+8", "bth": 5, "special": [] },
+        { "level": 19, "xp": 3375000, "hp": "10d4+9", "bth": 6, "special": [] },
+        { "level": 20, "xp": 3750000, "hp": "10d4+10", "bth": 6, "special": ["High Arcana"] }
+      ]
+    }
+  ]
+}
