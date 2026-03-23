@@ -23,6 +23,7 @@ Everything you need to create and play a character.
 - [**Equipment**](players/equipment/) — Weapons, armor, and adventuring gear
 - [**Combat**](players/combat) — How fights work
 - [**Proficiencies**](players/proficiencies/) — Weapon and nonweapon proficiencies
+- [**Spells**](players/spells/) — Arcane and divine spell reference
 
 ---
 
