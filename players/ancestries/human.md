@@ -8,27 +8,22 @@ nav_order: 7
 
 # Human
 
-*Ambitious, adaptable, and quick to act. The most common ancestry in most settings.*
+Humans are the most eager and enterprising folk. They live a relatively short life in good health and reproduce often and young. Their population is ever expanding and so too are their civilizations.
 
-## At a Glance
+Humans are impatient, but focused. They can learn very quickly and become masters of their crafts in less than a lifetime. This impatience and ambition has led many members of humanity to occupy the highest rung of power. Most kings and church leaders are human. Most powerful adventurers are as well.
 
-| | |
-|---|---|
-| **Attribute Adjustments** | None |
-| **Speed** | 30 ft |
-| **Size** | Medium |
-| **Languages** | Common |
-| **Bonus Languages** | Any |
-| **Senses** | Normal |
+Human appearances vary widely and often depend upon local fare. They all speak common, but find it useful to learn dwarven or elven as well, since it helps with trade and relations.
 
-## Ancestral Traits
+## Attributes and Speed
 
-Humans have no innate ancestral traits. Their strength lies in versatility — they can be any class with no restrictions, and they can choose bonus languages from any available language.
+Humans are very ambitious and seek to capitalize on their stronger trait. They choose **any attribute to receive a +1 bonus** at character creation.
 
-## Weapons & Armor
+Humans' base movement speed is **30 feet**.
 
-Any allowed by class.
+## Weapons and Armor
 
-## Allowed Classes
+Humans may wield any weapon and wear any armor allowed by their class, and all have some training in the weapon of war, the sword. All starting humans choose one sword with which to be proficient.
 
-Barbarian, Bard, Cleric, Druid, Fighter, Monk, Paladin, Ranger, Thief, Wizard.
+## Ambitious Start
+
+Humans receive **one additional weapon proficiency slot** and **one additional nonweapon proficiency slot** at character creation.

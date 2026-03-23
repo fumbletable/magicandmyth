@@ -8,41 +8,44 @@ nav_order: 2
 
 # Elf
 
-*Deeply historic protectors of the world's natural beauty, patient and long-lived.*
+Elves are a deeply historic people. Storied chronicles that date back to the beginning of recorded history recount the existence of elves and their role as protectors and defenders of the worlds' natural beauty. As the world expands and moves on, elves tend to remain in their ancestral homelands, practicing the arts taught to them by their elders. Elves live in "Ancient Nature", whether it be fabled mystical forests or sprawling shorelines untouched by exploration.
 
-## At a Glance
+Elves are long-lived and very patient. They tend not to deal in extremes, whether it be excessive eating, drinking, or merrymaking. They prefer to take their time and weigh all options, especially when something of high importance is at stake. However, elves can easily put aside their contemplation in times of great need. They are children of the world and will quickly aid any others in the world's protection.
 
-| | |
-|---|---|
-| **Attribute Adjustments** | DEX +1, WIS +1, CON -1 |
-| **Speed** | 35 ft |
-| **Size** | Medium |
-| **Languages** | Common, Elven |
-| **Bonus Languages** | Gnoll, Gnome, Goblin, Halfling, Hobgoblin, Orc |
-| **Senses** | Low-Light Vision 60 ft |
+Elves accept all others, even half-orcs, though they find social relations with dwarves too tedious to upkeep. Elves view dwarves as the personification of the world's crudeness: rough, unpredictable and stubborn.
 
-## Ancestral Traits
+Elves of both genders generally stand a few inches shorter than humans and maintain a slender build. Each has tall, pointy ears and a thin, angled face. It is a fair, but ill-received characterization that both male and female elves are "pretty". Elven surnames are poetic, as they are crafted with the elven language and infused with some relation to nature or honor: Fjorn, Mendiarr, Miryaya, etc.
 
-**Superior Focus**
-: +1 bonus on checks to notice secret or concealed objects.
+Elves start play with the elven and common languages. They find it useful with their bonus language slots to learn gnoll, gnome, goblin, halfling, hobgoblin and orc.
 
-**Danger Sense**
-: +2 bonus on any roll to avoid being surprised or caught flat-footed.
+## Attributes and Speed
 
-**Strength of Mind**
-: Immune to magical sleep effects. +2 Will saving throw vs mind-affecting spells (illusions, charms). Stacks with Wisdom bonus. Requires only 8 hours rest every two days.
+Elves are insightful and agile. They receive a **+1 attribute bonus to Dexterity and Wisdom**. They are also slender and slightly more fragile than some ancestries, thus they suffer a **-1 penalty to Constitution**.
 
-**Improved Initiative**
-: Base initiative die reduced by one step (d12 becomes d10, d8 becomes d6, d4 becomes d3, etc.).
+Their base movement speed is **35 feet**.
 
-## Proficiencies
+## Weapons and Armor
 
-- Free weapon proficiency in one of: longsword, elven thin blade, short sword, rapier, or bow.
+Elves may wield any weapons and wear any armor allowable by their class; however, they tend not to use axes or heavy armor. There is no restriction against the use of either axes or heavy armor, but their upbringing tends to focus them away from this gear.
 
-## Weapons & Armor
+**Ancestral Weaponry [Optional]:** Elves learn weapons training at a young age. All elf characters start with a free weapon proficiency in one of the following: longsword, elven thin blade, short sword, rapier, or bow.
 
-Any allowed by class. Elves tend not to use axes or heavy armor.
+## Elven Senses
 
-## Allowed Classes
+**Lowlight Vision:** Elves can see up to 60 feet in shadowy illumination (not quite total darkness) as if it were daylight.
 
-Bard, Cleric, Druid, Fighter, Monk, Paladin, Ranger, Thief, Wizard.
+**Superior Focus:** Elves receive a +1 bonus on any checks to notice secret or otherwise concealed objects, such as a secret door or trap.
+
+**Danger Sense:** Elves are better than most ancestries at noticing nearby danger. They receive a +2 bonus on any roll to avoid being surprised or caught flat-footed.
+
+## Strength of Mind
+
+Over the centuries, elves have built up an iron-tower of mental defense. A small testament to this fact can be seen in the elven sleep cycle.
+
+On average, an elf requires about 8 hours of total rest (not necessarily sleep) every two days. Their strong mental fortitude is either a divine gift after centuries of defending the world or is actually an adaptation to survive born from early generations. Regardless, elves embrace this trait.
+
+In addition to requiring very little rest, elves are also **immune to magical sleep effects** and receive a **+2 modifier on Will saving throws** versus any mind-affecting spell, including illusions and charms. This bonus stacks with any bonus provided for high Wisdom.
+
+## Improved Initiative
+
+Elves are agile, intuitive and insightful combatants. Their quicker set of combat reflexes reduces the elf's base initiative die by one step, i.e. from d12 to d10, d8 to d6, d4 to d3, etc.
