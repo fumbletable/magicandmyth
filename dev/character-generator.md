@@ -1979,17 +1979,22 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
 
         const totalSlots = baseSpells + bonusL1;
         if (!char.preparedSpells) char.preparedSpells = [];
+        if (char.spellSlotsUsed === undefined) char.spellSlotsUsed = 0;
+        const castCount = char.preparedSpells.filter(s => s.cast).length;
+        char.spellSlotsUsed = castCount;
+        const slotsRemaining = totalSlots - castCount;
         const prepCount = char.preparedSpells.length;
 
         // Spell links
         const spellPageBase = isArcane ? `${BASE}/players/spells/arcane/` : `${BASE}/players/spells/divine/`;
+        const spellList = isArcane ? DATA.spells?.arcane?.['1'] : DATA.spells?.divine?.['1'];
 
         return `<h2>Spellcasting (${sc.type})</h2>
           <div class="derived-grid" style="margin-bottom:.75rem;">
             <div class="dg-box"><div class="dg-label">${castAttr}</div><div class="dg-value">${castScore}</div></div>
             <div class="dg-box"><div class="dg-label">Check Mod</div><div class="dg-value">${formatMod(castMod)}</div></div>
-            <div class="dg-box"><div class="dg-label">L1 Slots</div><div class="dg-value">${totalSlots}</div></div>
-            <div class="dg-box"><div class="dg-label">Prepared</div><div class="dg-value" style="${prepCount > totalSlots ? 'color:#c44;' : ''}">${prepCount}/${totalSlots}</div></div>
+            <div class="dg-box"><div class="dg-label">L1 Slots</div><div class="dg-value">${slotsRemaining}/${totalSlots}</div></div>
+            <div class="dg-box" style="${slotsRemaining <= 0 ? 'background:#fee;border-color:#c44;' : ''}"><div class="dg-label">${slotsRemaining <= 0 ? 'NO SLOTS' : 'Available'}</div><div class="dg-value" style="${slotsRemaining <= 0 ? 'color:#c44;' : 'color:#2e7d32;'}">${slotsRemaining <= 0 ? 'Empty' : slotsRemaining + ' left'}</div></div>
           </div>
           <div style="font-size:.8rem;color:#888;margin-bottom:.5rem;">
             ${baseSpells} base + ${bonusL1} bonus from ${castAttr} ${castScore}
@@ -1999,19 +2004,28 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
 
           ${char.preparedSpells.length > 0 ? `<div style="margin:.5rem 0;">
             ${char.preparedSpells.map((sp, i) => {
-              // Find spell data for tooltip
-              const spellList = isArcane ? DATA.spells?.arcane?.['1'] : DATA.spells?.divine?.['1'];
               const spData = spellList?.find(s => s.name === sp.name);
-              const tooltip = spData ? `${spData.school}${spData.sphere ? ' ('+spData.sphere+')' : ''} | Range: ${spData.range||'—'} | Duration: ${spData.duration||'—'} | Cast: ${spData.castTime||'—'} | Save: ${spData.save||'None'}` : '';
-              return `<div class="cart-item" ${tooltip ? `title="${tooltip}"` : ''}>
-                <span class="ci-name">
-                  ${sp.name}${sp.cast ? ' <span style="color:#c44;font-size:.75rem;">(CAST)</span>' : ''}
-                  ${spData ? `<span style="font-size:.7rem;color:#888;"> ${spData.school}</span>` : ''}
-                </span>
-                <span style="display:flex;gap:.25rem;">
-                  ${!sp.cast ? `<button class="btn-small" data-action="cast-spell" data-idx="${i}" style="font-size:.7rem;padding:.1rem .3rem;color:#c44;">Cast</button>` : ''}
-                  <span class="ci-remove" data-spellidx="${i}">&times;</span>
-                </span>
+              const spellAnchor = sp.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+$/, '');
+              const canCast = !sp.cast && slotsRemaining > 0;
+              return `<div class="ability-box" data-spell-expand="${i}" style="${sp.cast ? 'opacity:.5;background:#f8f0f0;border-color:#c44;' : ''}">
+                <div class="ab-name">
+                  <span>
+                    ${sp.name}
+                    ${sp.cast ? ' <span style="color:#c44;font-size:.75rem;">(CAST)</span>' : ''}
+                    ${spData ? `<span style="font-size:.7rem;color:#888;"> ${spData.school}</span>` : ''}
+                  </span>
+                  <span style="display:flex;gap:.3rem;align-items:center;">
+                    ${canCast ? `<button class="btn-small" data-action="cast-spell" data-idx="${i}" style="font-size:.7rem;padding:.1rem .4rem;color:#c44;border-color:#c44;" onclick="event.stopPropagation()">Cast</button>` : ''}
+                    ${!canCast && !sp.cast ? `<span style="font-size:.65rem;color:#c44;">No slots</span>` : ''}
+                    <span class="ci-remove" data-spellidx="${i}" style="font-size:.85rem;" onclick="event.stopPropagation()">&times;</span>
+                    <span class="ab-arrow">&#9654;</span>
+                  </span>
+                </div>
+                <div class="ab-desc">
+                  ${spData ? `<div style="margin-bottom:.3rem;"><strong>Range:</strong> ${spData.range||'—'} | <strong>Duration:</strong> ${spData.duration||'—'} | <strong>Cast:</strong> ${spData.castTime||'—'} | <strong>Save:</strong> ${spData.save||'None'}</div>
+                  <div>${spData.desc}</div>
+                  <a href="${spellPageBase}level-1#${spellAnchor}" target="_blank" style="font-size:.8rem;color:#4a1a6b;">Full description &rarr;</a>` : '<em>No spell data available</em>'}
+                </div>
               </div>`;
             }).join('')}
           </div>` : ''}
@@ -2309,10 +2323,10 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
       });
     });
 
-    // Expandable class abilities
+    // Expandable class abilities and spells
     el.querySelectorAll('.ability-box').forEach(box => {
       box.addEventListener('click', (e) => {
-        if (e.target.tagName === 'A') return; // don't toggle when clicking link
+        if (e.target.tagName === 'A' || e.target.tagName === 'BUTTON' || e.target.closest('button') || e.target.classList.contains('ci-remove')) return;
         box.classList.toggle('open');
       });
     });
