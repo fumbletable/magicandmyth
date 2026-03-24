@@ -1,0 +1,115 @@
+{
+  "weapon_training": {
+    "single_weapon": {
+      "name": "Single Weapon Proficiency",
+      "slots": 1,
+      "description": "Choose one weapon. You suffer no penalty to attack rolls with that weapon."
+    },
+    "weapon_focus": {
+      "name": "Weapon Focus",
+      "slots": 1,
+      "description": "+1 bonus to all attack rolls with one chosen weapon. Cannot combine with specialization (fighters get +2 damage instead)."
+    },
+    "weapon_group": {
+      "name": "Weapon Group",
+      "slots": 2,
+      "description": "Proficiency in all weapons of a group. After 1 slot: -1 penalty with all group weapons. After 2 slots: no penalty."
+    },
+    "weapon_specialization": {
+      "name": "Weapon Specialization",
+      "slots": 1,
+      "requirements": "Fighter class only",
+      "description": "+1 attack bonus, +2 damage bonus with one proficient weapon. Attack rate increases (3/2 at levels 1-6, 2/1 at 7-12)."
+    }
+  },
+  "fighting_styles": [
+    {
+      "id": "finesse",
+      "name": "Finesse Fighting",
+      "slots": 1,
+      "description": "Use your Ranged Attack Modifier (DEX) for melee attack bonuses. Limited to finesse weapons only. STR damage bonus still applies.",
+      "specialization": {
+        "name": "Finesse Specialization",
+        "slots": 1,
+        "level": 6,
+        "description": "Use DEX modifier for both attack AND damage. Initiative die reduced by 1 step."
+      }
+    },
+    {
+      "id": "great_weaponry",
+      "name": "Great Weaponry",
+      "slots": 1,
+      "description": "Two-handed weapons used with greater ease. Each round choose: defensive (+1 parry bonus) or offensive (+2 damage).",
+      "specialization": {
+        "name": "Great Weaponry Specialization",
+        "slots": 1,
+        "level": 6,
+        "description": "Initiative reduced by one die type. Parry bonus +2, offensive damage +4. Requires two successful disarms to lose weapon."
+      }
+    },
+    {
+      "id": "single_weapon",
+      "name": "Single Weapon Style",
+      "slots": 1,
+      "description": "+1 AC vs one opponent. Free hand can attack or maneuver without staggering weapon attacks.",
+      "specialization": {
+        "name": "Single Weapon Specialization",
+        "slots": 1,
+        "level": 6,
+        "description": "+1 AC vs all forward/flanking opponents. Free hand grants +2 to any special maneuver."
+      }
+    },
+    {
+      "id": "two_weapon",
+      "name": "Two Weapon Style",
+      "slots": 1,
+      "description": "Extra off-hand attack each round (weapon must be one size smaller). Penalties: -2 primary, -4 off-hand.",
+      "specialization": {
+        "name": "Two Weapon Specialization",
+        "slots": 1,
+        "level": 6,
+        "description": "Penalties reduced to -2/-2. Can choose defensive (+1 AC, +1 defensive maneuvers) or offensive (+2 offensive maneuvers, -2 attacks). Can wield same-size weapons."
+      }
+    },
+    {
+      "id": "unarmed",
+      "name": "Unarmed Combat",
+      "slots": 1,
+      "description": "Improved unarmed fighting: grapple penalty reduced to -2, increased attack rate (one step up), damage 1d4 (Medium), +AC bonus equal to half BTH.",
+      "specialization": {
+        "name": "Unarmed Specialization",
+        "slots": 1,
+        "level": 6,
+        "description": "No penalty for grapples. +2 attack bonus on all combat maneuvers while unarmed."
+      }
+    },
+    {
+      "id": "weapon_shield",
+      "name": "Weapon and Shield",
+      "slots": 1,
+      "description": "Shield AC bonus +1. Defensive maneuvers with shield get +2 bonus.",
+      "specialization": {
+        "name": "Weapon and Shield Specialization",
+        "slots": 1,
+        "level": 6,
+        "description": "Extra shield attack each round (-2 penalty, 1d3 + half STR damage). Can forfeit for additional +1 shield AC instead."
+      }
+    }
+  ],
+  "maneuvers": [
+    {
+      "id": "maneuver_training",
+      "name": "Maneuver Training",
+      "slots": 1,
+      "requirements": "GM Permission",
+      "description": "+2 attack bonus for one specific combat maneuver (parry, disarm, etc. — not called shots)."
+    },
+    {
+      "id": "accuracy_training",
+      "name": "Accuracy Training",
+      "slots": 1,
+      "requirements": "GM Permission",
+      "description": "Reduce called shot penalty by 2 for all called shots."
+    }
+  ]
+}
