@@ -60,6 +60,7 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
     <!-- Step 2: Ancestry -->
     <div id="step-ancestry" class="gen-step" style="display:none;">
       <h2>Step 2: Choose Ancestry</h2>
+      <button id="back-to-attrs-btn" class="btn-back">&larr; Back to Attributes</button>
       <div id="ancestry-options" class="option-grid"></div>
     </div>
 
@@ -67,12 +68,14 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
     <div id="step-human-bonus" class="gen-step" style="display:none;">
       <h2>Human Bonus: +1 to Any Attribute</h2>
       <p>As a Human, you may add +1 to any attribute of your choice.</p>
+      <button id="back-to-ancestry-from-human-btn" class="btn-back">&larr; Back to Ancestry</button>
       <div id="human-bonus-grid" class="option-grid" style="grid-template-columns:repeat(6,1fr);"></div>
     </div>
 
     <!-- Step 3: Class -->
     <div id="step-class" class="gen-step" style="display:none;">
       <h2>Step 3: Choose Class</h2>
+      <button id="back-to-ancestry-btn" class="btn-back">&larr; Back to Ancestry</button>
       <p id="class-note" style="color:#888;font-size:.9rem;"></p>
       <div id="class-options" class="option-grid"></div>
     </div>
@@ -80,8 +83,11 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
     <!-- Step 4: Name -->
     <div id="step-name" class="gen-step" style="display:none;">
       <h2>Step 4: Name Your Character</h2>
-      <input type="text" id="char-name-input" placeholder="Enter character name..." style="font-size:1.1rem;padding:.5rem;width:100%;max-width:300px;">
-      <button id="create-btn" class="btn-primary" style="margin-left:.5rem;">Create Character</button>
+      <button id="back-to-class-btn" class="btn-back">&larr; Back to Class</button>
+      <div style="margin-top:.75rem;">
+        <input type="text" id="char-name-input" placeholder="Enter character name..." style="font-size:1.1rem;padding:.5rem;width:100%;max-width:300px;">
+        <button id="create-btn" class="btn-primary" style="margin-left:.5rem;">Create Character</button>
+      </div>
     </div>
 
     <div id="cancel-row" style="margin-top:1rem;display:none;">
@@ -118,6 +124,8 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
   .btn-secondary.btn-danger{color:#c44;border-color:#c44;}
   .btn-secondary.btn-danger:hover{background:#fee;}
   .btn-small{font-size:.85rem;padding:.25rem .75rem;cursor:pointer;background:#f0f0f0;border:1px solid #ccc;border-radius:3px;}
+  .btn-back{font-size:.85rem;padding:.3rem .75rem;cursor:pointer;background:transparent;border:1px solid #999;border-radius:4px;color:#666;margin-bottom:.75rem;display:inline-block;}
+  .btn-back:hover{background:#f0f0f0;color:#333;}
 
   .stat-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:.75rem;margin:.75rem 0;}
   @media(max-width:600px){.stat-grid{grid-template-columns:repeat(3,1fr);}}
@@ -192,6 +200,46 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
   .xp-note{font-size:.85rem;padding:.4rem .75rem;border-radius:4px;margin:.5rem 0;display:inline-block;}
   .xp-note.bonus{background:#e8f5e9;color:#2e7d32;}
   .xp-note.penalty{background:#fff3e0;color:#e65100;}
+
+  /* Editable fields */
+  .editable{border-bottom:1px dashed #aaa;cursor:pointer;padding:0 .15rem;border-radius:2px;transition:all .15s;}
+  .editable:hover{background:#f5f0fa;border-color:#4a1a6b;}
+  .editable:focus{outline:none;border-bottom:2px solid #4a1a6b;background:#faf5ff;}
+
+  /* Weapon chart */
+  .weapon-table{width:100%;border-collapse:collapse;font-size:.85rem;margin:.5rem 0;}
+  .weapon-table th{background:#4a1a6b;color:#fff;padding:.4rem .5rem;text-align:left;font-size:.75rem;font-weight:600;}
+  .weapon-table td{padding:.35rem .5rem;border-bottom:1px solid #eee;}
+  .weapon-table tr:hover{background:#faf5ff;}
+  .weapon-table .wt-init{font-weight:bold;color:#4a1a6b;}
+  .weapon-table .wt-remove{color:#c44;cursor:pointer;font-size:.75rem;opacity:.5;}
+  .weapon-table .wt-remove:hover{opacity:1;}
+
+  /* Add weapon/item rows */
+  .add-row{display:flex;gap:.5rem;align-items:center;margin:.5rem 0;flex-wrap:wrap;}
+  .add-row select,.add-row input{padding:.3rem .5rem;border:1px solid #ccc;border-radius:3px;font-size:.85rem;}
+  .add-row select{max-width:200px;}
+
+  /* Equipment list */
+  .equip-item{display:flex;align-items:center;gap:.5rem;padding:.25rem 0;border-bottom:1px solid #f0f0f0;font-size:.85rem;}
+  .equip-item .ei-name{flex:1;}
+  .equip-item .ei-remove{color:#c44;cursor:pointer;font-size:.75rem;opacity:.5;}
+  .equip-item .ei-remove:hover{opacity:1;}
+
+  /* HP tracker */
+  .hp-tracker{display:flex;align-items:center;gap:.5rem;}
+  .hp-btn{width:28px;height:28px;border:1px solid #ccc;border-radius:4px;cursor:pointer;font-size:1rem;font-weight:bold;display:flex;align-items:center;justify-content:center;background:#fff;}
+  .hp-btn:hover{background:#f0f0f0;}
+  .hp-btn.damage{color:#c44;border-color:#c44;}
+  .hp-btn.damage:hover{background:#fee;}
+  .hp-btn.heal{color:#2e7d32;border-color:#2e7d32;}
+  .hp-btn.heal:hover{background:#e8f5e9;}
+
+  /* AC detail */
+  .ac-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;margin:.5rem 0;}
+  .ac-box{border:1px solid #ccc;padding:.4rem;text-align:center;border-radius:4px;background:#fafafa;}
+  .ac-box .ac-label{font-size:.65rem;color:#888;text-transform:uppercase;}
+  .ac-box .ac-val{font-size:1.2rem;font-weight:bold;}
 </style>
 
 <script>
@@ -949,28 +997,68 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
   }
 
   // ============ CHARACTER SHEET ============
+  // ============ CHARACTER SHEET ============
+  function recalcChar(char) {
+    const fa = char.finalAttrs;
+    // Recalc saves
+    const cls = DATA.classes.find(c => c.id === char.classId);
+    if (cls && cls.saves_level1) {
+      char.saves.fort = cls.saves_level1.fort + getConFort(fa.CON||10) + (char.ancestrySaveBonuses.fort||0);
+      char.saves.reflex = cls.saves_level1.reflex + getDexDefense(fa.DEX||10) + (char.ancestrySaveBonuses.reflex||0);
+      char.saves.will = cls.saves_level1.will + getWisSave(fa.WIS||10) + (char.ancestrySaveBonuses.will||0);
+    }
+    saveCurrent();
+  }
+
+  function getWeaponData() {
+    if (!DATA.equipment) return [];
+    const all = [];
+    (DATA.equipment.weapons?.melee||[]).forEach(w => all.push({...w, category:'melee'}));
+    (DATA.equipment.weapons?.ranged||[]).forEach(w => all.push({...w, category:'ranged'}));
+    return all;
+  }
+
   function renderSheet(char) {
     const el = document.getElementById('char-sheet');
     const fa = char.finalAttrs;
+    if (!char.weapons) char.weapons = [];
+    if (!char.equipment) char.equipment = [];
+    if (!char.gold) char.gold = 0;
 
-    // Attribute boxes
+    // Attribute boxes — full derived values like the official sheet
     const attrBoxes = DATA.attributes.attributes.map(a => {
       const s = fa[a] || 10;
       const mod = getCheckMod(s);
-      let detail = '';
-      if (a === 'STR') detail = `Atk/Dmg ${formatMod(getStrAtkDmg(s))}`;
-      else if (a === 'DEX') detail = `Def ${formatMod(getDexDefense(s))}, Rng ${formatMod(getDexRanged(s))}`;
-      else if (a === 'CON') detail = `Fort ${formatMod(getConFort(s))}`;
-      else if (a === 'INT') detail = `${getIntLangs(s)} bonus lang`;
-      else if (a === 'WIS') detail = `Will ${formatMod(getWisSave(s))}`;
-      else if (a === 'CHA') detail = `Infl ${formatMod(getChaInfluence(s))}, Hench ${getChaHench(s)}`;
+      let details = [];
+      if (a === 'STR') {
+        details.push(`Atk/Dmg: ${formatMod(getStrAtkDmg(s))}`);
+        details.push(`Max Wt: ${getWeight(s)} lbs`);
+      } else if (a === 'DEX') {
+        details.push(`Ranged Atk: ${formatMod(getDexRanged(s))}`);
+        details.push(`Defense: ${formatMod(getDexDefense(s))}`);
+      } else if (a === 'CON') {
+        details.push(`Fort: ${formatMod(getConFort(s))}`);
+        const shock = lookup(DATA.attributes.constitution.shock_survival, s);
+        details.push(`Shock: ${shock === 'cannot' ? 'Cannot' : shock === 'always' ? 'Always' : 'TN '+shock}`);
+      } else if (a === 'INT') {
+        details.push(`Bonus Lang: ${getIntLangs(s)}`);
+        const bs = lookup(DATA.attributes.intelligence.bonus_arcane_spells, s);
+        if (bs && bs !== '0' && bs !== null) details.push(`Arcane Bonus: ${bs}`);
+      } else if (a === 'WIS') {
+        details.push(`Will: ${formatMod(getWisSave(s))}`);
+        const bd = lookup(DATA.attributes.wisdom.bonus_divine_spells, s);
+        if (bd && bd !== '0') details.push(`Divine Bonus: ${bd}`);
+      } else if (a === 'CHA') {
+        details.push(`Influence: ${formatMod(getChaInfluence(s))}`);
+        details.push(`Max Hench: ${getChaHench(s)}`);
+      }
 
       const wasMod = (char.ancestryMods && char.ancestryMods[a]) || (char.humanBonus === a);
       return `<div class="ss-box${wasMod?' modified':''}">
         <div class="ss-label">${a}</div>
-        <div class="ss-score">${s}</div>
+        <div class="ss-score editable" data-field="attr-${a}" title="Click to edit">${s}</div>
         <div class="ss-mod">${formatMod(mod)} check</div>
-        <div style="font-size:.65rem;color:#888;">${detail}</div>
+        ${details.map(d => `<div style="font-size:.6rem;color:#888;">${d}</div>`).join('')}
       </div>`;
     }).join('');
 
@@ -985,54 +1073,131 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
     const saveHtml = ['fort','reflex','will'].map(s => {
       const label = s === 'fort' ? 'Fortitude' : s === 'reflex' ? 'Reflex' : 'Will';
       const total = char.saves[s];
-      let extra = '';
-      if (s === 'will' && char.ancestrySaveBonuses && char.ancestrySaveBonuses.will_mind) {
-        extra = ` <span style="font-size:.65rem;color:#4a1a6b;">(+${char.ancestrySaveBonuses.will_mind} vs mind)</span>`;
-      }
-      if (s === 'fort' && char.ancestrySaveBonuses && char.ancestrySaveBonuses.fort_poison) {
-        extra = ` <span style="font-size:.65rem;color:#4a1a6b;">(+${char.ancestrySaveBonuses.fort_poison} vs poison)</span>`;
-      }
+      let extras = [];
+      if (s === 'will' && char.ancestrySaveBonuses?.will_mind)
+        extras.push(`+${char.ancestrySaveBonuses.will_mind} vs mind`);
+      if (s === 'fort' && char.ancestrySaveBonuses?.fort_poison)
+        extras.push(`+${char.ancestrySaveBonuses.fort_poison} vs poison`);
       return `<div class="save-box">
         <div class="save-label">${label}</div>
         <div class="save-total">${formatMod(total)}</div>
-        ${extra}
+        ${extras.length ? `<div style="font-size:.6rem;color:#4a1a6b;">${extras.join(', ')}</div>` : ''}
       </div>`;
     }).join('');
 
-    // XP note
+    // XP
     let xpHtml = '';
-    if (char.xpNote) {
-      xpHtml = `<div class="xp-note ${char.xpType}">${char.xpNote}</div>`;
-    }
+    if (char.xpNote) xpHtml = `<div class="xp-note ${char.xpType}">${char.xpNote}</div>`;
+
+    // AC variants
+    const dexDef = getDexDefense(fa.DEX||10);
+    const armorAC = char.armorBonus || 0;
+    const shieldAC = char.shieldBonus || 0;
+    const miscAC = char.miscACBonus || 0;
+    const baseAC = 10 + armorAC + shieldAC + dexDef + miscAC;
+    char.ac = baseAC;
+    const flatFooted = 10 + armorAC + shieldAC + miscAC;
+    const rearAC = Math.max(baseAC - 2, 10);
+    const touchAC = 10 + dexDef + miscAC;
 
     // Traits
     const traitsHtml = (char.traits||[]).map(t =>
       `<div class="trait-box"><strong>${t.name}:</strong> ${t.description}</div>`
     ).join('');
 
-    // Special abilities
+    // Class abilities
     const specialsHtml = (char.specials||[]).map(s =>
       `<div class="trait-box" style="background:#e8f0fe;border-color:#2c5282;"><strong>${s}</strong></div>`
     ).join('');
 
+    // Weapons table
+    const weaponRows = char.weapons.map((w, i) => {
+      const atkMod = w.category === 'ranged'
+        ? char.bth + getDexRanged(fa.DEX||10)
+        : char.bth + getStrAtkDmg(fa.STR||10);
+      const dmgMod = w.category === 'ranged' ? 0 : getStrAtkDmg(fa.STR||10);
+      const dmgStr = dmgMod !== 0 ? `${w.damage}${formatMod(dmgMod)}` : w.damage;
+      const lgDmg = w.damage_large || w.damage;
+      return `<tr>
+        <td>${w.name}</td>
+        <td>${formatMod(atkMod)}</td>
+        <td>${dmgStr} / ${lgDmg}</td>
+        <td class="wt-init">${w.init || '—'}</td>
+        <td>${w.range ? w.range+'ft' : '—'}</td>
+        <td>${w.type || '—'}</td>
+        <td><span class="wt-remove" data-widx="${i}">&times;</span></td>
+      </tr>`;
+    }).join('');
+
+    // Equipment list
+    const equipHtml = char.equipment.map((item, i) =>
+      `<div class="equip-item"><span class="ei-name">${item}</span><span class="ei-remove" data-eidx="${i}">&times;</span></div>`
+    ).join('');
+
+    // Weapon select options
+    const allWeapons = getWeaponData();
+    const weaponOpts = allWeapons.map(w =>
+      `<option value="${w.name}">${w.name} (${w.damage}, ${w.init||'—'})</option>`
+    ).join('');
+
     el.innerHTML = `<div class="sheet">
       <div class="sheet-header">
-        <h1>${char.name}</h1>
-        <div class="sh-subtitle">${char.ancestry} ${char.className} &mdash; Level ${char.level}</div>
-        ${xpHtml}
+        <h1 class="editable" data-field="name" title="Click to rename">${char.name}</h1>
+        <div class="sh-subtitle">${char.ancestry} ${char.className} &mdash; Level <span class="editable" data-field="level" title="Click to edit">${char.level}</span></div>
+        <div style="font-size:.85rem;color:#666;margin-top:.25rem;">
+          XP: <span class="editable" data-field="xp" title="Click to edit">${char.xp}</span>
+          ${xpHtml}
+        </div>
       </div>
 
       <h2>Attributes</h2>
       <div class="sheet-stats">${attrBoxes}</div>
 
+      <h2>Hit Points & Armor</h2>
+      <div style="display:flex;gap:2rem;flex-wrap:wrap;align-items:flex-start;">
+        <div>
+          <div class="hp-tracker">
+            <button class="hp-btn damage" data-hp="-1">-</button>
+            <div class="dg-box" style="min-width:80px;">
+              <div class="dg-label">HP</div>
+              <div class="dg-value"><span class="editable" data-field="hp" title="Click to edit">${char.hp}</span> / <span class="editable" data-field="maxHp" title="Click to edit">${char.maxHp}</span></div>
+            </div>
+            <button class="hp-btn heal" data-hp="+1">+</button>
+          </div>
+          <div style="font-size:.75rem;color:#888;margin-top:.25rem;">Hit Die: ${char.hitDie}</div>
+        </div>
+        <div>
+          <div class="ac-grid">
+            <div class="ac-box"><div class="ac-label">AC</div><div class="ac-val">${baseAC}</div></div>
+            <div class="ac-box"><div class="ac-label">Flat-Footed</div><div class="ac-val">${flatFooted}</div></div>
+            <div class="ac-box"><div class="ac-label">Rear</div><div class="ac-val">${rearAC}</div></div>
+            <div class="ac-box"><div class="ac-label">Touch</div><div class="ac-val">${touchAC}</div></div>
+          </div>
+          <div style="font-size:.75rem;color:#888;">
+            Armor: <span class="editable" data-field="armorBonus" title="Armor AC bonus">${char.armorBonus||0}</span> +
+            Shield: <span class="editable" data-field="shieldBonus" title="Shield bonus">${char.shieldBonus||0}</span> +
+            DEX: ${formatMod(dexDef)} +
+            Misc: <span class="editable" data-field="miscACBonus" title="Other bonuses">${char.miscACBonus||0}</span>
+          </div>
+        </div>
+      </div>
+
       <h2>Combat</h2>
       <div class="derived-grid">
-        <div class="dg-box"><div class="dg-label">HP</div><div class="dg-value">${char.hp}/${char.maxHp}</div></div>
-        <div class="dg-box"><div class="dg-label">AC</div><div class="dg-value">${char.ac}</div></div>
         <div class="dg-box"><div class="dg-label">BTH</div><div class="dg-value">${formatMod(char.bth)}</div></div>
-        <div class="dg-box"><div class="dg-label">Speed</div><div class="dg-value">${char.speed}ft</div></div>
         <div class="dg-box"><div class="dg-label">Melee</div><div class="dg-value">${formatMod(char.bth + getStrAtkDmg(fa.STR||10))}</div></div>
         <div class="dg-box"><div class="dg-label">Ranged</div><div class="dg-value">${formatMod(char.bth + getDexRanged(fa.DEX||10))}</div></div>
+        <div class="dg-box"><div class="dg-label">Speed</div><div class="dg-value">${char.speed}ft</div></div>
+      </div>
+
+      <h3>Weapons</h3>
+      ${char.weapons.length ? `<table class="weapon-table">
+        <tr><th>Weapon</th><th>Attack</th><th>Damage (S-M/L)</th><th>Init</th><th>Range</th><th>Type</th><th></th></tr>
+        ${weaponRows}
+      </table>` : '<p style="color:#888;font-size:.85rem;">No weapons added yet.</p>'}
+      <div class="add-row">
+        <select id="add-weapon-select"><option value="">Add weapon...</option>${weaponOpts}</select>
+        <button id="add-weapon-btn" class="btn-small">Add</button>
       </div>
 
       <h2>Saving Throws</h2>
@@ -1054,9 +1219,132 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
       <div class="card-detail"><strong>Armor Allowed:</strong> ${char.armor}</div>
       ${char.spellcasting ? `<div class="card-detail"><strong>Spellcasting:</strong> ${char.spellcasting.type} (${char.spellcasting.attribute})</div>` : ''}
 
+      <h2>Equipment</h2>
+      <div style="margin-bottom:.5rem;font-size:.9rem;"><strong>Gold:</strong> <span class="editable" data-field="gold" title="Click to edit">${char.gold}</span> gp</div>
+      ${equipHtml || '<p style="color:#888;font-size:.85rem;">No equipment yet.</p>'}
+      <div class="add-row">
+        <input type="text" id="add-equip-input" placeholder="Add item...">
+        <button id="add-equip-btn" class="btn-small">Add</button>
+      </div>
+
       <h2>Notes</h2>
-      <textarea id="notes-field" style="width:100%;min-height:80px;padding:.5rem;border:1px solid #ccc;border-radius:4px;font-family:inherit;">${char.notes||''}</textarea>
+      <textarea id="notes-field" style="width:100%;min-height:100px;padding:.5rem;border:1px solid #ccc;border-radius:4px;font-family:inherit;">${char.notes||''}</textarea>
     </div>`;
+
+    // ---- ATTACH EVENT LISTENERS ----
+    attachSheetListeners(char);
+  }
+
+  function attachSheetListeners(char) {
+    const el = document.getElementById('char-sheet');
+
+    // Editable fields (click to edit inline)
+    el.querySelectorAll('.editable').forEach(span => {
+      span.addEventListener('click', () => {
+        const field = span.dataset.field;
+        const current = span.textContent;
+        const isNum = ['hp','maxHp','xp','level','armorBonus','shieldBonus','miscACBonus','gold'].includes(field);
+        const isAttr = field && field.startsWith('attr-');
+
+        const input = document.createElement('input');
+        input.type = isNum || isAttr ? 'number' : 'text';
+        input.value = current;
+        input.style.cssText = 'width:' + Math.max(60, current.length * 12) + 'px;font-size:inherit;font-weight:inherit;text-align:center;border:1px solid #4a1a6b;border-radius:3px;padding:.1rem .3rem;';
+        span.replaceWith(input);
+        input.focus();
+        input.select();
+
+        const commit = () => {
+          const val = input.value.trim();
+          if (isAttr) {
+            const attr = field.replace('attr-','');
+            const n = Math.max(1, Math.min(25, parseInt(val) || char.finalAttrs[attr]));
+            char.finalAttrs[attr] = n;
+            char.baseAttrs[attr] = n - (char.ancestryMods?.[attr]||0) - (char.humanBonus===attr?1:0);
+            recalcChar(char);
+            renderSheet(char);
+          } else if (isNum) {
+            const n = parseInt(val) || 0;
+            char[field] = field === 'level' ? Math.max(1, n) : Math.max(0, n);
+            saveCurrent();
+            renderSheet(char);
+          } else {
+            char[field] = val || current;
+            saveCurrent();
+            renderSheet(char);
+          }
+        };
+
+        input.addEventListener('blur', commit);
+        input.addEventListener('keydown', e => {
+          if (e.key === 'Enter') { e.preventDefault(); commit(); }
+          if (e.key === 'Escape') { renderSheet(char); }
+        });
+      });
+    });
+
+    // HP +/- buttons
+    el.querySelectorAll('.hp-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const delta = parseInt(btn.dataset.hp);
+        char.hp = Math.max(0, Math.min(char.maxHp, char.hp + delta));
+        saveCurrent();
+        renderSheet(char);
+      });
+    });
+
+    // Add weapon
+    el.querySelector('#add-weapon-btn')?.addEventListener('click', () => {
+      const sel = el.querySelector('#add-weapon-select');
+      const name = sel.value;
+      if (!name) return;
+      const allW = getWeaponData();
+      const wData = allW.find(w => w.name === name);
+      if (!wData) return;
+      char.weapons.push({
+        name: wData.name,
+        damage: wData.damage,
+        damage_large: wData.damage_large,
+        init: wData.init,
+        range: wData.range || null,
+        type: wData.type || '',
+        category: wData.category,
+        groups: wData.groups || []
+      });
+      saveCurrent();
+      renderSheet(char);
+    });
+
+    // Remove weapon
+    el.querySelectorAll('.wt-remove').forEach(btn => {
+      btn.addEventListener('click', () => {
+        char.weapons.splice(parseInt(btn.dataset.widx), 1);
+        saveCurrent();
+        renderSheet(char);
+      });
+    });
+
+    // Add equipment
+    const addEquipBtn = el.querySelector('#add-equip-btn');
+    const addEquipInput = el.querySelector('#add-equip-input');
+    const doAddEquip = () => {
+      const val = addEquipInput.value.trim();
+      if (!val) return;
+      char.equipment.push(val);
+      saveCurrent();
+      renderSheet(char);
+    };
+    addEquipBtn?.addEventListener('click', doAddEquip);
+    addEquipInput?.addEventListener('keydown', e => { if (e.key === 'Enter') doAddEquip(); });
+
+    // Remove equipment
+    el.querySelectorAll('.ei-remove').forEach(btn => {
+      btn.addEventListener('click', () => {
+        char.equipment.splice(parseInt(btn.dataset.eidx), 1);
+        saveCurrent();
+        renderSheet(char);
+      });
+    });
 
     // Notes auto-save
     const notesEl = el.querySelector('#notes-field');
@@ -1153,6 +1441,25 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
   document.getElementById('confirm-attrs-btn').addEventListener('click', () => {
     if (Object.keys(genState.assigned).length < 6) return;
     showAncestryStep();
+  });
+
+  // Back navigation
+  document.getElementById('back-to-attrs-btn').addEventListener('click', () => {
+    genState.ancestry = null; genState.ancestryData = null; genState.humanBonus = null;
+    hideGenSteps();
+    document.getElementById('step-attrs').style.display = 'block';
+  });
+  document.getElementById('back-to-ancestry-from-human-btn').addEventListener('click', () => {
+    genState.humanBonus = null;
+    showAncestryStep();
+  });
+  document.getElementById('back-to-ancestry-btn').addEventListener('click', () => {
+    genState.charClass = null; genState.classData = null;
+    showAncestryStep();
+  });
+  document.getElementById('back-to-class-btn').addEventListener('click', () => {
+    genState.charClass = null; genState.classData = null;
+    showClassStep();
   });
 
   document.getElementById('create-btn').addEventListener('click', createCharacter);
