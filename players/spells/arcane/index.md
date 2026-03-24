@@ -2,7 +2,7 @@
 title: Arcane Spells
 layout: default
 parent: Players
-nav_order: 9
+nav_order: 10
 has_children: true
 ---
 

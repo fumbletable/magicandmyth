@@ -2,7 +2,7 @@
 title: Spells
 layout: default
 parent: Players
-nav_order: 8
+nav_order: 9
 has_toc: false
 ---
 
