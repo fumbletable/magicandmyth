@@ -1060,10 +1060,12 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
     const panel = document.getElementById(`shop-tab-${tab}`);
     panel.style.display = 'block';
 
+    // Armor restriction for current class
+    const armorNote = genState.classData?.armor || '';
     let items = [];
     if (tab === 'armor') {
       items = [
-        ...(DATA.equipment.armor||[]).map(a => ({ name: a.name, cost: a.cost, detail: `AC +${a.ac}, ${a.weight}lbs`, type:'armor', ac: a.ac })),
+        ...(DATA.equipment.armor||[]).map(a => ({ name: a.name, cost: a.cost, detail: `AC +${a.ac}, ${a.weight}lbs`, type:'armor', ac: a.ac, thief_allowed: a.thief_allowed })),
         ...(DATA.equipment.shields||[]).map(s => ({ name: s.name, cost: s.cost, detail: `AC +${s.ac}, ${s.weight}lbs${s.note?' — '+s.note:''}`, type:'shield', ac: s.ac }))
       ];
     } else if (tab === 'weapons') {
@@ -1078,9 +1080,15 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
       }));
     }
 
-    panel.innerHTML = items.map((item, i) => {
+    // Show armor restriction note
+    let headerNote = '';
+    if (tab === 'armor' && armorNote) {
+      headerNote = `<div style="font-size:.8rem;color:#b45309;padding:.35rem .5rem;background:#fff8f0;border-radius:4px;margin-bottom:.5rem;"><strong>Class restriction:</strong> ${armorNote}</div>`;
+    }
+
+    panel.innerHTML = headerNote + items.map((item, i) => {
       const canAfford = genState.gold >= item.cost;
-      return `<div class="shop-item${canAfford?'':' cant-afford'}" data-tab="${tab}" data-idx="${i}">
+      return `<div class="shop-item${canAfford?'':' cant-afford'}" data-tab="${tab}" data-idx="${i}" title="${item.detail}">
         <span class="si-name">${item.name}</span>
         <span class="si-detail">${item.detail}</span>
         <span class="si-cost">${item.cost >= 1 ? item.cost + ' gp' : (item.cost*10).toFixed(0) + ' sp'}</span>
@@ -1398,7 +1406,7 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
       if (!desc) return `<div class="trait-box" style="background:#e8f0fe;border-color:#2c5282;"><strong>${name}</strong></div>`;
       return `<div class="ability-box" data-aidx="${i}">
         <div class="ab-name">${name} <span class="ab-arrow">&#9654;</span></div>
-        <div class="ab-desc">${desc} <a href="${BASE}/players/classes/${char.classId}" style="font-size:.8rem;color:#4a1a6b;">Full details &rarr;</a></div>
+        <div class="ab-desc">${desc} <a href="${BASE}/players/classes/${char.classId}#${name.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/-+$/,'')}" style="font-size:.8rem;color:#4a1a6b;">Full details &rarr;</a></div>
       </div>`;
     }).join('');
 
@@ -1515,7 +1523,15 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
       <div style="margin-bottom:.5rem;font-size:.9rem;"><strong>Gold:</strong> <span class="editable" data-field="gold" title="Click to edit">${char.gold}</span> gp</div>
       ${equipHtml || '<p style="color:#888;font-size:.85rem;">No equipment yet.</p>'}
       <div class="add-row">
-        <input type="text" id="add-equip-input" placeholder="Add item...">
+        <select id="add-equip-select"><option value="">Add from list...</option>
+          <optgroup label="Armor">${(DATA.equipment.armor||[]).map(a=>`<option value="armor:${a.name}" data-ac="${a.ac}">${a.name} (AC +${a.ac}, ${a.cost}gp)</option>`).join('')}</optgroup>
+          <optgroup label="Shields">${(DATA.equipment.shields||[]).map(s=>`<option value="shield:${s.name}" data-ac="${s.ac}">${s.name} (AC +${s.ac}, ${s.cost}gp)</option>`).join('')}</optgroup>
+          <optgroup label="Gear">${(DATA.equipment.misc_items||[]).map(i=>`<option value="gear:${i.name}">${i.name} (${i.cost>=1?i.cost+'gp':(i.cost*10).toFixed(0)+'sp'})</option>`).join('')}</optgroup>
+        </select>
+        <button id="add-equip-select-btn" class="btn-small">Add</button>
+      </div>
+      <div class="add-row" style="margin-top:.25rem;">
+        <input type="text" id="add-equip-input" placeholder="Or type custom item...">
         <button id="add-equip-btn" class="btn-small">Add</button>
       </div>
 
@@ -1616,7 +1632,29 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
       });
     });
 
-    // Add equipment
+    // Add equipment from dropdown
+    el.querySelector('#add-equip-select-btn')?.addEventListener('click', () => {
+      const sel = el.querySelector('#add-equip-select');
+      const val = sel.value;
+      if (!val) return;
+      const [type, name] = [val.split(':')[0], val.substring(val.indexOf(':')+1)];
+      if (type === 'armor') {
+        const opt = sel.selectedOptions[0];
+        const ac = parseInt(opt?.dataset.ac) || 0;
+        char.armorBonus = Math.max(char.armorBonus || 0, ac);
+        char.ac = 10 + (char.armorBonus||0) + (char.shieldBonus||0) + getDexDefense(char.finalAttrs.DEX||10) + (char.miscACBonus||0);
+      } else if (type === 'shield') {
+        const opt = sel.selectedOptions[0];
+        const ac = parseInt(opt?.dataset.ac) || 0;
+        char.shieldBonus = Math.max(char.shieldBonus || 0, ac);
+        char.ac = 10 + (char.armorBonus||0) + (char.shieldBonus||0) + getDexDefense(char.finalAttrs.DEX||10) + (char.miscACBonus||0);
+      }
+      char.equipment.push(name);
+      saveCurrent();
+      renderSheet(char);
+    });
+
+    // Add equipment free-text
     const addEquipBtn = el.querySelector('#add-equip-btn');
     const addEquipInput = el.querySelector('#add-equip-input');
     const doAddEquip = () => {
