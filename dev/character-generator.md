@@ -1749,16 +1749,47 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
     }).join('');
 
     // Weapons table
+    // Check weapon proficiency
+    function isWeaponProficient(weaponName, weaponGroups) {
+      const wps = char.weaponProficiencies || [];
+      const wName = weaponName.toLowerCase();
+      for (const wp of wps) {
+        // Direct weapon proficiency or specialization
+        if (wp.type === 'weapon' || wp.type === 'specialization') {
+          if (wp.name.toLowerCase().includes(wName) || wName.includes(wp.name.toLowerCase())) return { proficient: true, penalty: 0 };
+        }
+        // Full weapon group
+        if (wp.type === 'group' && wp.id) {
+          const groupWeapons = DATA.equipment.weapon_groups?.[wp.id] || [];
+          if (groupWeapons.some(gw => gw.toLowerCase() === wName || wName.includes(gw.toLowerCase()))) return { proficient: true, penalty: 0 };
+        }
+        // Partial weapon group (-1 penalty)
+        if (wp.type === 'group_partial' && wp.id) {
+          const groupWeapons = DATA.equipment.weapon_groups?.[wp.id] || [];
+          if (groupWeapons.some(gw => gw.toLowerCase() === wName || wName.includes(gw.toLowerCase()))) return { proficient: true, penalty: -1 };
+        }
+      }
+      return { proficient: false, penalty: 0 };
+    }
+
+    const cls = DATA.classes.find(c => c.id === char.classId);
+    const nonProfPenalty = cls?.nonproficiency_penalty || -3;
+
     const weaponRows = char.weapons.map((w, i) => {
-      const atkMod = w.category === 'ranged'
+      const prof = isWeaponProficient(w.name, w.groups || []);
+      const profPenalty = prof.proficient ? prof.penalty : nonProfPenalty;
+      const atkMod = (w.category === 'ranged'
         ? char.bth + getDexRanged(fa.DEX||10)
-        : char.bth + getStrAtkDmg(fa.STR||10);
+        : char.bth + getStrAtkDmg(fa.STR||10)) + profPenalty;
       const dmgMod = w.category === 'ranged' ? 0 : getStrAtkDmg(fa.STR||10);
       const dmgStr = dmgMod !== 0 ? `${w.damage}${formatMod(dmgMod)}` : w.damage;
       const lgDmg = w.damage_large || w.damage;
+      const profStyle = prof.proficient ? '' : 'color:#c44;';
+      const profNote = !prof.proficient ? ` <span style="font-size:.7rem;color:#c44;" title="Non-proficient: ${nonProfPenalty} penalty">(NP)</span>` :
+        prof.penalty ? ` <span style="font-size:.7rem;color:#b45309;" title="Partial group: ${prof.penalty} penalty">(1/2)</span>` : '';
       return `<tr>
-        <td>${w.name}</td>
-        <td>${formatMod(atkMod)}</td>
+        <td>${w.name}${profNote}</td>
+        <td style="${profStyle}">${formatMod(atkMod)}</td>
         <td>${dmgStr} / ${lgDmg}</td>
         <td class="wt-init">${w.init || '—'}</td>
         <td>${w.range ? w.range+'ft' : '—'}</td>
