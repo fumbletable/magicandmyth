@@ -1999,7 +1999,7 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
           const canCast = opts.canCast && !sp.cast && slotsRemaining > 0;
           const isPrepared = opts.isPrepared;
           const isInBook = opts.isInBook;
-          const alreadyPrepared = isPrepared ? false : char.preparedSpells.some(p => p.name === sp.name);
+          const timesPrepared = isPrepared ? 0 : char.preparedSpells.filter(p => p.name === sp.name).length;
           return `<div class="ability-box" style="${sp.cast ? 'opacity:.5;background:#f8f0f0;border-color:#c44;' : isPrepared ? 'border-color:#4a1a6b;' : ''}">
             <div class="ab-name">
               <span>
@@ -2010,8 +2010,8 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
               <span style="display:flex;gap:.3rem;align-items:center;">
                 ${canCast ? `<button class="btn-small" data-action="cast-spell" data-idx="${i}" style="font-size:.7rem;padding:.1rem .4rem;color:#c44;border-color:#c44;" onclick="event.stopPropagation()">Cast</button>` : ''}
                 ${isPrepared && !canCast && !sp.cast ? `<span style="font-size:.65rem;color:#c44;">No slots</span>` : ''}
-                ${isInBook && !alreadyPrepared && char.preparedSpells.length < totalSlots ? `<button class="btn-small" data-action="prepare-from-book" data-name="${sp.name}" style="font-size:.7rem;padding:.1rem .4rem;color:#2e7d32;border-color:#2e7d32;" onclick="event.stopPropagation()">Prepare</button>` : ''}
-                ${isInBook && alreadyPrepared ? `<span style="font-size:.65rem;color:#2e7d32;">Prepared</span>` : ''}
+                ${isInBook && char.preparedSpells.length < totalSlots ? `<button class="btn-small" data-action="prepare-from-book" data-name="${sp.name}" style="font-size:.7rem;padding:.1rem .4rem;color:#2e7d32;border-color:#2e7d32;" onclick="event.stopPropagation()">Prepare${timesPrepared ? ' again' : ''}</button>` : ''}
+                ${isInBook && timesPrepared > 0 ? `<span style="font-size:.65rem;color:#2e7d32;">${timesPrepared}x prepared</span>` : ''}
                 ${isPrepared ? `<span class="ci-remove" data-unprepidx="${i}" style="font-size:.85rem;" onclick="event.stopPropagation()" title="Unprepare">&times;</span>` : ''}
                 ${isInBook ? `<span class="ci-remove" data-bookidx="${i}" style="font-size:.85rem;" onclick="event.stopPropagation()" title="Remove from spellbook">&times;</span>` : ''}
                 <span class="ab-arrow">&#9654;</span>
