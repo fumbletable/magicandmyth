@@ -35,7 +35,8 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
         <p id="method-desc" style="font-size:.85rem;color:#666;margin:.5rem 0;"></p>
       </div>
       <button id="roll-btn" class="btn-primary">Roll Attributes</button>
-      <button id="manual-entry-btn" class="btn-secondary" style="margin-left:.5rem;">Enter Manually</button>
+      <span style="margin:0 .75rem;color:#999;">or</span>
+      <button id="manual-entry-btn" class="btn-primary" style="background:#666;">Enter Scores Manually</button>
       <!-- Manual entry UI -->
       <div id="manual-ui" style="display:none;margin-top:1rem;">
         <p><strong>Type your attribute scores:</strong></p>
@@ -489,14 +490,22 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
     const methods = DATA.attributes.rolling_methods;
     sel.innerHTML = Object.entries(methods).map(([k,v]) =>
       `<option value="${k}"${k==='legacy'?' selected':''}>${v.name}</option>`
-    ).join('');
+    ).join('') + `<option value="manual">Manual Entry (type your own scores)</option>`;
     updateMethodDesc();
   }
 
   function updateMethodDesc() {
     const m = DATA.attributes.rolling_methods[genState.method];
+    if (genState.method === 'manual') {
+      document.getElementById('method-desc').textContent = 'Type each attribute score directly. For characters rolled at the table or transferred from paper.';
+      document.getElementById('roll-btn').style.display = 'none';
+      document.getElementById('manual-entry-btn').style.display = 'none';
+      showManualEntry();
+      return;
+    }
+    document.getElementById('roll-btn').style.display = '';
+    document.getElementById('manual-entry-btn').style.display = '';
     document.getElementById('method-desc').textContent = m ? m.description : '';
-    // Show/hide roll button for point buy
     document.getElementById('roll-btn').textContent = genState.method === 'point_buy' ? 'Start Point Buy' : 'Roll Attributes';
   }
 
