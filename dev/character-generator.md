@@ -325,6 +325,69 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
     return;
   }
 
+  // Class ability descriptions for L1
+  const CLASS_ABILITIES = {
+    barbarian: [
+      { name: "Danger Sense", desc: "Instincts alert the barbarian to sneak attacks from behind. On a successful Wisdom check, sneak attack bonuses are nullified and the attack is treated as normal damage." },
+      { name: "Home Terrain", desc: "Choose a terrain where you gain +2 on trained General and Nature proficiencies. This reflects familiarity with your homeland." },
+      { name: "Warrior Prowess", desc: "STR 15+ grants +1 to Strength-based attacks and damage. CON 15+ grants +1 hit point per level." },
+      { name: "Wilderness Skills", desc: "Minor proficiency in Wilderness Survival plus one bonus rogue proficiency from: Acrobatics, Animal Handling, Climbing, Set Snares, or Tracking." }
+    ],
+    bard: [
+      { name: "Bard Knowledge +1", desc: "Bards accumulate knowledge of people, places, and exotic things. At 1st level, +1 bonus to bardic knowledge checks for recalling information." },
+      { name: "Bardic Performance +1", desc: "Minor proficiency in Performance. Choose two expressions. +1 bonus to Performance checks. Can use performance for Bardic Charm, Counter Song, or Inspire Allies." },
+      { name: "Rogue Proficiencies", desc: "Free Minor proficiency in both Decipher Script and Perception at character creation." }
+    ],
+    cleric: [
+      { name: "Level 1 Spells", desc: "Granted divine spells through prayer. 1 spell per day at 1st level, with access to divine spheres based on your faith." },
+      { name: "Religion", desc: "Free Minor proficiency in Religion at character creation." },
+      { name: "Spontaneous Cure Spells", desc: "Exchange any prepared spell for a cure spell of equal or lesser level without needing to prepare cure spells beforehand." },
+      { name: "Turn Undead (1d6)", desc: "Present your holy symbol to turn or control undead creatures. Successful Wisdom check turns 1d6 HD of undead plus your Influence modifier." }
+    ],
+    druid: [
+      { name: "Home Terrain", desc: "Choose a home terrain for +2 on Nature proficiency checks. This terrain also determines which animal forms you can access for shapechange." },
+      { name: "Level 1 Spells", desc: "Granted divine spells through prayer. 1 spell per day at 1st level. Major access to animal, elemental, healing, plant, and weather spheres." },
+      { name: "Nature Proficiencies", desc: "Free Minor proficiency in Animal Handling, Tracking, and Wilderness Survival." },
+      { name: "Wild Speak", desc: "Speak Druidic, a language only druids understand. At 1st level and every other level, become fluent in one woodland creature language." }
+    ],
+    fighter: [
+      { name: "Warrior Prowess", desc: "STR 15+ grants +1 to Strength-based attacks and damage. CON 15+ grants +1 hit point per level." },
+      { name: "Weapon Specialization", desc: "Choose one proficient melee weapon to specialize in: +1 attack bonus, +2 damage bonus, and increased attack rate (3/2 at levels 1-6). Fighter only." }
+    ],
+    monk: [
+      { name: "Intuitive Defense", desc: "Gain a bonus to AC equal to half your Wisdom check modifier. Nullified if wearing armor or using a shield." },
+      { name: "Ki Powers", desc: "Perform special martial arts maneuvers from ki energy. At 1st level: Iron Fist, Stunning Strike, Leap Kick, Sweep, and two Deflect abilities. Uses per day = level + half WIS modifier." },
+      { name: "Martial Arts Specialization", desc: "Proficiency and specialization in martial arts: +1 to hit, +2 damage with unarmed strikes (1d6 damage for Medium characters)." }
+    ],
+    paladin: [
+      { name: "Aura of Good", desc: "+1 bonus to AC and saving throws for non-evil allies within 10 feet. Non-evil subjects are also immune to mental control from evil creatures with equal or fewer HD." },
+      { name: "Detect Evil", desc: "Concentrate for one round to detect evil subjects within a 60-foot cone, including evil intentions in otherwise non-evil creatures." },
+      { name: "Healing Touch", desc: "Heal up to 2 HP per level per day through laying on hands. Can also damage undead/evil summoned creatures or cure disease once per five levels." },
+      { name: "Immunity to Disease", desc: "Immune to all nonmagical disease." },
+      { name: "Warrior Prowess", desc: "STR 15+ grants +1 to Strength-based attacks and damage. CON 15+ grants +1 hit point per level." }
+    ],
+    ranger: [
+      { name: "Animal Empathy", desc: "Free Minor proficiency in Animal Handling. When approaching an animal alone, force a Wisdom save or it becomes less hostile. Cumulative -1 penalty per three ranger levels." },
+      { name: "Nature Proficiencies", desc: "Free Minor proficiency in Stealth (wilderness only), Wilderness Survival, and Tracking." },
+      { name: "Two Weapon Style", desc: "Free proficiency in two-weapon fighting without normal attack penalties. Heavy armor imposes -2 primary and -4 off-hand; lighter armor has no penalty." },
+      { name: "Warrior Prowess", desc: "STR 15+ grants +1 to Strength-based attacks and damage. CON 15+ grants +1 hit point per level." }
+    ],
+    thief: [
+      { name: "Dexterous Climb", desc: "Free Minor proficiency in Climb. May use Dexterity check modifier instead of Strength for all climbing checks." },
+      { name: "Nimble Defense", desc: "DEX 15+ grants +1 bonus to AC when wearing no armor or any thief-allowed armor." },
+      { name: "Opportune Attack +1", desc: "When a target is engaged with multiple opponents, gain +1 to melee and ranged attack and damage rolls against that target." },
+      { name: "Rogue Skills", desc: "4 additional nonweapon proficiency slots at character creation that must be spent on rogue proficiencies." },
+      { name: "Sneak Attack x2", desc: "When attacking a surprised or unaware target with a small piercing weapon from behind, +4 to attack and double damage (x2 at levels 1-4)." },
+      { name: "Trap Lore", desc: "Can use Find and Remove Traps to detect and disable both mechanical and magical traps." }
+    ],
+    wizard: [
+      { name: "Specialization", desc: "Choose whether to specialize in one school of magic or remain a generalist. Specialists gain +1 spell/day in specialty, +2 to learn specialty spells, but face restricted school access." },
+      { name: "Spellbook", desc: "Possess a spellbook of arcane spells in literary form. Each spell requires pages equal to its level. Essential for retaining spell knowledge." },
+      { name: "Spellcraft", desc: "Free Minor proficiency in Spellcraft at character creation." },
+      { name: "Level 1 Spells", desc: "Memorize arcane spells from your spellbook. 1 spell slot per day at 1st level. Begin with a number of 1st-level spells equal to half your Intelligence score." }
+    ]
+  };
+
   document.getElementById('loading').style.display = 'none';
   document.getElementById('my-characters').style.display = 'block';
 
@@ -1136,11 +1199,8 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
     // XP note
     const xpNote = getXpNote(cls, finalAttrs);
 
-    // L1 special abilities
-    let specials = [];
-    if (cls.level_chart && cls.level_chart.length > 0) {
-      specials = cls.level_chart[0].special || [];
-    }
+    // L1 special abilities from CLASS_ABILITIES data
+    const specials = CLASS_ABILITIES[cls.id] || [];
 
     const char = {
       id: genId(),
@@ -1331,10 +1391,16 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
       `<div class="trait-box"><strong>${t.name}:</strong> ${t.description}</div>`
     ).join('');
 
-    // Class abilities
-    const specialsHtml = (char.specials||[]).map(s =>
-      `<div class="trait-box" style="background:#e8f0fe;border-color:#2c5282;"><strong>${s}</strong></div>`
-    ).join('');
+    // Class abilities — expandable with descriptions
+    const specialsHtml = (char.specials||[]).map((s, i) => {
+      const name = typeof s === 'string' ? s : s.name;
+      const desc = typeof s === 'string' ? null : s.desc;
+      if (!desc) return `<div class="trait-box" style="background:#e8f0fe;border-color:#2c5282;"><strong>${name}</strong></div>`;
+      return `<div class="ability-box" data-aidx="${i}">
+        <div class="ab-name">${name} <span class="ab-arrow">&#9654;</span></div>
+        <div class="ab-desc">${desc} <a href="${BASE}/players/classes/${char.classId}" style="font-size:.8rem;color:#4a1a6b;">Full details &rarr;</a></div>
+      </div>`;
+    }).join('');
 
     // Weapons table
     const weaponRows = char.weapons.map((w, i) => {
@@ -1569,6 +1635,14 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
         char.equipment.splice(parseInt(btn.dataset.eidx), 1);
         saveCurrent();
         renderSheet(char);
+      });
+    });
+
+    // Expandable class abilities
+    el.querySelectorAll('.ability-box').forEach(box => {
+      box.addEventListener('click', (e) => {
+        if (e.target.tagName === 'A') return; // don't toggle when clicking link
+        box.classList.toggle('open');
       });
     });
 
