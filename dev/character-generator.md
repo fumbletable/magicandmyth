@@ -35,6 +35,12 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
         <p id="method-desc" style="font-size:.85rem;color:#666;margin:.5rem 0;"></p>
       </div>
       <button id="roll-btn" class="btn-primary">Roll Attributes</button>
+      <button id="manual-entry-btn" class="btn-secondary" style="margin-left:.5rem;">Enter Manually</button>
+      <!-- Manual entry UI -->
+      <div id="manual-ui" style="display:none;margin-top:1rem;">
+        <p><strong>Type your attribute scores:</strong></p>
+        <div class="stat-grid" id="manual-boxes"></div>
+      </div>
       <div id="attr-display" style="display:none;margin-top:1rem;">
         <div class="stat-grid" id="stat-boxes"></div>
         <button id="reroll-btn" class="btn-small" style="margin-top:.5rem;">Re-roll</button>
@@ -125,6 +131,8 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
   .stat-box.clickable{cursor:pointer;} .stat-box.clickable:hover{border-color:#4a1a6b;background:#f5f0fa;}
   .stat-box.selected{border-color:#4a1a6b;background:#ede0f7;box-shadow:0 0 0 2px #4a1a6b;}
   .stat-box.empty{border-style:dashed;}
+  .manual-input{width:3rem;font-size:1.3rem;text-align:center;border:1px solid #ccc;border-radius:4px;padding:.25rem;font-weight:bold;}
+  .manual-input:focus{border-color:#4a1a6b;outline:none;box-shadow:0 0 0 2px rgba(74,26,107,.2);}
 
   .option-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem;margin:.75rem 0;}
   .option-card{border:2px solid #ddd;border-radius:8px;padding:1rem;cursor:pointer;transition:all .2s;background:#fff;}
@@ -423,6 +431,7 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
     document.getElementById('cancel-row').style.display = 'block';
     document.getElementById('attr-display').style.display = 'none';
     document.getElementById('assign-ui').style.display = 'none';
+    document.getElementById('manual-ui').style.display = 'none';
     document.getElementById('attr-confirm').style.display = 'none';
     initMethodSelect();
   }
@@ -481,6 +490,61 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
     document.getElementById('attr-display').style.display = 'none';
     document.getElementById('assign-ui').style.display = 'block';
     document.getElementById('attr-confirm').style.display = 'block';
+    document.getElementById('manual-ui').style.display = 'none';
+  }
+
+  function showManualEntry() {
+    genState.assigned = {};
+    document.getElementById('attr-display').style.display = 'none';
+    document.getElementById('assign-ui').style.display = 'none';
+    document.getElementById('manual-ui').style.display = 'block';
+    document.getElementById('attr-confirm').style.display = 'block';
+
+    const attrs = DATA.attributes.attributes;
+    const container = document.getElementById('manual-boxes');
+    container.innerHTML = attrs.map(a =>
+      `<div class="stat-box">
+        <div class="attr-label">${a}</div>
+        <input type="number" class="manual-input" data-attr="${a}" min="3" max="25" value="">
+        <div class="attr-mod manual-mod" data-attr="${a}"></div>
+        <div class="attr-detail manual-detail" data-attr="${a}"></div>
+      </div>`
+    ).join('');
+
+    container.querySelectorAll('.manual-input').forEach(inp => {
+      inp.addEventListener('input', () => updateManualEntry());
+    });
+  }
+
+  function updateManualEntry() {
+    const attrs = DATA.attributes.attributes;
+    genState.assigned = {};
+    let allFilled = true;
+    attrs.forEach(a => {
+      const inp = document.querySelector(`.manual-input[data-attr="${a}"]`);
+      const modEl = document.querySelector(`.manual-mod[data-attr="${a}"]`);
+      const detailEl = document.querySelector(`.manual-detail[data-attr="${a}"]`);
+      const v = parseInt(inp.value);
+      if (!v || v < 1 || v > 25) {
+        allFilled = false;
+        modEl.textContent = '';
+        detailEl.textContent = '';
+        return;
+      }
+      genState.assigned[a] = v;
+      const mod = getCheckMod(v);
+      modEl.textContent = formatMod(mod);
+      let detail = '';
+      if (a === 'STR') detail = `Atk/Dmg ${formatMod(getStrAtkDmg(v))}`;
+      else if (a === 'DEX') detail = `Def ${formatMod(getDexDefense(v))}, Ranged ${formatMod(getDexRanged(v))}`;
+      else if (a === 'CON') detail = `Fort ${formatMod(getConFort(v))}`;
+      else if (a === 'INT') detail = `${getIntLangs(v)} bonus lang`;
+      else if (a === 'WIS') detail = `Will ${formatMod(getWisSave(v))}`;
+      else if (a === 'CHA') detail = `Influence ${formatMod(getChaInfluence(v))}`;
+      detailEl.textContent = detail;
+    });
+    // Show/hide confirm button
+    document.getElementById('attr-confirm').style.display = allFilled ? 'block' : 'none';
   }
 
   function renderPointBuy() {
@@ -1064,8 +1128,15 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
     document.getElementById('attr-confirm').style.display = 'none';
   });
 
-  document.getElementById('roll-btn').addEventListener('click', handleRoll);
-  document.getElementById('reroll-btn').addEventListener('click', handleRoll);
+  document.getElementById('roll-btn').addEventListener('click', () => {
+    document.getElementById('manual-ui').style.display = 'none';
+    handleRoll();
+  });
+  document.getElementById('manual-entry-btn').addEventListener('click', showManualEntry);
+  document.getElementById('reroll-btn').addEventListener('click', () => {
+    document.getElementById('manual-ui').style.display = 'none';
+    handleRoll();
+  });
   document.getElementById('clear-assign-btn').addEventListener('click', () => {
     genState.assigned = {};
     selectedScoreIdx = null;
