@@ -1571,6 +1571,7 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
       traits: anc.traits || [],
       senses: anc.senses || {},
       languages: [...(anc.languages || [])],
+      baseLanguageCount: (anc.languages || []).length,
       specials,
       spellcasting: cls.spellcasting || null,
       wpSlots: cls.weapon_slots_start,
@@ -1843,7 +1844,37 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
       <h2>Ancestry Traits</h2>
       ${traitsHtml || '<p style="color:#888;">No special traits.</p>'}
       ${senses.length ? `<div class="card-detail" style="margin-top:.5rem;"><strong>Senses:</strong> ${senses.join(', ')}</div>` : ''}
-      <div class="card-detail"><strong>Languages:</strong> ${char.languages.map(l=>l.charAt(0).toUpperCase()+l.slice(1)).join(', ')}${char.bonusLanguageSlots ? ` (+${char.bonusLanguageSlots} bonus slots from INT)` : ''}</div>
+      <h2>Languages</h2>
+      <div style="display:flex;flex-wrap:wrap;gap:.4rem;margin:.5rem 0;">
+        ${(char.languages||[]).map((l, i) => {
+          const cap = l.charAt(0).toUpperCase() + l.slice(1);
+          const isBase = i < (char.baseLanguageCount || char.languages.length);
+          return `<span style="background:#e8f4f8;border:1px solid #b8d4e8;border-radius:3px;padding:.2rem .5rem;font-size:.85rem;display:inline-flex;align-items:center;gap:.3rem;">
+            ${cap}${!isBase ? ` <span class="wt-remove" data-langidx="${i}" style="cursor:pointer;">&times;</span>` : ''}
+          </span>`;
+        }).join('')}
+      </div>
+      ${(() => {
+        const bonusSlots = char.bonusLanguageSlots || 0;
+        const baseLangs = char.baseLanguageCount || 2;
+        const usedBonus = Math.max(0, (char.languages||[]).length - baseLangs);
+        const remaining = bonusSlots - usedBonus;
+        if (remaining <= 0 && bonusSlots === 0) return '';
+        const ancestry = DATA.ancestries.find(a => a.id === char.ancestryId);
+        const bonusOpts = ancestry?.bonus_languages || [];
+        const existing = (char.languages||[]).map(l => l.toLowerCase());
+        const available = bonusOpts.filter(l => l !== 'any' && !existing.includes(l.toLowerCase()));
+        return `<div style="font-size:.8rem;color:#888;margin-bottom:.25rem;">${remaining} bonus language slot${remaining!==1?'s':''} remaining (from INT ${char.finalAttrs?.INT||10})</div>
+          ${remaining > 0 ? `<div class="add-row">
+            <select id="add-lang-select">
+              <option value="">Add language...</option>
+              ${bonusOpts.includes('any') ?
+                `<option value="custom">Type custom...</option>` : ''}
+              ${available.map(l => `<option value="${l}">${l.charAt(0).toUpperCase()+l.slice(1)}</option>`).join('')}
+            </select>
+            <button id="add-lang-btn" class="btn-small">Add</button>
+          </div>` : ''}`;
+      })()}
 
       ${specialsHtml ? `<h2>Class Abilities (Level 1)</h2>${specialsHtml}` : ''}
 
@@ -2043,6 +2074,30 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
         char.equipment.splice(parseInt(btn.dataset.eidx), 1);
         saveCurrent();
         renderSheet(char);
+      });
+    });
+
+    // Add language
+    el.querySelector('#add-lang-btn')?.addEventListener('click', () => {
+      const sel = el.querySelector('#add-lang-select');
+      if (!sel?.value) return;
+      if (sel.value === 'custom') {
+        const lang = prompt('Enter language name:');
+        if (lang && lang.trim()) {
+          char.languages.push(lang.trim().toLowerCase());
+          saveCurrent(); renderSheet(char);
+        }
+      } else {
+        char.languages.push(sel.value);
+        saveCurrent(); renderSheet(char);
+      }
+    });
+
+    // Remove language
+    el.querySelectorAll('[data-langidx]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        char.languages.splice(parseInt(btn.dataset.langidx), 1);
+        saveCurrent(); renderSheet(char);
       });
     });
 
