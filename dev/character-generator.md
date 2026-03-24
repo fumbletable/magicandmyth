@@ -81,10 +81,46 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
       <div id="class-options" class="option-grid"></div>
     </div>
 
-    <!-- Step 4: Name -->
-    <div id="step-name" class="gen-step" style="display:none;">
-      <h2>Step 4: Name Your Character</h2>
+    <!-- Step 4: Equipment -->
+    <div id="step-equip" class="gen-step" style="display:none;">
+      <h2>Step 4: Equipment</h2>
       <button id="back-to-class-btn" class="btn-back">&larr; Back to Class</button>
+
+      <div id="equip-gold-roll" style="margin:.75rem 0;">
+        <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
+          <button id="roll-gold-btn" class="btn-primary">Roll Starting Gold</button>
+          <span style="color:#999;">or</span>
+          <div><label>Set gold: </label><input type="number" id="manual-gold-input" min="0" max="9999" style="width:80px;padding:.3rem;border:1px solid #ccc;border-radius:3px;" placeholder="gp"> <button id="set-gold-btn" class="btn-small">Set</button></div>
+        </div>
+        <p id="gold-formula" style="font-size:.85rem;color:#888;margin:.5rem 0;"></p>
+      </div>
+
+      <div id="equip-shop" style="display:none;">
+        <div style="font-size:1.1rem;font-weight:bold;margin:.75rem 0;color:#4a1a6b;">
+          Gold: <span id="shop-gold">0</span> gp
+        </div>
+
+        <div style="margin-bottom:.5rem;">
+          <button class="shop-tab btn-small active" data-tab="armor">Armor & Shields</button>
+          <button class="shop-tab btn-small" data-tab="weapons">Weapons</button>
+          <button class="shop-tab btn-small" data-tab="gear">Adventuring Gear</button>
+        </div>
+
+        <div id="shop-tab-armor" class="shop-panel"></div>
+        <div id="shop-tab-weapons" class="shop-panel" style="display:none;"></div>
+        <div id="shop-tab-gear" class="shop-panel" style="display:none;"></div>
+
+        <h3 style="margin-top:1rem;">Your Gear</h3>
+        <div id="shop-cart"></div>
+
+        <button id="equip-done-btn" class="btn-primary" style="margin-top:1rem;">Continue to Name &rarr;</button>
+      </div>
+    </div>
+
+    <!-- Step 5: Name -->
+    <div id="step-name" class="gen-step" style="display:none;">
+      <h2>Step 5: Name Your Character</h2>
+      <button id="back-to-equip-btn" class="btn-back">&larr; Back to Equipment</button>
       <div style="margin-top:.75rem;">
         <input type="text" id="char-name-input" placeholder="Enter character name..." style="font-size:1.1rem;padding:.5rem;width:100%;max-width:300px;">
         <button id="create-btn" class="btn-primary" style="margin-left:.5rem;">Create Character</button>
@@ -241,6 +277,32 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
   .ac-box{border:1px solid #ccc;padding:.4rem;text-align:center;border-radius:4px;background:#fafafa;}
   .ac-box .ac-label{font-size:.65rem;color:#888;text-transform:uppercase;}
   .ac-box .ac-val{font-size:1.2rem;font-weight:bold;}
+
+  /* Shop */
+  .shop-tab{margin-right:.25rem;}
+  .shop-tab.active{background:#4a1a6b;color:#fff;border-color:#4a1a6b;}
+  .shop-panel{max-height:350px;overflow-y:auto;border:1px solid #eee;border-radius:4px;padding:.5rem;}
+  .shop-item{display:flex;align-items:center;gap:.5rem;padding:.35rem .5rem;border-bottom:1px solid #f0f0f0;font-size:.85rem;cursor:pointer;transition:background .1s;}
+  .shop-item:hover{background:#faf5ff;}
+  .shop-item.cant-afford{opacity:.4;cursor:not-allowed;}
+  .shop-item .si-name{flex:1;font-weight:500;}
+  .shop-item .si-detail{color:#888;font-size:.8rem;}
+  .shop-item .si-cost{font-weight:bold;color:#4a1a6b;min-width:50px;text-align:right;}
+  .shop-item .si-buy{color:#4a1a6b;font-weight:bold;font-size:.9rem;}
+  .cart-item{display:flex;align-items:center;gap:.5rem;padding:.3rem 0;border-bottom:1px solid #f0f0f0;font-size:.85rem;}
+  .cart-item .ci-name{flex:1;}
+  .cart-item .ci-cost{color:#888;min-width:50px;text-align:right;}
+  .cart-item .ci-remove{color:#c44;cursor:pointer;font-size:.75rem;opacity:.5;}
+  .cart-item .ci-remove:hover{opacity:1;}
+
+  /* Expandable abilities */
+  .ability-box{background:#e8f0fe;padding:.5rem .75rem;margin:.25rem 0;border-left:3px solid #2c5282;border-radius:0 4px 4px 0;cursor:pointer;transition:all .15s;}
+  .ability-box:hover{background:#dbe6fb;}
+  .ability-box .ab-name{font-weight:bold;color:#2c5282;display:flex;justify-content:space-between;align-items:center;}
+  .ability-box .ab-arrow{font-size:.7rem;color:#888;transition:transform .2s;}
+  .ability-box.open .ab-arrow{transform:rotate(90deg);}
+  .ability-box .ab-desc{display:none;margin-top:.35rem;font-size:.85rem;color:#444;line-height:1.4;}
+  .ability-box.open .ab-desc{display:block;}
 </style>
 
 <script>
@@ -876,7 +938,133 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
     const c = DATA.classes.find(x => x.id === id);
     genState.charClass = id;
     genState.classData = c;
-    showNameStep();
+    showEquipStep();
+  }
+
+  // ============ UI: EQUIPMENT SHOPPING ============
+  function showEquipStep() {
+    hideGenSteps();
+    document.getElementById('step-equip').style.display = 'block';
+    document.getElementById('equip-shop').style.display = 'none';
+
+    // Init shopping state
+    if (!genState.cart) genState.cart = [];
+    if (!genState.gold) genState.gold = 0;
+
+    // Show gold formula for this class
+    const cls = genState.classData;
+    const formula = DATA.equipment.starting_gold?.[cls.id] || '3d6x10';
+    document.getElementById('gold-formula').textContent = `${cls.name} starting gold: ${formula}`;
+  }
+
+  function rollStartingGold() {
+    const cls = genState.classData;
+    const formula = DATA.equipment.starting_gold?.[cls.id] || '3d6x10';
+    // Parse formula like "5d4x10", "2d6x10", "1d4+1x10"
+    let total = 0;
+    const match = formula.match(/(\d+)d(\d+)([+](\d+))?x(\d+)/);
+    if (match) {
+      const [, count, sides, , bonus, mult] = match;
+      let sum = 0;
+      for (let i = 0; i < parseInt(count); i++) sum += roll(parseInt(sides));
+      if (bonus) sum += parseInt(bonus);
+      total = sum * parseInt(mult);
+    } else {
+      total = (roll(6) + roll(6) + roll(6)) * 10; // fallback
+    }
+    genState.gold = total;
+    genState.cart = [];
+    openShop();
+  }
+
+  function openShop() {
+    document.getElementById('equip-shop').style.display = 'block';
+    updateShopGold();
+    renderShopTab('armor');
+    renderCart();
+  }
+
+  function updateShopGold() {
+    document.getElementById('shop-gold').textContent = genState.gold.toFixed(genState.gold % 1 === 0 ? 0 : 1);
+  }
+
+  function renderShopTab(tab) {
+    // Update tab buttons
+    document.querySelectorAll('.shop-tab').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.tab === tab);
+    });
+    document.querySelectorAll('.shop-panel').forEach(p => p.style.display = 'none');
+    const panel = document.getElementById(`shop-tab-${tab}`);
+    panel.style.display = 'block';
+
+    let items = [];
+    if (tab === 'armor') {
+      items = [
+        ...(DATA.equipment.armor||[]).map(a => ({ name: a.name, cost: a.cost, detail: `AC +${a.ac}, ${a.weight}lbs`, type:'armor', ac: a.ac })),
+        ...(DATA.equipment.shields||[]).map(s => ({ name: s.name, cost: s.cost, detail: `AC +${s.ac}, ${s.weight}lbs${s.note?' — '+s.note:''}`, type:'shield', ac: s.ac }))
+      ];
+    } else if (tab === 'weapons') {
+      const allW = getWeaponData();
+      items = allW.map(w => ({
+        name: w.name, cost: w.cost, detail: `${w.damage} ${w.init||''} ${w.range?w.range+'ft ':''}${w.type||''}`,
+        type: 'weapon', weaponData: w
+      }));
+    } else {
+      items = (DATA.equipment.misc_items||[]).map(i => ({
+        name: i.name, cost: i.cost, detail: i.note||`${i.weight||0}lbs`, type:'gear'
+      }));
+    }
+
+    panel.innerHTML = items.map((item, i) => {
+      const canAfford = genState.gold >= item.cost;
+      return `<div class="shop-item${canAfford?'':' cant-afford'}" data-tab="${tab}" data-idx="${i}">
+        <span class="si-name">${item.name}</span>
+        <span class="si-detail">${item.detail}</span>
+        <span class="si-cost">${item.cost >= 1 ? item.cost + ' gp' : (item.cost*10).toFixed(0) + ' sp'}</span>
+        ${canAfford ? '<span class="si-buy">+</span>' : ''}
+      </div>`;
+    }).join('');
+
+    // Buy click handlers
+    panel.querySelectorAll('.shop-item:not(.cant-afford)').forEach(el => {
+      el.addEventListener('click', () => {
+        const idx = parseInt(el.dataset.idx);
+        const item = items[idx];
+        if (genState.gold < item.cost) return;
+        genState.gold -= item.cost;
+        genState.cart.push(item);
+        updateShopGold();
+        renderShopTab(tab); // re-render to update affordability
+        renderCart();
+      });
+    });
+  }
+
+  function renderCart() {
+    const container = document.getElementById('shop-cart');
+    if (genState.cart.length === 0) {
+      container.innerHTML = '<p style="color:#888;font-size:.85rem;">Nothing purchased yet.</p>';
+      return;
+    }
+    container.innerHTML = genState.cart.map((item, i) =>
+      `<div class="cart-item">
+        <span class="ci-name">${item.name}</span>
+        <span class="ci-cost">${item.cost >= 1 ? item.cost + ' gp' : (item.cost*10).toFixed(0) + ' sp'}</span>
+        <span class="ci-remove" data-cidx="${i}">&times;</span>
+      </div>`
+    ).join('');
+
+    container.querySelectorAll('.ci-remove').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const idx = parseInt(btn.dataset.cidx);
+        genState.gold += genState.cart[idx].cost;
+        genState.cart.splice(idx, 1);
+        updateShopGold();
+        const activeTab = document.querySelector('.shop-tab.active')?.dataset.tab || 'armor';
+        renderShopTab(activeTab);
+        renderCart();
+      });
+    });
   }
 
   // ============ UI: NAME ============
@@ -986,11 +1174,40 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
       nwpSlots: cls.nwp_slots_start + (cls.id === 'thief' ? 4 : 0) + (anc.id === 'half-elf' ? 1 : 0),
       nwpGroups: cls.nwp_groups || [],
       armor: cls.armor,
+      weapons: [],
       equipment: [],
-      gold: 0,
+      armorBonus: 0,
+      shieldBonus: 0,
+      miscACBonus: 0,
+      gold: genState.gold || 0,
       notes: '',
       createdAt: new Date().toISOString()
     };
+
+    // Process cart from equipment shopping
+    if (genState.cart && genState.cart.length > 0) {
+      for (const item of genState.cart) {
+        if (item.type === 'weapon' && item.weaponData) {
+          const wd = item.weaponData;
+          char.weapons.push({
+            name: wd.name, damage: wd.damage, damage_large: wd.damage_large,
+            init: wd.init, range: wd.range || null, type: wd.type || '',
+            category: wd.category, groups: wd.groups || []
+          });
+        } else if (item.type === 'armor') {
+          char.armorBonus = Math.max(char.armorBonus, item.ac || 0);
+          char.equipment.push(item.name);
+        } else if (item.type === 'shield') {
+          char.shieldBonus = Math.max(char.shieldBonus, item.ac || 0);
+          char.equipment.push(item.name);
+        } else {
+          char.equipment.push(item.name);
+        }
+      }
+      // Recalc AC with armor
+      const dexDef = getDexDefense(finalAttrs.DEX || 10);
+      char.ac = 10 + char.armorBonus + char.shieldBonus + dexDef + char.miscACBonus;
+    }
 
     // Bonus languages from INT
     const bonusLangs = getIntLangs(finalAttrs.INT || 10);
@@ -1469,6 +1686,24 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
   document.getElementById('back-to-class-btn').addEventListener('click', () => {
     genState.charClass = null; genState.classData = null;
     showClassStep();
+  });
+
+  // Equipment step
+  document.getElementById('roll-gold-btn').addEventListener('click', rollStartingGold);
+  document.getElementById('set-gold-btn').addEventListener('click', () => {
+    const v = parseInt(document.getElementById('manual-gold-input').value);
+    if (!v || v < 0) return;
+    genState.gold = v;
+    genState.cart = [];
+    openShop();
+  });
+  document.querySelectorAll('.shop-tab').forEach(btn => {
+    btn.addEventListener('click', () => renderShopTab(btn.dataset.tab));
+  });
+  document.getElementById('equip-done-btn').addEventListener('click', showNameStep);
+  document.getElementById('back-to-equip-btn').addEventListener('click', () => {
+    hideGenSteps();
+    document.getElementById('step-equip').style.display = 'block';
   });
 
   document.getElementById('create-btn').addEventListener('click', createCharacter);
