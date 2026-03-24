@@ -330,14 +330,15 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
   let DATA = {};
 
   try {
-    const [ancestries, classes, attributes, equipment, proficiencies] = await Promise.all([
+    const [ancestries, classes, attributes, equipment, proficiencies, spellsIndex] = await Promise.all([
       fetch(`${BASE}/data/ancestries.json`).then(r => r.json()),
       fetch(`${BASE}/data/classes.json`).then(r => r.json()),
       fetch(`${BASE}/data/attributes.json`).then(r => r.json()),
       fetch(`${BASE}/data/equipment.json`).then(r => r.json()),
-      fetch(`${BASE}/data/proficiencies.json`).then(r => r.json())
+      fetch(`${BASE}/data/proficiencies.json`).then(r => r.json()),
+      fetch(`${BASE}/data/spells-index.json`).then(r => r.json()).catch(() => ({ arcane:{}, divine:{} }))
     ]);
-    DATA = { ancestries: ancestries.ancestries, classes: classes.classes, attributes, equipment, proficiencies };
+    DATA = { ancestries: ancestries.ancestries, classes: classes.classes, attributes, equipment, proficiencies, spells: spellsIndex };
   } catch(e) {
     document.getElementById('loading').textContent = 'Failed to load game data. Please refresh.';
     console.error(e);
@@ -1993,19 +1994,44 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
           </div>
 
           ${char.preparedSpells.length > 0 ? `<div style="margin:.5rem 0;">
-            ${char.preparedSpells.map((sp, i) => `<div class="cart-item">
-              <span class="ci-name">${sp.name}${sp.cast ? ' <span style="color:#c44;font-size:.75rem;">(CAST)</span>' : ''}</span>
-              <span style="display:flex;gap:.25rem;">
-                ${!sp.cast ? `<button class="btn-small" data-action="cast-spell" data-idx="${i}" style="font-size:.7rem;padding:.1rem .3rem;color:#c44;">Cast</button>` : ''}
-                <span class="ci-remove" data-spellidx="${i}">&times;</span>
-              </span>
-            </div>`).join('')}
+            ${char.preparedSpells.map((sp, i) => {
+              // Find spell data for tooltip
+              const spellList = isArcane ? DATA.spells?.arcane?.['1'] : DATA.spells?.divine?.['1'];
+              const spData = spellList?.find(s => s.name === sp.name);
+              const tooltip = spData ? `${spData.school}${spData.sphere ? ' ('+spData.sphere+')' : ''} | Range: ${spData.range||'—'} | Duration: ${spData.duration||'—'} | Cast: ${spData.castTime||'—'} | Save: ${spData.save||'None'}` : '';
+              return `<div class="cart-item" ${tooltip ? `title="${tooltip}"` : ''}>
+                <span class="ci-name">
+                  ${sp.name}${sp.cast ? ' <span style="color:#c44;font-size:.75rem;">(CAST)</span>' : ''}
+                  ${spData ? `<span style="font-size:.7rem;color:#888;"> ${spData.school}</span>` : ''}
+                </span>
+                <span style="display:flex;gap:.25rem;">
+                  ${!sp.cast ? `<button class="btn-small" data-action="cast-spell" data-idx="${i}" style="font-size:.7rem;padding:.1rem .3rem;color:#c44;">Cast</button>` : ''}
+                  <span class="ci-remove" data-spellidx="${i}">&times;</span>
+                </span>
+              </div>`;
+            }).join('')}
           </div>` : ''}
 
           <div class="add-row">
-            <input type="text" id="add-spell-input" placeholder="Add spell name...">
+            ${(() => {
+              const spellList = isArcane ? DATA.spells?.arcane?.['1'] : DATA.spells?.divine?.['1'];
+              if (spellList && spellList.length > 0) {
+                return `<select id="add-spell-select" style="max-width:300px;">
+                  <option value="">Add Level 1 spell...</option>
+                  ${spellList.map(s => `<option value="${s.name}" title="${s.desc}">${s.name} (${s.school}${s.range ? ', '+s.range : ''})</option>`).join('')}
+                </select>
+                <button id="add-spell-from-list-btn" class="btn-small">Add</button>
+                <span style="margin:0 .5rem;color:#999;font-size:.85rem;">or</span>`;
+              }
+              return '';
+            })()}
+            <input type="text" id="add-spell-input" placeholder="Type spell name..." style="max-width:180px;">
             <button id="add-spell-btn" class="btn-small">Add</button>
           </div>
+          ${(() => {
+            // Show description of selected spell
+            return `<div id="spell-preview" style="display:none;margin-top:.5rem;padding:.5rem .75rem;background:#f5f0fa;border-left:3px solid #4a1a6b;border-radius:0 4px 4px 0;font-size:.85rem;"></div>`;
+          })()}
           ${totalSlots > 0 && char.preparedSpells.some(s => s.cast) ? `<button id="reset-spells-btn" class="btn-small" style="margin-top:.5rem;">Long Rest (reset all spells)</button>` : ''}
         `;
       })() : ''}
@@ -2167,7 +2193,33 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
       });
     });
 
-    // Add spell
+    // Add spell from dropdown
+    el.querySelector('#add-spell-from-list-btn')?.addEventListener('click', () => {
+      const sel = el.querySelector('#add-spell-select');
+      if (!sel?.value) return;
+      if (!char.preparedSpells) char.preparedSpells = [];
+      char.preparedSpells.push({ name: sel.value, cast: false });
+      saveCurrent(); renderSheet(char);
+    });
+
+    // Spell preview on dropdown change
+    el.querySelector('#add-spell-select')?.addEventListener('change', function() {
+      const preview = el.querySelector('#spell-preview');
+      if (!preview) return;
+      const isArcane = char.spellcasting?.type === 'arcane';
+      const spellList = isArcane ? DATA.spells?.arcane?.['1'] : DATA.spells?.divine?.['1'];
+      const sp = spellList?.find(s => s.name === this.value);
+      if (sp) {
+        preview.style.display = 'block';
+        preview.innerHTML = `<strong>${sp.name}</strong> <span style="color:#888;">(${sp.school}${sp.sphere ? ', '+sp.sphere : ''})</span><br>
+          <span style="font-size:.8rem;">Range: ${sp.range||'—'} | Duration: ${sp.duration||'—'} | Cast: ${sp.castTime||'—'} | Save: ${sp.save||'None'}</span><br>
+          <span style="font-size:.8rem;color:#555;">${sp.desc}</span>`;
+      } else {
+        preview.style.display = 'none';
+      }
+    });
+
+    // Add spell from free text
     const addSpellBtn = el.querySelector('#add-spell-btn');
     const addSpellInput = el.querySelector('#add-spell-input');
     if (addSpellBtn && addSpellInput) {

@@ -1,0 +1,713 @@
+{
+  "arcane": {
+    "1": [
+      {
+        "name": "Alarm",
+        "school": "Abjuration/Conjuration",
+        "type": "arcane",
+        "range": "Touch",
+        "duration": "4 hrs +1 hour/level",
+        "castTime": "1 full round",
+        "save": "None",
+        "desc": "The caster wards an area to set off an audible or private alarm when any creature enters. The caster may specify how large of a creature automatically sets t..."
+      },
+      {
+        "name": "Arcane Armor",
+        "school": "Abjuration/Conjuration",
+        "type": "arcane",
+        "range": "Touch",
+        "duration": "4 hrs +1 hour/level",
+        "castTime": "1 full round",
+        "save": "None",
+        "desc": "The caster covers the subject in tangible energy that serves as a protective field. Arcane armor grants the subject a +4 armor bonus to their Armor Class; ho..."
+      },
+      {
+        "name": "Arcane Mark",
+        "school": "Universal",
+        "type": "arcane",
+        "range": "Touch",
+        "duration": "Permanent",
+        "castTime": "1d4",
+        "save": "None",
+        "desc": "The caster scribes his personal arcane mark, and up to six additional characters, on any surface. The writing can be visible or invisible. If invisible, spel..."
+      },
+      {
+        "name": "Audible Illusion",
+        "school": "Illusion/Phantasm",
+        "type": "arcane",
+        "range": "Medium",
+        "duration": "1 min. / level",
+        "castTime": "1d4",
+        "save": "Special",
+        "desc": "The caster creates a volume of sound that rises, recedes, approaches, or remains at a fixed place. The caster chooses what type of sound is created, but cann..."
+      },
+      {
+        "name": "Burning Hands",
+        "school": "Evocation",
+        "type": "arcane",
+        "range": "Immediate",
+        "duration": "Instantaneous",
+        "castTime": "1d4",
+        "save": "Ref half",
+        "desc": "The caster places his hands together, fans out his fingers and shoots forth a torrent of flame. The flame emanates in a wide 120 degree cone from the caster'..."
+      },
+      {
+        "name": "Charm Person",
+        "school": "Enchantment/Charm",
+        "type": "arcane",
+        "range": "Close",
+        "duration": "Special",
+        "castTime": "1d4",
+        "save": "Will negates",
+        "desc": "The caster charms a humanoid target up to medium-sized. The target need not be human, or even a playable ancestry; any monster that fits the description of h..."
+      },
+      {
+        "name": "Chill Touch",
+        "school": "Necromancy",
+        "type": "arcane",
+        "range": "Touch",
+        "duration": "1 hour",
+        "castTime": "1d4",
+        "save": "None",
+        "desc": "The caster's hands become enveloped in a crackling blue field of chilling energy. Touching a living creature deals 1d4 points of damage. In addition, the tar..."
+      },
+      {
+        "name": "Color Spray",
+        "school": "Alteration",
+        "type": "arcane",
+        "range": "Close",
+        "duration": "Instantaneous",
+        "castTime": "1d6",
+        "save": "See below",
+        "desc": "A cone of flashing color erupts from the caster's outstretched hand. Up to 1d6 creatures in the area of effect around the caster are affected, unless they ar..."
+      },
+      {
+        "name": "Comprehend Languages",
+        "school": "Alteration",
+        "type": "arcane",
+        "range": "Personal",
+        "duration": "5 min. / level",
+        "castTime": "1 full round",
+        "save": "None",
+        "desc": "The caster is able to understand the words of one touched creature or writing. (If cast on a writing, the caster can read at a rate of 250 words per minute.)..."
+      },
+      {
+        "name": "Dancing Lights",
+        "school": "Evocation",
+        "type": "arcane",
+        "range": "Medium",
+        "duration": "1 min. / level",
+        "castTime": "1d4",
+        "save": "None",
+        "desc": "The caster creates one of the following: up to four lights that resemble lanterns or torches (and cast that amount of light), up to four glowing spheres of l..."
+      },
+      {
+        "name": "Deflate",
+        "school": "Enchantment/Charm",
+        "type": "arcane",
+        "range": "Close",
+        "duration": "1 min. / level",
+        "castTime": "1d4",
+        "save": "Will negates",
+        "desc": "Creatures in the area of effect with Intelligence scores of 4 or higher feel a curb in motivation that causes them to pull some of the power back from their ..."
+      },
+      {
+        "name": "Detect Magic",
+        "school": "Universal",
+        "type": "arcane",
+        "range": "Personal",
+        "duration": "2 min. / level",
+        "castTime": "1d4",
+        "save": "None",
+        "desc": "The caster sees magical auras. The intensity of the aura highlights the power level of the magic (dim for up to 2nd level, faint for 3rd to 5th, moderate for..."
+      },
+      {
+        "name": "Detect Undead",
+        "school": "Divination",
+        "type": "arcane",
+        "range": "Personal",
+        "duration": "30 min.",
+        "castTime": "1d4",
+        "save": "None",
+        "desc": "The caster detects the presence, but not type, of all undead creatures within range in the general direction of his sight. While concentrating, the caster ca..."
+      },
+      {
+        "name": "Enlarge",
+        "school": "Alteration",
+        "type": "arcane",
+        "range": "Close",
+        "duration": "5 min. / level",
+        "castTime": "1d4",
+        "save": "Fort negates",
+        "desc": "The caster enlarges a creature or object one size category per five levels. Thus, for example, either a small creature, such as a goblin, or a small object, ..."
+      },
+      {
+        "name": "Erase",
+        "school": "Alteration",
+        "type": "arcane",
+        "range": "Medium",
+        "duration": "Permanent",
+        "castTime": "1d4",
+        "save": "None",
+        "desc": "This spell removes writings of either magical or mundane nature from a scroll or from one to two pages of paper, parchment, or similar surfaces. The caster c..."
+      },
+      {
+        "name": "Feather Fall",
+        "school": "Alteration",
+        "type": "arcane",
+        "range": "Medium",
+        "duration": "1 rd. / level",
+        "castTime": "1d4",
+        "save": "None",
+        "desc": "The caster effectively transforms the weight of targeted creature(s) or object(s) immediately to that of a feather. The rate of falling is instantly reduced ..."
+      },
+      {
+        "name": "Floating Disc",
+        "school": "Evocation",
+        "type": "arcane",
+        "range": "Close",
+        "duration": "30 min. + 10 / lvl",
+        "castTime": "1d4",
+        "save": "None",
+        "desc": "The caster creates a slightly concave, circular plane of force, 3 feet in diameter and 1 inch deep at its center, that floats 3 feet above the ground and obe..."
+      },
+      {
+        "name": "Frighten",
+        "school": "Illusion/Phantasm",
+        "type": "arcane",
+        "range": "Close",
+        "duration": "Special",
+        "castTime": "1d4",
+        "save": "Will negates",
+        "desc": "The targeted creature sees the caster as a frightful presence in pursuit, forcing the frightened subject to flee from the caster. The target remains frighten..."
+      },
+      {
+        "name": "Grease",
+        "school": "Conjuration",
+        "type": "arcane",
+        "range": "Short",
+        "duration": "1 min. / level",
+        "castTime": "1d6",
+        "save": "Special",
+        "desc": "A grease spell literally covers a solid, material surface with a slippery layer of grease. Any creature in the area when cast, or later entering the area, mu..."
+      },
+      {
+        "name": "Gully's Stone Storm",
+        "school": "Conjuration",
+        "type": "arcane",
+        "range": "Medium",
+        "duration": "Instantaneous",
+        "castTime": "1d6",
+        "save": "Ref half",
+        "desc": "The caster conjures forth numerous fist-sized stones that rain down upon those targeted in range. A d6 is rolled to determine how many stones strike each tar..."
+      },
+      {
+        "name": "Hold Portal",
+        "school": "Universal",
+        "type": "arcane",
+        "range": "Close",
+        "duration": "1 min. / level",
+        "castTime": "1d4",
+        "save": "None",
+        "desc": "This spell magically holds shut a door, gate, window, shutter or valve of wood, metal, or stone. The spell holds the portal shut as if it were securely close..."
+      },
+      {
+        "name": "Hypnotism",
+        "school": "Enchantment/Charm",
+        "type": "arcane",
+        "range": "Close",
+        "duration": "1 rd. +1 rd. / level",
+        "castTime": "1d4",
+        "save": "Will negates",
+        "desc": "The gestures of the caster, along with his droning incantations, fascinate 1d6 nearby creatures and make them more apt to find his subsequent suggestions rea..."
+      },
+      {
+        "name": "Identify",
+        "school": "Universal",
+        "type": "arcane",
+        "range": "Personal",
+        "duration": "1 rd. / level",
+        "castTime": "Special",
+        "save": "None",
+        "desc": "The caster can identify the properties of any magical items touched after the spell is cast, as well as determine the method(s) of activation. How much infor..."
+      },
+      {
+        "name": "Jump",
+        "school": "Alteration",
+        "type": "arcane",
+        "range": "Touch",
+        "duration": "2 min. +1 / level",
+        "castTime": "1d4",
+        "save": "None",
+        "desc": "The subject can, once per round, jump a great distance straight upward or forward. Leaps can be up to 30 feet, but those having a proficiency in any skill re..."
+      },
+      {
+        "name": "Light",
+        "school": "Universal",
+        "type": "arcane",
+        "range": "Medium",
+        "duration": "10 min. / level",
+        "castTime": "1d4",
+        "save": "None",
+        "desc": "This spell creates a light equal to that of a torch in a 20-ft. radius; the area immediately beyond this light is awash in shadowy illumination. The caster c..."
+      },
+      {
+        "name": "Magic Missile",
+        "school": "Evocation",
+        "type": "arcane",
+        "range": "Long",
+        "duration": "Instantaneous",
+        "castTime": "1d4",
+        "save": "None",
+        "desc": "The caster shoots forth a missile (or missiles) of magical energy that sail toward its target(s) and unerringly strike. Targets must be clearly visible, so c..."
+      },
+      {
+        "name": "Magical Aura",
+        "school": "Illusion/Phantasm",
+        "type": "arcane",
+        "range": "Touch",
+        "duration": "1 day / level",
+        "castTime": "1 full round",
+        "save": "None",
+        "desc": "The caster alters an item's aura so that it registers to magical detection as though it were either nonmagical or of a different magical school. This effecti..."
+      },
+      {
+        "name": "Manipulate Flames",
+        "school": "Alteration",
+        "type": "arcane",
+        "range": "Close",
+        "duration": "2 rds. / level",
+        "castTime": "1d4",
+        "save": "None",
+        "desc": "This spell enables the caster to manipulate all nonmagical flames in a 10-ft. radius to decrease in size and brightness to virtually nothing or to increase i..."
+      },
+      {
+        "name": "Mending",
+        "school": "Alteration",
+        "type": "arcane",
+        "range": "Medium",
+        "duration": "Permanent",
+        "castTime": "1d4",
+        "save": "None",
+        "desc": "This spell repairs small breaks or tears in objects (but not warps caused by spells such as warp wood). It will weld metallic items such as a ring, chain lin..."
+      },
+      {
+        "name": "Message",
+        "school": "Alteration",
+        "type": "arcane",
+        "range": "Close",
+        "duration": "5 rds. / level",
+        "castTime": "1d4",
+        "save": "None",
+        "desc": "The caster can whisper messages and receive replies with little chance of being overheard. The caster covertly points his finger at each creature he wants to..."
+      },
+      {
+        "name": "Minor Cantrip",
+        "school": "Universal",
+        "type": "arcane",
+        "range": "Immediate",
+        "duration": "Concentration",
+        "castTime": "1d3",
+        "save": "None",
+        "desc": "Minor cantrip is a spell that creates a minor magical effect that can be used to entertain, help with household chores or cure a nuisance like soaked clothes..."
+      },
+      {
+        "name": "Mount",
+        "school": "Conjuration/Summoning",
+        "type": "arcane",
+        "range": "Close",
+        "duration": "2 hours +1 / level",
+        "castTime": "10 rounds",
+        "save": "None",
+        "desc": "The caster conjures a mount to serve willingly and well for the duration of the spell. The actual type of mount depends on the caster's level. Casters less t..."
+      },
+      {
+        "name": "Obscuring Fog",
+        "school": "Evocation",
+        "type": "arcane",
+        "range": "Medium",
+        "duration": "1 min. / level",
+        "castTime": "1d4",
+        "save": "None",
+        "desc": "The caster creates a wall of vaporous and misty fog that obscures all sight, including enhanced vision, beyond 2 to 5 feet, creating 90% obscurement. The dur..."
+      },
+      {
+        "name": "Phantasmal Image",
+        "school": "Illusion/Phantasm",
+        "type": "arcane",
+        "range": "Long",
+        "duration": "Concentration",
+        "castTime": "1d4",
+        "save": "Special",
+        "desc": "This spell creates the visual illusion of any object, creature or force, as visualized by the caster; however, this spell cannot create sound, smell, texture..."
+      },
+      {
+        "name": "Protection from Evil",
+        "school": "Abjuration",
+        "type": "arcane",
+        "range": "Touch",
+        "duration": "2 min. / level",
+        "castTime": "1d4",
+        "save": "None",
+        "desc": "This spell creates a 1-ft. thick magical barrier around the subject that moves with the subject. The barrier has three major effects:"
+      },
+      {
+        "name": "Read Magic",
+        "school": "Universal",
+        "type": "arcane",
+        "range": "Personal",
+        "duration": "2 min. / level",
+        "castTime": "1 full round",
+        "save": "None",
+        "desc": "The caster is able to decipher magical inscriptions on objects, such as books, scrolls and weapons, that would otherwise be unintelligible. This deciphering ..."
+      },
+      {
+        "name": "Shocking Grasp",
+        "school": "Evocation",
+        "type": "arcane",
+        "range": "Touch",
+        "duration": "Instantaneous",
+        "castTime": "1d4",
+        "save": "None",
+        "desc": "The caster's touch becomes an electrically-charged weapon that delivers 1d8+1 points of damage per level (maximum 5d8+5)."
+      },
+      {
+        "name": "Sleep",
+        "school": "Enchantment/Charm",
+        "type": "arcane",
+        "range": "Medium",
+        "duration": "5 min. / level",
+        "castTime": "1d4",
+        "save": "See below",
+        "desc": "This spell forces 2d4 HD worth of living creatures to slumber; no two creatures can be more than 30 feet apart. Creatures with the fewest HD are affected first."
+      },
+      {
+        "name": "Spider Climb",
+        "school": "Alteration",
+        "type": "arcane",
+        "range": "Touch",
+        "duration": "10 min. / level",
+        "castTime": "1d4",
+        "save": "None",
+        "desc": "The recipient can climb and travel upon vertical surfaces and ceilings as well as a spider can. The subject can move his full movement speed, but must use bo..."
+      },
+      {
+        "name": "Summon Familiar",
+        "school": "Conjuration/Summoning",
+        "type": "arcane",
+        "range": "Long",
+        "duration": "Special",
+        "castTime": "24 hours",
+        "save": "None",
+        "desc": "Through this ritual spell, the caster summons a familiar to serve as a magical companion. Doing so takes 24 hours of casting and uses up magical materials th..."
+      },
+      {
+        "name": "Thermak's Reflective Disc",
+        "school": "Abjuration",
+        "type": "arcane",
+        "range": "Personal",
+        "duration": "1 min. / level",
+        "castTime": "1d4",
+        "save": "None",
+        "desc": "This spell creates a 3-ft. diameter disc that hovers in front of the caster's face. This disc remains invisible for the duration until a magical or supernatu..."
+      },
+      {
+        "name": "Thermak's Shield",
+        "school": "Abjuration",
+        "type": "arcane",
+        "range": "Personal",
+        "duration": "5 min. / level",
+        "castTime": "1d4",
+        "save": "None",
+        "desc": "This spell creates an invisible barrier the size of a tower shield that comes into being in front of the caster. The shield negates magic missile attacks. Th..."
+      },
+      {
+        "name": "Unhinge",
+        "school": "Enchantment/Charm",
+        "type": "arcane",
+        "range": "Medium",
+        "duration": "1 min.",
+        "castTime": "1d4",
+        "save": "Will negates",
+        "desc": "This spell causes its target to hear a series of insults that forces the target to lose all composure and rush into a rage. The caster can make the target be..."
+      },
+      {
+        "name": "Unseen Servant",
+        "school": "Conjuration/Summoning",
+        "type": "arcane",
+        "range": "Close",
+        "duration": "1 hr. + 10 min. / lvl",
+        "castTime": "1d4",
+        "save": "None",
+        "desc": "An unseen servant is an invisible, mindless, and shapeless force, used to run and fetch, open unstuck doors, and hold chairs, as well as clean and mend. It c..."
+      },
+      {
+        "name": "Ventriloquism",
+        "school": "Illusion/Phantasm",
+        "type": "arcane",
+        "range": "Close",
+        "duration": "5 min. + 1 min./lvl",
+        "castTime": "1d4",
+        "save": "Negates",
+        "desc": "The caster can make any sound he can utter, including his voice or the voice of another, seem to originate from another person or object in range. With respe..."
+      }
+    ]
+  },
+  "divine": {
+    "1": [
+      {
+        "name": "Bless",
+        "school": "Universal",
+        "type": "divine",
+        "sphere": "All",
+        "range": "Close",
+        "duration": "1 min./level",
+        "castTime": "1d4",
+        "save": "None",
+        "desc": "The caster blesses all creatures in the area of effect. To accept the blessing, each creature must acknowledge the caster and the caster's deity, an act that..."
+      },
+      {
+        "name": "Command",
+        "school": "Enchantment/Charm",
+        "type": "divine",
+        "sphere": "Charm",
+        "range": "Close",
+        "duration": "1 rd.",
+        "castTime": "1d4",
+        "save": "Special",
+        "desc": "This spell enables the caster to give a command to another creature, which the creature will obey to the best of its ability, provided the creature understan..."
+      },
+      {
+        "name": "Create Water",
+        "school": "Alteration",
+        "type": "divine",
+        "sphere": "Elemental (Water)",
+        "range": "Close",
+        "duration": "Permanent",
+        "castTime": "1d4",
+        "save": "None",
+        "desc": "The caster creates water similar to clean rainwater that pours from one or more points in space. The caster can control the flow of the water to cause a drip..."
+      },
+      {
+        "name": "Cure Light Wounds",
+        "school": "Necromancy",
+        "type": "divine",
+        "sphere": "Healing",
+        "range": "Touch",
+        "duration": "Instantaneous",
+        "castTime": "1d4",
+        "save": "None",
+        "desc": "The caster heals 1d8+1 points of damage to a living creature. This also mends minor scratches and bruises that accompany the damage."
+      },
+      {
+        "name": "Detect & Locate Animals or Plants",
+        "school": "Divination",
+        "type": "divine",
+        "sphere": "Divination (Animal, Plant)",
+        "range": "Long",
+        "duration": "1 rd./level",
+        "castTime": "1 full round",
+        "save": "None",
+        "desc": "The caster can detect the presence of, and discern the location of, any type of animal or plant he can visualize. Only one such animal or plant can be detect..."
+      },
+      {
+        "name": "Detect Danger",
+        "school": "Divination",
+        "type": "divine",
+        "sphere": "Divination",
+        "range": "Personal",
+        "duration": "1 min./level",
+        "castTime": "1d6",
+        "save": "None",
+        "desc": "The caster can detect a dangerous situation looming in the area of effect, but not the exact location. Such dangerous situations include, but are not limited..."
+      },
+      {
+        "name": "Detect Evil",
+        "school": "Divination",
+        "type": "divine",
+        "sphere": "Divination",
+        "range": "Personal",
+        "duration": "10 min./level",
+        "castTime": "1 full round",
+        "save": "None",
+        "desc": "This spell mirrors its arcane version; however, this spell not only detects the evil alignment or the emanation of an evil item or area, but it also detects ..."
+      },
+      {
+        "name": "Detect Magic",
+        "school": "Universal",
+        "type": "divine",
+        "sphere": "All",
+        "range": "Personal",
+        "duration": "2 min./level",
+        "castTime": "1d4",
+        "save": "None",
+        "desc": "The caster sees magical auras in a cone. The intensity of the aura highlights the power level of the magic (dim for up to 2nd level, faint for 3rd to 5th, mo..."
+      },
+      {
+        "name": "Detect Poison",
+        "school": "Divination",
+        "type": "divine",
+        "sphere": "Divination",
+        "range": "Touch",
+        "duration": "Immediate",
+        "castTime": "1d4",
+        "save": "None",
+        "desc": "The caster detects whether an object or creature is subject to the effects of poison. If so, the caster determines the exact type of poison. This spell prote..."
+      },
+      {
+        "name": "Endure Environment",
+        "school": "Alteration",
+        "type": "divine",
+        "sphere": "Protection",
+        "range": "Touch",
+        "duration": "2 hrs./level",
+        "castTime": "1 full round",
+        "save": "None",
+        "desc": "The subject (and any worn or held equipment) can endure extreme heat or cold and remain perfectly comfortable in temperatures ranging between -50 and 150 deg..."
+      },
+      {
+        "name": "Entangle",
+        "school": "Alteration",
+        "type": "divine",
+        "sphere": "Plant",
+        "range": "Long",
+        "duration": "10 min.",
+        "castTime": "1d6",
+        "save": "Ref partial",
+        "desc": "The caster causes plant life in the area to entangle and entwine any creatures in the area or later entering it, cutting movement to 10 feet and imposing a -..."
+      },
+      {
+        "name": "Faerie Fire",
+        "school": "Alteration",
+        "type": "divine",
+        "sphere": "Weather",
+        "range": "Long",
+        "duration": "1 min./level",
+        "castTime": "1d6",
+        "save": "None",
+        "desc": "This spell outlines creatures in the area with a pale blue, violet, or green glow. Outlined creatures can be seen in total darkness, granting opponents a +2 ..."
+      },
+      {
+        "name": "Hide from Animals",
+        "school": "Abjuration",
+        "type": "divine",
+        "sphere": "Animal",
+        "range": "Touch",
+        "duration": "10 min./level",
+        "castTime": "1d6",
+        "save": "None",
+        "desc": "This spell renders touched creatures or objects totally invisible and undetectable (even with scent) to any normal and mundane animals. Note that animals wit..."
+      },
+      {
+        "name": "Hide from Undead",
+        "school": "Abjuration",
+        "type": "divine",
+        "sphere": "Necromantic",
+        "range": "Touch",
+        "duration": "10 min./level",
+        "castTime": "1d6",
+        "save": "None",
+        "desc": "This spell works exactly as hide from animals, except it affects any undead creature having 4 or fewer HD and can only be cast upon one touched subject or th..."
+      },
+      {
+        "name": "Light",
+        "school": "Alteration",
+        "type": "divine",
+        "sphere": "Sun",
+        "range": "Medium",
+        "duration": "10 min./level",
+        "castTime": "1d4",
+        "save": "None",
+        "desc": "This spell creates a light equal to that of torchlight in a 20-ft. radius; the area immediately beyond this light is awash in shadowy illumination. The caste..."
+      },
+      {
+        "name": "Magic Stone",
+        "school": "Enchantment",
+        "type": "divine",
+        "sphere": "Combat",
+        "range": "Touch",
+        "duration": "30 minutes",
+        "castTime": "1d6",
+        "save": "None",
+        "desc": "The caster imbues up to three mundane pebbles with magical energy that transforms them into magical missiles that have a +1 attack bonus, deal 2d4+1 points o..."
+      },
+      {
+        "name": "Pass Without Trace",
+        "school": "Alteration",
+        "type": "divine",
+        "sphere": "Plant",
+        "range": "Touch",
+        "duration": "1 hr./level",
+        "castTime": "1d6",
+        "save": "None",
+        "desc": "The subject or caster can move in any terrain and leave neither footprint nor scent, even in snow or mud. Nonmagical means of tracking are useless; however, ..."
+      },
+      {
+        "name": "Protection from Evil",
+        "school": "Abjuration",
+        "type": "divine",
+        "sphere": "Protection",
+        "range": "Touch",
+        "duration": "2 min./level",
+        "castTime": "1d6",
+        "save": "None",
+        "desc": "This spell creates a 1-ft. thick magical barrier around the subject that moves with the subject. The barrier has three major effects:"
+      },
+      {
+        "name": "Purify Food & Drink",
+        "school": "Alteration",
+        "type": "divine",
+        "sphere": "All",
+        "range": "Immediate",
+        "duration": "Permanent",
+        "castTime": "1 full round",
+        "save": "None",
+        "desc": "This spell makes spoiled, rotten, poisonous, or otherwise contaminated food and water, pure and suitable for eating and drinking. This spell does not prevent..."
+      },
+      {
+        "name": "Remove Fear",
+        "school": "Abjuration",
+        "type": "divine",
+        "sphere": "Charm",
+        "range": "Close",
+        "duration": "Special",
+        "castTime": "1d4",
+        "save": "Special",
+        "desc": "The caster instills courage in the subject(s) of this spell, granting them a +4 bonus on saving throws against fear effects, even those currently in effect."
+      },
+      {
+        "name": "Sanctuary",
+        "school": "Abjuration",
+        "type": "divine",
+        "sphere": "Protection",
+        "range": "Touch",
+        "duration": "1 min./level",
+        "castTime": "1d6",
+        "save": "Will negates",
+        "desc": "This spell protects one touched subject or the caster. It forces any person wishing to attack or target the warded subject with a spell or effect to succeed ..."
+      },
+      {
+        "name": "Shillelagh",
+        "school": "Alteration",
+        "type": "divine",
+        "sphere": "Combat, Plant",
+        "range": "Touch",
+        "duration": "10 min./level",
+        "castTime": "1d4",
+        "save": "None",
+        "desc": "The caster enchants his own wooden melee weapon. It thereafter has a +1 bonus to attack and deals an additional die of damage. For example, a weapon that dea..."
+      },
+      {
+        "name": "Summon Animal Companion",
+        "school": "Enchantment/Charm",
+        "type": "divine",
+        "sphere": "Animal",
+        "range": "Close",
+        "duration": "Permanent",
+        "castTime": "12 hrs.",
+        "save": "Will negates",
+        "desc": "The caster performs this short magical ritual in the wilderness and attracts an animal native to the location with no more than 2 HD per caster level. (The G..."
+      }
+    ]
+  }
+}
