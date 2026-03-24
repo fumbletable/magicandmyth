@@ -92,7 +92,7 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
       <div id="wp-header" style="margin:.5rem 0;"></div>
       <div id="wp-choices"></div>
       <div id="wp-summary" style="margin-top:.75rem;"></div>
-      <button id="wp-done-btn" class="btn-primary" style="margin-top:1rem;">Continue to Equipment &rarr;</button>
+      <button id="wp-done-btn" class="btn-primary" style="margin-top:1rem;">Continue to Nonweapon Proficiencies &rarr;</button>
     </div>
 
     <!-- Step 5: Nonweapon Proficiencies -->
