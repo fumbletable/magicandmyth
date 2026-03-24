@@ -91,10 +91,18 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
       <button id="wp-done-btn" class="btn-primary" style="margin-top:1rem;">Continue to Equipment &rarr;</button>
     </div>
 
-    <!-- Step 5: Equipment -->
+    <!-- Step 5: Nonweapon Proficiencies -->
+    <div id="step-nwp" class="gen-step" style="display:none;">
+      <h2>Step 5: Nonweapon Proficiencies</h2>
+      <button id="back-to-wp-from-nwp-btn" class="btn-back">&larr; Back to Weapon Proficiencies</button>
+      <div id="nwp-content"></div>
+      <button id="nwp-done-btn" class="btn-primary" style="margin-top:1rem;">Continue to Equipment &rarr;</button>
+    </div>
+
+    <!-- Step 6: Equipment -->
     <div id="step-equip" class="gen-step" style="display:none;">
-      <h2>Step 5: Equipment</h2>
-      <button id="back-to-wp-btn" class="btn-back">&larr; Back to Weapon Proficiencies</button>
+      <h2>Step 6: Equipment</h2>
+      <button id="back-to-nwp-btn" class="btn-back">&larr; Back to Nonweapon Proficiencies</button>
 
       <div id="equip-gold-roll" style="margin:.75rem 0;">
         <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
@@ -127,9 +135,9 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
       </div>
     </div>
 
-    <!-- Step 6: Name -->
+    <!-- Step 7: Name -->
     <div id="step-name" class="gen-step" style="display:none;">
-      <h2>Step 6: Name Your Character</h2>
+      <h2>Step 7: Name Your Character</h2>
       <button id="back-to-equip-btn" class="btn-back">&larr; Back to Equipment</button>
       <div style="margin-top:.75rem;">
         <input type="text" id="char-name-input" placeholder="Enter character name..." style="font-size:1.1rem;padding:.5rem;width:100%;max-width:300px;">
@@ -426,6 +434,7 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
     // Migrate old characters
     characters.forEach(c => {
       if (!c.weaponProficiencies) c.weaponProficiencies = [];
+      if (!c.nonweaponProficiencies) c.nonweaponProficiencies = [];
       if (!c.weapons) c.weapons = [];
       if (!c.equipment) c.equipment = [];
       if (c.armorBonus === undefined) c.armorBonus = 0;
@@ -1199,6 +1208,137 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
     });
   }
 
+  // ============ UI: NONWEAPON PROFICIENCIES ============
+  function showNWPStep() {
+    hideGenSteps();
+    document.getElementById('step-nwp').style.display = 'block';
+    if (!genState.nwpChoices) genState.nwpChoices = [];
+
+    const cls = genState.classData;
+    const anc = genState.ancestryData;
+    const fa = getFinalAttrs(genState);
+
+    // Slot calculation
+    const baseSlots = cls.nwp_slots_start || 3;
+    const thiefBonus = cls.id === 'thief' ? 4 : 0;
+    const halfElfBonus = anc.id === 'half-elf' ? 1 : 0;
+    const intBonus = getIntLangs(fa.INT || 10); // bonus languages = bonus NWP slots
+    const totalSlots = baseSlots + thiefBonus + halfElfBonus + intBonus;
+    const usedSlots = genState.nwpChoices.reduce((s, c) => s + (c.slots || 1), 0);
+    const remaining = totalSlots - usedSlots;
+
+    // Available groups
+    const classGroups = cls.nwp_groups || ['General'];
+    const allGroups = classGroups.includes('All') ? ['General','Academic','Nature','Rogue'] : classGroups;
+    const nwpData = DATA.proficiencies.nonweapon_proficiencies || {};
+    const levels = DATA.proficiencies.proficiency_levels || [];
+
+    let html = `
+      <div style="font-size:1.1rem;font-weight:bold;color:#4a1a6b;margin-bottom:.25rem;">
+        Slots: ${remaining} remaining of ${totalSlots}
+      </div>
+      <div style="font-size:.8rem;color:#888;margin-bottom:.75rem;">
+        ${baseSlots} base${thiefBonus ? ` + ${thiefBonus} rogue bonus` : ''}${halfElfBonus ? ' + 1 half-elf' : ''}${intBonus ? ` + ${intBonus} INT bonus` : ''}
+        &mdash; Groups: ${allGroups.join(', ')}
+      </div>`;
+
+    // Current choices
+    if (genState.nwpChoices.length > 0) {
+      html += `<div style="border:1px solid #4a1a6b;border-radius:6px;padding:.75rem;margin-bottom:1rem;background:#faf5ff;">
+        <h3 style="font-size:.95rem;color:#4a1a6b;margin:0 0 .5rem 0;">Your Proficiencies</h3>
+        ${genState.nwpChoices.map((c, i) => {
+          const attrScore = fa[c.attr] || 10;
+          const checkMod = getCheckMod(attrScore);
+          const totalBonus = checkMod + c.bonus;
+          return `<div class="cart-item">
+            <span class="ci-name">
+              <strong>${c.name}</strong>
+              <span style="color:#4a1a6b;font-size:.8rem;">${c.level}</span>
+              <span style="color:#888;font-size:.8rem;">(${c.attr} ${formatMod(totalBonus)}, ${c.slots} slot${c.slots>1?'s':''})</span>
+            </span>
+            <span class="ci-remove" data-action="nwp-remove" data-idx="${i}">&times;</span>
+          </div>`;
+        }).join('')}
+      </div>`;
+    }
+
+    // Add proficiency UI
+    if (remaining >= 1) {
+      // Build options grouped by group
+      for (const group of allGroups) {
+        const profs = nwpData[group] || [];
+        html += `<h3 style="font-size:.95rem;color:#333;margin:.5rem 0;">${group} Proficiencies</h3>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:.5rem;margin-bottom:.75rem;">`;
+
+        for (const p of profs) {
+          // Check if already picked
+          const existing = genState.nwpChoices.find(c => c.name === p.name);
+          const currentSlots = existing ? existing.slots : 0;
+          const maxAtL1 = 2; // can only reach Average at L1
+          const canAdd = !existing || currentSlots < maxAtL1;
+          const nextLevel = levels[currentSlots] || levels[0];
+          const attrScore = fa[p.attr === 'varies' ? 'INT' : p.attr] || 10;
+          const checkMod = getCheckMod(attrScore);
+          const nextBonus = nextLevel ? checkMod + nextLevel.bonus : checkMod;
+
+          html += `<div class="option-card${canAdd && remaining >= 1 ? '' : ' disabled'}"
+            data-action="nwp-add" data-name="${p.name}" data-attr="${p.attr === 'varies' ? 'INT' : p.attr}"
+            data-group="${group}" style="padding:.5rem .75rem;cursor:${canAdd?'pointer':'default'};">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <strong style="font-size:.9rem;">${p.name}</strong>
+              <span style="font-size:.75rem;color:#4a1a6b;">${p.attr}${p.complex ? ' *' : ''}</span>
+            </div>
+            <div style="font-size:.75rem;color:#888;">${p.desc}</div>
+            ${existing ?
+              `<div style="font-size:.75rem;color:#2e7d32;margin-top:.2rem;">Current: ${existing.level} (${formatMod(checkMod + existing.bonus)}). ${canAdd ? `Click to advance → ${nextLevel.name} (${formatMod(nextBonus)})` : 'Max for L1'}</div>` :
+              `<div style="font-size:.75rem;color:#4a1a6b;margin-top:.2rem;">Add at Minor (${formatMod(checkMod + 2)})</div>`
+            }
+          </div>`;
+        }
+        html += `</div>`;
+      }
+    } else {
+      html += `<p style="color:#2e7d32;font-weight:bold;">All ${totalSlots} slots spent.</p>`;
+    }
+
+    document.getElementById('nwp-content').innerHTML = html;
+
+    // Event delegation
+    document.getElementById('nwp-content').addEventListener('click', function handler(e) {
+      const target = e.target.closest('[data-action]');
+      if (!target) return;
+
+      if (target.dataset.action === 'nwp-remove') {
+        genState.nwpChoices.splice(parseInt(target.dataset.idx), 1);
+        showNWPStep();
+      }
+      if (target.dataset.action === 'nwp-add') {
+        if (remaining < 1) return;
+        const name = target.dataset.name;
+        const attr = target.dataset.attr;
+        const group = target.dataset.group;
+        const existing = genState.nwpChoices.find(c => c.name === name);
+        if (existing) {
+          // Advance to next level
+          if (existing.slots < 2) { // max Average at L1
+            existing.slots += 1;
+            const lvl = levels[existing.slots - 1];
+            existing.level = lvl.name;
+            existing.bonus = lvl.bonus;
+          }
+        } else {
+          genState.nwpChoices.push({
+            name, attr, group,
+            slots: 1,
+            level: 'Minor',
+            bonus: 2
+          });
+        }
+        showNWPStep();
+      }
+    }, { once: true });
+  }
+
   // ============ UI: EQUIPMENT SHOPPING ============
   function showEquipStep() {
     hideGenSteps();
@@ -1443,6 +1583,7 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
       shieldBonus: 0,
       miscACBonus: 0,
       weaponProficiencies: genState.wpChoices ? [...genState.wpChoices] : [],
+      nonweaponProficiencies: genState.nwpChoices ? [...genState.nwpChoices] : [],
       gold: genState.gold || 0,
       notes: '',
       createdAt: new Date().toISOString()
@@ -1715,11 +1856,37 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
       ).join('') : `<p style="color:#888;font-size:.85rem;">No weapon proficiencies selected. ${char.wpSlots} slots available.</p>`}
 
       <h2>Nonweapon Proficiencies</h2>
-      <div class="derived-grid">
-        <div class="dg-box"><div class="dg-label">NWP Slots</div><div class="dg-value">${char.nwpSlots}</div></div>
+      ${(char.nonweaponProficiencies||[]).length > 0 ? `
+        <table class="weapon-table" style="margin-bottom:.5rem;">
+          <tr><th>Proficiency</th><th>Attr</th><th>Level</th><th>Check</th><th></th></tr>
+          ${(char.nonweaponProficiencies||[]).map((p, i) => {
+            const attrScore = char.finalAttrs[p.attr] || 10;
+            const totalBonus = getCheckMod(attrScore) + (p.bonus || 2);
+            return `<tr>
+              <td>${p.name}</td>
+              <td>${p.attr}</td>
+              <td style="color:#4a1a6b;font-weight:bold;">${p.level || 'Minor'}</td>
+              <td style="font-weight:bold;">${formatMod(totalBonus)}</td>
+              <td><span class="wt-remove" data-nwpidx="${i}">&times;</span></td>
+            </tr>`;
+          }).join('')}
+        </table>` : ''}
+      <div style="font-size:.8rem;color:#888;margin-bottom:.5rem;">
+        <strong>Groups:</strong> ${char.nwpGroups.join(', ')} | <strong>Slots:</strong> ${char.nwpSlots} total, ${char.nwpSlots - (char.nonweaponProficiencies||[]).reduce((s,p)=>s+(p.slots||1),0)} remaining
       </div>
-      <div class="card-detail"><strong>NWP Groups:</strong> ${char.nwpGroups.join(', ')}</div>
-      <div class="card-detail"><strong>Armor Allowed:</strong> ${char.armor}</div>
+      <div class="add-row">
+        <select id="add-nwp-select">
+          <option value="">Add proficiency...</option>
+          ${(char.nwpGroups||[]).map(g => {
+            const profs = DATA.proficiencies?.nonweapon_proficiencies?.[g] || [];
+            return `<optgroup label="${g}">${profs.map(p =>
+              `<option value="${g}:${p.name}:${p.attr}">${p.name} (${p.attr})</option>`
+            ).join('')}</optgroup>`;
+          }).join('')}
+        </select>
+        <button id="add-nwp-btn" class="btn-small">Add</button>
+      </div>
+      <div class="card-detail" style="margin-top:.5rem;"><strong>Armor Allowed:</strong> ${char.armor}</div>
       ${char.spellcasting ? `<div class="card-detail"><strong>Spellcasting:</strong> ${char.spellcasting.type} (${char.spellcasting.attribute})</div>` : ''}
 
       <h2>Equipment</h2>
@@ -1879,6 +2046,26 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
       });
     });
 
+    // Add NWP from sheet
+    el.querySelector('#add-nwp-btn')?.addEventListener('click', () => {
+      const sel = el.querySelector('#add-nwp-select');
+      if (!sel?.value) return;
+      const [group, name, attr] = sel.value.split(':');
+      if (!char.nonweaponProficiencies) char.nonweaponProficiencies = [];
+      char.nonweaponProficiencies.push({ name, attr, group, slots: 1, level: 'Minor', bonus: 2 });
+      saveCurrent();
+      renderSheet(char);
+    });
+
+    // Remove NWP from sheet
+    el.querySelectorAll('[data-nwpidx]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        char.nonweaponProficiencies.splice(parseInt(btn.dataset.nwpidx), 1);
+        saveCurrent();
+        renderSheet(char);
+      });
+    });
+
     // Expandable class abilities
     el.querySelectorAll('.ability-box').forEach(box => {
       box.addEventListener('click', (e) => {
@@ -2003,8 +2190,10 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
     genState.charClass = null; genState.classData = null; genState.wpChoices = [];
     showClassStep();
   });
-  document.getElementById('wp-done-btn').addEventListener('click', showEquipStep);
-  document.getElementById('back-to-wp-btn').addEventListener('click', showWPStep);
+  document.getElementById('wp-done-btn').addEventListener('click', showNWPStep);
+  document.getElementById('back-to-wp-from-nwp-btn').addEventListener('click', showWPStep);
+  document.getElementById('nwp-done-btn').addEventListener('click', showEquipStep);
+  document.getElementById('back-to-nwp-btn').addEventListener('click', showNWPStep);
 
   // Equipment step
   document.getElementById('roll-gold-btn').addEventListener('click', rollStartingGold);

@@ -111,5 +111,63 @@
       "requirements": "GM Permission",
       "description": "Reduce called shot penalty by 2 for all called shots."
     }
-  ]
+  ],
+  "proficiency_levels": [
+    { "slots": 1, "name": "Minor", "bonus": 2, "auto_succeed": "Minor (TN 5)", "min_level": 1 },
+    { "slots": 2, "name": "Average", "bonus": 4, "auto_succeed": "Average (TN 10)", "min_level": 1 },
+    { "slots": 3, "name": "Great", "bonus": 6, "auto_succeed": "Great (TN 15)", "min_level": 5 },
+    { "slots": 4, "name": "Incredible", "bonus": 8, "auto_succeed": "Incredible (TN 20)", "min_level": 10 }
+  ],
+  "nonweapon_proficiencies": {
+    "General": [
+      { "name": "Acrobatics", "attr": "DEX", "complex": false, "desc": "Physical nimbleness — tumbles, gymnastics, jumps and dives." },
+      { "name": "Appraising", "attr": "INT", "complex": false, "desc": "Gauge the value of gems, jewelry, art, and other collectibles." },
+      { "name": "Athletics", "attr": "DEX", "complex": false, "desc": "Athleticism and hand-eye coordination — jumping, catching, throwing." },
+      { "name": "Climbing", "attr": "STR", "complex": false, "desc": "Scale trees, rocks, walls and other surfaces without special equipment." },
+      { "name": "Craft (choose trade)", "attr": "varies", "complex": true, "desc": "A craft or trade — blacksmithing, brewing, cooking, weaponsmithing, etc." },
+      { "name": "Diplomacy", "attr": "CHA", "complex": false, "desc": "Social awareness and proper etiquette across different social situations." },
+      { "name": "Healing", "attr": "INT", "complex": true, "desc": "Treat wounds, diagnose illness, staunch blood flow, identify cause of death." },
+      { "name": "Know Language", "attr": "INT", "complex": true, "desc": "Read, write, and speak an additional language." },
+      { "name": "Local Lore", "attr": "INT", "complex": false, "desc": "Knowledge of a location's history, officials, nobility, and current events." },
+      { "name": "Mercantilism", "attr": "CHA", "complex": false, "desc": "Trading practices, merchant negotiation, and economic knowledge." },
+      { "name": "Riding (Air-Based)", "attr": "DEX", "complex": false, "desc": "Riding and aerial maneuvers with flying mounts." },
+      { "name": "Riding (Land-Based)", "attr": "DEX", "complex": false, "desc": "Riding and combat maneuvers with land-based mounts." },
+      { "name": "Rope Use", "attr": "DEX", "complex": false, "desc": "Knots, lashings, and all manner of rope work." },
+      { "name": "Swimming", "attr": "STR", "complex": false, "desc": "Swimming against currents, in open water, and in armor." }
+    ],
+    "Academic": [
+      { "name": "Astronomy", "attr": "INT", "complex": false, "desc": "Study of stars and celestial bodies; read celestial charts." },
+      { "name": "Dark Arts", "attr": "INT", "complex": false, "desc": "Knowledge of demonology, exorcism, and dark rituals." },
+      { "name": "Engineering", "attr": "INT", "complex": false, "desc": "Design and build structures, aqueducts, and siege weaponry." },
+      { "name": "Geography", "attr": "INT", "complex": false, "desc": "Knowledge of a region's terrain, environment, and inhabitants." },
+      { "name": "History, Ancient", "attr": "INT", "complex": false, "desc": "Knowledge of ancient cultures and historical events." },
+      { "name": "History, Local", "attr": "INT", "complex": false, "desc": "Knowledge of local history and prominent figures." },
+      { "name": "Languages, Ancient", "attr": "INT", "complex": false, "desc": "Decipher lost or ancient languages." },
+      { "name": "Linguistics", "attr": "INT", "complex": false, "desc": "Limited knowledge of many modern languages; decipher small texts." },
+      { "name": "Planes", "attr": "INT", "complex": false, "desc": "Knowledge of planar cosmology and specific planes of existence." },
+      { "name": "Religion", "attr": "INT", "complex": false, "desc": "Knowledge of deities and religions, both new and old." },
+      { "name": "Sciences", "attr": "INT", "complex": false, "desc": "Mathematics, metallurgy, or another science fitting the setting." },
+      { "name": "Spellcraft", "attr": "INT", "complex": false, "desc": "Discern ongoing spell effects and understand magical rituals." }
+    ],
+    "Nature": [
+      { "name": "Animal Handling", "attr": "WIS", "complex": false, "desc": "Calm, befriend, and train animals." },
+      { "name": "Mountaineering", "attr": "WIS", "complex": false, "desc": "Climb and find trails in mountainous terrain." },
+      { "name": "Set Snares", "attr": "WIS", "complex": false, "desc": "Construct wilderness snares to trap animals and others." },
+      { "name": "Tracking", "attr": "WIS", "complex": false, "desc": "Discern and follow tracks by analyzing underbrush and terrain." },
+      { "name": "Wilderness Survival", "attr": "WIS", "complex": false, "desc": "Survive in the wild — find food, water, avoid hazards, read weather." }
+    ],
+    "Rogue": [
+      { "name": "Decipher Script", "attr": "INT", "complex": true, "desc": "Glean the context of foreign writing." },
+      { "name": "Disguise", "attr": "CHA", "complex": true, "desc": "Mask appearance and voice to appear as another person." },
+      { "name": "Forgery", "attr": "DEX", "complex": true, "desc": "Replicate existing documents or signatures." },
+      { "name": "Gathering Information", "attr": "CHA", "complex": false, "desc": "Extract information from people through conversation." },
+      { "name": "Lip Reading", "attr": "INT", "complex": true, "desc": "Read lips without being noticed." },
+      { "name": "Open Locks", "attr": "DEX", "complex": true, "desc": "Gracefully open locks with proper tools." },
+      { "name": "Perception", "attr": "INT", "complex": false, "desc": "Search, spot, and listen — heightened awareness." },
+      { "name": "Performance", "attr": "CHA", "complex": false, "desc": "Singing, oration, dancing, and all vocal/physical performance." },
+      { "name": "Sleight of Hand", "attr": "DEX", "complex": true, "desc": "Pick pockets, plant items, poison drinks without detection." },
+      { "name": "Stealth", "attr": "DEX", "complex": false, "desc": "Move silently and hide in shadows." },
+      { "name": "Trapworking", "attr": "INT", "complex": false, "desc": "Locate, disarm, and set mechanical traps." }
+    ]
+  }
 }
