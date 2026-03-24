@@ -9,10 +9,36 @@
     "CHA": "Charisma"
   },
   "rolling_methods": {
-    "standard": "Roll 4d6, drop lowest. Do this six times, assign in order.",
-    "classic": "Roll 3d6 six times, assign in order.",
-    "heroic": "Roll 4d6, drop lowest, six times. Assign to any attribute.",
-    "loaded": "Roll 3d6, re-roll any 1s. Six times, assign to any attribute."
+    "default": {
+      "name": "Default",
+      "description": "Roll 3d6 seven times, drop the lowest total. Assign the six remaining scores as you see fit.",
+      "assign": "free"
+    },
+    "legacy": {
+      "name": "Legacy (Table Default)",
+      "description": "Roll 3d6 twice for each attribute in order (STR to CHA), taking the higher result each time.",
+      "assign": "in_order"
+    },
+    "series": {
+      "name": "Series",
+      "description": "Roll 3d6 six times. Repeat two more times for three series total. Choose the best series, assign as you see fit.",
+      "assign": "free"
+    },
+    "point_buy": {
+      "name": "Point Buy",
+      "description": "Start with 8 in each attribute. Spend 24 points. Each point raises an attribute by 1 (up to 15 costs 1 each; 15 to 16 costs 5). Max 16.",
+      "assign": "manual"
+    },
+    "heroic": {
+      "name": "Heroic",
+      "description": "Roll 4d6, drop the lowest die. Do this six times, assign as you see fit.",
+      "assign": "free"
+    },
+    "loaded_dice": {
+      "name": "Loaded Dice",
+      "description": "Roll 3d6, re-roll any 1s. Do this six times, assign as you see fit.",
+      "assign": "free"
+    }
   },
   "check_modifier": {
     "1": -9, "2": -8, "3": -7, "4": -6, "5": -5,
