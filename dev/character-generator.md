@@ -330,17 +330,18 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
   let DATA = {};
 
   try {
+    const safeFetch = (url, fallback) => fetch(url).then(r => { if (!r.ok) throw new Error(r.status); return r.json(); }).catch(e => { console.warn('Failed to load', url, e); return fallback; });
     const [ancestries, classes, attributes, equipment, proficiencies, spellsIndex] = await Promise.all([
-      fetch(`${BASE}/data/ancestries.json`).then(r => r.json()),
-      fetch(`${BASE}/data/classes.json`).then(r => r.json()),
-      fetch(`${BASE}/data/attributes.json`).then(r => r.json()),
-      fetch(`${BASE}/data/equipment.json`).then(r => r.json()),
-      fetch(`${BASE}/data/proficiencies.json`).then(r => r.json()),
-      fetch(`${BASE}/data/spells-index.json`).then(r => r.json()).catch(() => ({ arcane:{}, divine:{} }))
+      safeFetch(`${BASE}/data/ancestries.json`, { ancestries:[] }),
+      safeFetch(`${BASE}/data/classes.json`, { classes:[] }),
+      safeFetch(`${BASE}/data/attributes.json`, {}),
+      safeFetch(`${BASE}/data/equipment.json`, {}),
+      safeFetch(`${BASE}/data/proficiencies.json`, {}),
+      safeFetch(`${BASE}/data/spells-index.json`, { arcane:{}, divine:{} })
     ]);
-    DATA = { ancestries: ancestries.ancestries, classes: classes.classes, attributes, equipment, proficiencies, spells: spellsIndex };
+    DATA = { ancestries: ancestries.ancestries || [], classes: classes.classes || [], attributes, equipment, proficiencies, spells: spellsIndex };
   } catch(e) {
-    document.getElementById('loading').textContent = 'Failed to load game data. Please refresh.';
+    document.getElementById('loading').textContent = 'Failed to load game data: ' + e.message + '. Please refresh.';
     console.error(e);
     return;
   }
