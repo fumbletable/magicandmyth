@@ -433,21 +433,49 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
   function loadChars() {
     try { characters = JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
     catch(e) { characters = []; }
-    // Migrate old characters
+    // Schema-based migration: every field the sheet uses, with its default.
+    // Adding a new field to the chargen? Add it here too. Existing characters
+    // will get the default on next load instead of breaking.
+    const CHAR_SCHEMA = {
+      // Identity
+      id: () => genId(), name: 'Unknown', ancestry: 'Human', ancestryId: 'human',
+      className: 'Fighter', classId: 'fighter', level: 1, xp: 0,
+      xpNote: null, xpType: null,
+      // Attributes
+      baseAttrs: () => ({ STR:10, DEX:10, CON:10, INT:10, WIS:10, CHA:10 }),
+      ancestryMods: () => ({}), humanBonus: null,
+      finalAttrs: () => ({ STR:10, DEX:10, CON:10, INT:10, WIS:10, CHA:10 }),
+      // Combat
+      hitDie: 'd10', maxHp: 1, hp: 1, ac: 10, bth: 0, speed: 30,
+      armorBonus: 0, shieldBonus: 0, miscACBonus: 0,
+      // Proficiencies
+      weaponProficiencies: () => [], nonweaponProficiencies: () => [],
+      wpSlots: 2, nwpSlots: 3, nwpGroups: () => ['General'],
+      // Equipment
+      weapons: () => [], equipment: () => [], gold: 0, armor: 'Any',
+      // Spellcasting
+      spellcasting: null, preparedSpells: () => [], spellbook: () => [],
+      // Traits and abilities
+      traits: () => [], senses: () => ({}), specials: () => [],
+      languages: () => ['common'], baseLanguageCount: 1, bonusLanguageSlots: 0,
+      // Meta
+      notes: '', createdAt: () => new Date().toISOString()
+    };
+
     characters.forEach(c => {
-      if (!c.weaponProficiencies) c.weaponProficiencies = [];
-      if (!c.nonweaponProficiencies) c.nonweaponProficiencies = [];
-      if (!c.preparedSpells) c.preparedSpells = [];
-      if (!c.spellbook) c.spellbook = [];
-      if (!c.baseLanguageCount) c.baseLanguageCount = (c.languages||[]).length;
-      if (!c.weapons) c.weapons = [];
-      if (!c.equipment) c.equipment = [];
-      if (c.armorBonus === undefined) c.armorBonus = 0;
-      if (c.shieldBonus === undefined) c.shieldBonus = 0;
-      if (c.miscACBonus === undefined) c.miscACBonus = 0;
-      if (c.gold === undefined) c.gold = 0;
-      if (!c.classId && c.className) c.classId = c.className.toLowerCase();
-      if (!c.ancestryId && c.ancestry) c.ancestryId = c.ancestry.toLowerCase().replace(/\s+/g,'-');
+      // Apply defaults for any missing fields
+      for (const [key, dflt] of Object.entries(CHAR_SCHEMA)) {
+        if (c[key] === undefined || c[key] === null) {
+          c[key] = typeof dflt === 'function' ? dflt() : dflt;
+        }
+      }
+      // Derive IDs if missing
+      if (!c.classId || c.classId === 'fighter') {
+        if (c.className) c.classId = c.className.toLowerCase();
+      }
+      if (!c.ancestryId || c.ancestryId === 'human') {
+        if (c.ancestry && c.ancestry !== 'Human') c.ancestryId = c.ancestry.toLowerCase().replace(/\s+/g, '-');
+      }
       // Migrate string specials to objects with descriptions
       if (c.specials && c.specials.length > 0 && typeof c.specials[0] === 'string') {
         const abilities = CLASS_ABILITIES[c.classId] || [];
