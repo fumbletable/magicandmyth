@@ -2071,7 +2071,6 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
         }
         html += `<div id="spell-preview" style="display:none;margin-top:.5rem;padding:.5rem .75rem;background:#f5f0fa;border-left:3px solid #4a1a6b;border-radius:0 4px 4px 0;font-size:.85rem;"></div>`;
         return html;
-        `;
       })() : ''}
 
       <h2>Equipment</h2>
