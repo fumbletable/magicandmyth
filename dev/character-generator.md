@@ -437,6 +437,7 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
       if (!c.weaponProficiencies) c.weaponProficiencies = [];
       if (!c.nonweaponProficiencies) c.nonweaponProficiencies = [];
       if (!c.preparedSpells) c.preparedSpells = [];
+      if (!c.spellbook) c.spellbook = [];
       if (!c.baseLanguageCount) c.baseLanguageCount = (c.languages||[]).length;
       if (!c.weapons) c.weapons = [];
       if (!c.equipment) c.equipment = [];
@@ -1913,12 +1914,29 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
       ${specialsHtml ? `<h2>Class Abilities (Level 1)</h2>${specialsHtml}` : ''}
 
       <h2>Weapon Proficiencies</h2>
-      ${(char.weaponProficiencies||[]).length > 0 ? (char.weaponProficiencies||[]).map(wp =>
+      ${(char.weaponProficiencies||[]).length > 0 ? (char.weaponProficiencies||[]).map((wp, i) =>
         `<div class="ability-box" data-wp-expand>
-          <div class="ab-name">${wp.name} <span style="font-size:.75rem;color:#888;">(${wp.slots} slot${wp.slots>1?'s':''})</span> <span class="ab-arrow">&#9654;</span></div>
+          <div class="ab-name">${wp.name} <span style="font-size:.75rem;color:#888;">(${wp.slots} slot${wp.slots>1?'s':''})</span>
+            <span style="display:flex;gap:.3rem;align-items:center;"><span class="ci-remove" data-wpsheetidx="${i}" onclick="event.stopPropagation()">&times;</span><span class="ab-arrow">&#9654;</span></span>
+          </div>
           ${wp.desc ? `<div class="ab-desc">${wp.desc}</div>` : ''}
         </div>`
-      ).join('') : `<p style="color:#888;font-size:.85rem;">No weapon proficiencies selected. ${char.wpSlots} slots available.</p>`}
+      ).join('') : ''}
+      <div style="font-size:.8rem;color:#888;margin-bottom:.5rem;">
+        ${char.wpSlots - (char.weaponProficiencies||[]).reduce((s,p)=>s+(p.slots||1),0)} of ${char.wpSlots} slots remaining
+      </div>
+      <div class="add-row">
+        <select id="add-wp-select">
+          <option value="">Add proficiency...</option>
+          <optgroup label="Single Weapon">
+            ${getWeaponData().map(w => `<option value="weapon:${w.name}">${w.name} (${w.damage})</option>`).join('')}
+          </optgroup>
+          <optgroup label="Fighting Styles">
+            ${(DATA.proficiencies?.fighting_styles||[]).map(s => `<option value="style:${s.id}:${s.name}">${s.name}</option>`).join('')}
+          </optgroup>
+        </select>
+        <button id="add-wp-btn" class="btn-small">Add</button>
+      </div>
 
       <h2>Nonweapon Proficiencies</h2>
       ${(char.nonweaponProficiencies||[]).length > 0 ? `
@@ -1958,95 +1976,100 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
         const castAttr = sc.attribute;
         const castScore = char.finalAttrs?.[castAttr] || 10;
         const castMod = getCheckMod(castScore);
-
-        // Base spells per day at L1 (all L1 casters get 1)
         const baseSpells = char.level >= 1 ? 1 : 0;
-
-        // Bonus spells from attribute
         const bonusStr = isArcane
           ? lookup(DATA.attributes.intelligence.bonus_arcane_spells, castScore)
           : lookup(DATA.attributes.wisdom.bonus_divine_spells, castScore);
-        // Parse bonus string like "2/1" = 2 bonus L1, 1 bonus L2
         let bonusL1 = 0;
-        if (bonusStr && bonusStr !== '0' && bonusStr !== null) {
-          const parts = String(bonusStr).split('/');
-          bonusL1 = parseInt(parts[0]) || 0;
-        }
-
+        if (bonusStr && bonusStr !== '0' && bonusStr !== null) bonusL1 = parseInt(String(bonusStr).split('/')[0]) || 0;
         const totalSlots = baseSpells + bonusL1;
-        if (!char.preparedSpells) char.preparedSpells = [];
-        if (char.spellSlotsUsed === undefined) char.spellSlotsUsed = 0;
-        const castCount = char.preparedSpells.filter(s => s.cast).length;
-        char.spellSlotsUsed = castCount;
-        const slotsRemaining = totalSlots - castCount;
-        const prepCount = char.preparedSpells.length;
 
-        // Spell links
+        if (!char.preparedSpells) char.preparedSpells = [];
+        if (!char.spellbook) char.spellbook = [];
+        const castCount = char.preparedSpells.filter(s => s.cast).length;
+        const slotsRemaining = totalSlots - castCount;
         const spellPageBase = isArcane ? `${BASE}/players/spells/arcane/` : `${BASE}/players/spells/divine/`;
         const spellList = isArcane ? DATA.spells?.arcane?.['1'] : DATA.spells?.divine?.['1'];
 
-        return `<h2>Spellcasting (${sc.type})</h2>
+        // Helper to render a spell entry
+        const renderSpell = (sp, i, collection, opts = {}) => {
+          const spData = spellList?.find(s => s.name === sp.name);
+          const anchor = sp.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+$/, '');
+          const canCast = opts.canCast && !sp.cast && slotsRemaining > 0;
+          const isPrepared = opts.isPrepared;
+          const isInBook = opts.isInBook;
+          const alreadyPrepared = isPrepared ? false : char.preparedSpells.some(p => p.name === sp.name);
+          return `<div class="ability-box" style="${sp.cast ? 'opacity:.5;background:#f8f0f0;border-color:#c44;' : isPrepared ? 'border-color:#4a1a6b;' : ''}">
+            <div class="ab-name">
+              <span>
+                ${sp.name}
+                ${sp.cast ? ' <span style="color:#c44;font-size:.75rem;">(CAST)</span>' : ''}
+                ${spData ? `<span style="font-size:.7rem;color:#888;"> ${spData.school}</span>` : ''}
+              </span>
+              <span style="display:flex;gap:.3rem;align-items:center;">
+                ${canCast ? `<button class="btn-small" data-action="cast-spell" data-idx="${i}" style="font-size:.7rem;padding:.1rem .4rem;color:#c44;border-color:#c44;" onclick="event.stopPropagation()">Cast</button>` : ''}
+                ${isPrepared && !canCast && !sp.cast ? `<span style="font-size:.65rem;color:#c44;">No slots</span>` : ''}
+                ${isInBook && !alreadyPrepared && char.preparedSpells.length < totalSlots ? `<button class="btn-small" data-action="prepare-from-book" data-name="${sp.name}" style="font-size:.7rem;padding:.1rem .4rem;color:#2e7d32;border-color:#2e7d32;" onclick="event.stopPropagation()">Prepare</button>` : ''}
+                ${isInBook && alreadyPrepared ? `<span style="font-size:.65rem;color:#2e7d32;">Prepared</span>` : ''}
+                ${isPrepared ? `<span class="ci-remove" data-unprepidx="${i}" style="font-size:.85rem;" onclick="event.stopPropagation()" title="Unprepare">&times;</span>` : ''}
+                ${isInBook ? `<span class="ci-remove" data-bookidx="${i}" style="font-size:.85rem;" onclick="event.stopPropagation()" title="Remove from spellbook">&times;</span>` : ''}
+                <span class="ab-arrow">&#9654;</span>
+              </span>
+            </div>
+            <div class="ab-desc">
+              ${spData ? `<div style="margin-bottom:.3rem;"><strong>Range:</strong> ${spData.range||'—'} | <strong>Duration:</strong> ${spData.duration||'—'} | <strong>Cast:</strong> ${spData.castTime||'—'} | <strong>Save:</strong> ${spData.save||'None'}</div>
+              <div>${spData.desc}</div>
+              <a href="${spellPageBase}level-1#${anchor}" target="_blank" style="font-size:.8rem;color:#4a1a6b;">Full description &rarr;</a>` : '<em>No spell data available</em>'}
+            </div>
+          </div>`;
+        };
+
+        let html = `<h2>Spellcasting (${sc.type})</h2>
           <div class="derived-grid" style="margin-bottom:.75rem;">
             <div class="dg-box"><div class="dg-label">${castAttr}</div><div class="dg-value">${castScore}</div></div>
             <div class="dg-box"><div class="dg-label">Check Mod</div><div class="dg-value">${formatMod(castMod)}</div></div>
             <div class="dg-box"><div class="dg-label">L1 Slots</div><div class="dg-value">${slotsRemaining}/${totalSlots}</div></div>
             <div class="dg-box" style="${slotsRemaining <= 0 ? 'background:#fee;border-color:#c44;' : ''}"><div class="dg-label">${slotsRemaining <= 0 ? 'NO SLOTS' : 'Available'}</div><div class="dg-value" style="${slotsRemaining <= 0 ? 'color:#c44;' : 'color:#2e7d32;'}">${slotsRemaining <= 0 ? 'Empty' : slotsRemaining + ' left'}</div></div>
-          </div>
-          <div style="font-size:.8rem;color:#888;margin-bottom:.5rem;">
-            ${baseSpells} base + ${bonusL1} bonus from ${castAttr} ${castScore}
-            ${isArcane ? ' | Arcane: memorise from spellbook' : ' | Divine: granted through prayer'}
-            | <a href="${spellPageBase}" style="color:#4a1a6b;">Spell list &rarr;</a>
-          </div>
+          </div>`;
 
-          ${char.preparedSpells.length > 0 ? `<div style="margin:.5rem 0;">
-            ${char.preparedSpells.map((sp, i) => {
-              const spData = spellList?.find(s => s.name === sp.name);
-              const spellAnchor = sp.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+$/, '');
-              const canCast = !sp.cast && slotsRemaining > 0;
-              return `<div class="ability-box" data-spell-expand="${i}" style="${sp.cast ? 'opacity:.5;background:#f8f0f0;border-color:#c44;' : ''}">
-                <div class="ab-name">
-                  <span>
-                    ${sp.name}
-                    ${sp.cast ? ' <span style="color:#c44;font-size:.75rem;">(CAST)</span>' : ''}
-                    ${spData ? `<span style="font-size:.7rem;color:#888;"> ${spData.school}</span>` : ''}
-                  </span>
-                  <span style="display:flex;gap:.3rem;align-items:center;">
-                    ${canCast ? `<button class="btn-small" data-action="cast-spell" data-idx="${i}" style="font-size:.7rem;padding:.1rem .4rem;color:#c44;border-color:#c44;" onclick="event.stopPropagation()">Cast</button>` : ''}
-                    ${!canCast && !sp.cast ? `<span style="font-size:.65rem;color:#c44;">No slots</span>` : ''}
-                    <span class="ci-remove" data-spellidx="${i}" style="font-size:.85rem;" onclick="event.stopPropagation()">&times;</span>
-                    <span class="ab-arrow">&#9654;</span>
-                  </span>
-                </div>
-                <div class="ab-desc">
-                  ${spData ? `<div style="margin-bottom:.3rem;"><strong>Range:</strong> ${spData.range||'—'} | <strong>Duration:</strong> ${spData.duration||'—'} | <strong>Cast:</strong> ${spData.castTime||'—'} | <strong>Save:</strong> ${spData.save||'None'}</div>
-                  <div>${spData.desc}</div>
-                  <a href="${spellPageBase}level-1#${spellAnchor}" target="_blank" style="font-size:.8rem;color:#4a1a6b;">Full description &rarr;</a>` : '<em>No spell data available</em>'}
-                </div>
-              </div>`;
-            }).join('')}
-          </div>` : ''}
+        // === PREPARED SPELLS (both wizard and cleric) ===
+        html += `<h3 style="font-size:.95rem;color:#4a1a6b;margin:.5rem 0;">Prepared Today</h3>`;
+        if (char.preparedSpells.length > 0) {
+          html += char.preparedSpells.map((sp, i) => renderSpell(sp, i, 'prepared', { canCast: true, isPrepared: true })).join('');
+        } else {
+          html += `<p style="color:#888;font-size:.85rem;">${isArcane ? 'No spells memorised. Prepare from your spellbook below.' : 'No spells prepared. Add from the spell list below.'}</p>`;
+        }
+        html += char.preparedSpells.some(s => s.cast) ? `<button id="reset-spells-btn" class="btn-small" style="margin-top:.5rem;">Long Rest (reset cast spells)</button>` : '';
+        html += `<button id="clear-prepared-btn" class="btn-small" style="margin-top:.5rem;margin-left:.25rem;">New Day (clear all prepared)</button>`;
 
-          <div class="add-row">
-            ${(() => {
-              const spellList = isArcane ? DATA.spells?.arcane?.['1'] : DATA.spells?.divine?.['1'];
-              if (spellList && spellList.length > 0) {
-                return `<select id="add-spell-select" style="max-width:300px;">
-                  <option value="">Add Level 1 spell...</option>
-                  ${spellList.map(s => `<option value="${s.name}" title="${s.desc}">${s.name} (${s.school}${s.range ? ', '+s.range : ''})</option>`).join('')}
-                </select>
-                <button id="add-spell-from-list-btn" class="btn-small">Add</button>
-                <span style="margin:0 .5rem;color:#999;font-size:.85rem;">or</span>`;
-              }
-              return '';
-            })()}
-            <input type="text" id="add-spell-input" placeholder="Type spell name..." style="max-width:180px;">
-            <button id="add-spell-btn" class="btn-small">Add</button>
-          </div>
-          ${(() => {
-            // Show description of selected spell
-            return `<div id="spell-preview" style="display:none;margin-top:.5rem;padding:.5rem .75rem;background:#f5f0fa;border-left:3px solid #4a1a6b;border-radius:0 4px 4px 0;font-size:.85rem;"></div>`;
-          })()}
-          ${totalSlots > 0 && char.preparedSpells.some(s => s.cast) ? `<button id="reset-spells-btn" class="btn-small" style="margin-top:.5rem;">Long Rest (reset all spells)</button>` : ''}
+        if (isArcane) {
+          // === WIZARD SPELLBOOK (permanent collection) ===
+          html += `<h3 style="font-size:.95rem;color:#333;margin:1rem 0 .5rem 0;">Spellbook <span style="font-size:.8rem;color:#888;font-weight:normal;">(${char.spellbook.length} spells known)</span></h3>`;
+          html += `<div style="font-size:.8rem;color:#888;margin-bottom:.5rem;">Your permanent spell collection. Prepare spells from here each morning. Starting spells: ${Math.floor(castScore/2)} (half INT).</div>`;
+          if (char.spellbook.length > 0) {
+            html += char.spellbook.map((sp, i) => renderSpell(sp, i, 'book', { isInBook: true })).join('');
+          }
+          html += `<div class="add-row" style="margin-top:.5rem;">
+            <select id="add-spell-select" style="max-width:300px;">
+              <option value="">Add spell to spellbook...</option>
+              ${(spellList||[]).filter(s => !char.spellbook.some(b => b.name === s.name)).map(s => `<option value="${s.name}" title="${s.desc}">${s.name} (${s.school})</option>`).join('')}
+            </select>
+            <button id="add-spell-from-list-btn" class="btn-small">Add to Spellbook</button>
+          </div>`;
+        } else {
+          // === CLERIC/DRUID: prepare from full list ===
+          html += `<h3 style="font-size:.95rem;color:#333;margin:1rem 0 .5rem 0;">Prepare Spell</h3>`;
+          html += `<div style="font-size:.8rem;color:#888;margin-bottom:.5rem;">Choose from all ${sc.type} spells. | <a href="${spellPageBase}" style="color:#4a1a6b;">Full spell list &rarr;</a></div>`;
+          html += `<div class="add-row">
+            <select id="add-spell-select" style="max-width:300px;">
+              <option value="">Add Level 1 spell...</option>
+              ${(spellList||[]).map(s => `<option value="${s.name}" title="${s.desc}">${s.name} (${s.school}${s.sphere ? ', '+s.sphere : ''})</option>`).join('')}
+            </select>
+            <button id="add-spell-from-list-btn" class="btn-small">Prepare</button>
+          </div>`;
+        }
+        html += `<div id="spell-preview" style="display:none;margin-top:.5rem;padding:.5rem .75rem;background:#f5f0fa;border-left:3px solid #4a1a6b;border-radius:0 4px 4px 0;font-size:.85rem;"></div>`;
+        return html;
         `;
       })() : ''}
 
@@ -2207,12 +2230,20 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
       });
     });
 
-    // Add spell from dropdown
+    // Add spell from dropdown (to spellbook for wizard, to prepared for cleric)
+    const isArcane = char.spellcasting?.type === 'arcane';
     el.querySelector('#add-spell-from-list-btn')?.addEventListener('click', () => {
       const sel = el.querySelector('#add-spell-select');
       if (!sel?.value) return;
-      if (!char.preparedSpells) char.preparedSpells = [];
-      char.preparedSpells.push({ name: sel.value, cast: false });
+      if (isArcane) {
+        if (!char.spellbook) char.spellbook = [];
+        if (!char.spellbook.some(s => s.name === sel.value)) {
+          char.spellbook.push({ name: sel.value });
+        }
+      } else {
+        if (!char.preparedSpells) char.preparedSpells = [];
+        char.preparedSpells.push({ name: sel.value, cast: false });
+      }
       saveCurrent(); renderSheet(char);
     });
 
@@ -2220,7 +2251,6 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
     el.querySelector('#add-spell-select')?.addEventListener('change', function() {
       const preview = el.querySelector('#spell-preview');
       if (!preview) return;
-      const isArcane = char.spellcasting?.type === 'arcane';
       const spellList = isArcane ? DATA.spells?.arcane?.['1'] : DATA.spells?.divine?.['1'];
       const sp = spellList?.find(s => s.name === this.value);
       if (sp) {
@@ -2228,25 +2258,34 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
         preview.innerHTML = `<strong>${sp.name}</strong> <span style="color:#888;">(${sp.school}${sp.sphere ? ', '+sp.sphere : ''})</span><br>
           <span style="font-size:.8rem;">Range: ${sp.range||'—'} | Duration: ${sp.duration||'—'} | Cast: ${sp.castTime||'—'} | Save: ${sp.save||'None'}</span><br>
           <span style="font-size:.8rem;color:#555;">${sp.desc}</span>`;
-      } else {
-        preview.style.display = 'none';
-      }
+      } else { preview.style.display = 'none'; }
     });
 
-    // Add spell from free text
-    const addSpellBtn = el.querySelector('#add-spell-btn');
-    const addSpellInput = el.querySelector('#add-spell-input');
-    if (addSpellBtn && addSpellInput) {
-      const doAddSpell = () => {
-        const name = addSpellInput.value.trim();
-        if (!name) return;
+    // Prepare spell from spellbook (wizard)
+    el.querySelectorAll('[data-action="prepare-from-book"]').forEach(btn => {
+      btn.addEventListener('click', () => {
         if (!char.preparedSpells) char.preparedSpells = [];
-        char.preparedSpells.push({ name, cast: false });
+        char.preparedSpells.push({ name: btn.dataset.name, cast: false });
         saveCurrent(); renderSheet(char);
-      };
-      addSpellBtn.addEventListener('click', doAddSpell);
-      addSpellInput.addEventListener('keydown', e => { if (e.key === 'Enter') doAddSpell(); });
-    }
+      });
+    });
+
+    // Unprepare spell
+    el.querySelectorAll('[data-unprepidx]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        char.preparedSpells.splice(parseInt(btn.dataset.unprepidx), 1);
+        saveCurrent(); renderSheet(char);
+      });
+    });
+
+    // Remove from spellbook
+    el.querySelectorAll('[data-bookidx]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (!char.spellbook) return;
+        char.spellbook.splice(parseInt(btn.dataset.bookidx), 1);
+        saveCurrent(); renderSheet(char);
+      });
+    });
 
     // Cast spell
     el.querySelectorAll('[data-action="cast-spell"]').forEach(btn => {
@@ -2259,21 +2298,42 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
       });
     });
 
-    // Remove spell
-    el.querySelectorAll('[data-spellidx]').forEach(btn => {
+    // Reset cast spells (long rest)
+    el.querySelector('#reset-spells-btn')?.addEventListener('click', () => {
+      char.preparedSpells?.forEach(s => s.cast = false);
+      saveCurrent(); renderSheet(char);
+    });
+
+    // Clear all prepared (new day)
+    el.querySelector('#clear-prepared-btn')?.addEventListener('click', () => {
+      char.preparedSpells = [];
+      saveCurrent(); renderSheet(char);
+    });
+
+    // Add WP from sheet
+    el.querySelector('#add-wp-btn')?.addEventListener('click', () => {
+      const sel = el.querySelector('#add-wp-select');
+      if (!sel?.value) return;
+      if (!char.weaponProficiencies) char.weaponProficiencies = [];
+      const [type, ...rest] = sel.value.split(':');
+      if (type === 'weapon') {
+        char.weaponProficiencies.push({ type: 'weapon', name: rest.join(':'), slots: 1 });
+      } else if (type === 'style') {
+        const id = rest[0], name = rest.slice(1).join(':');
+        const style = DATA.proficiencies?.fighting_styles?.find(s => s.id === id);
+        char.weaponProficiencies.push({ type: 'style', id, name: name || style?.name, desc: style?.description, slots: 1 });
+      }
+      saveCurrent(); renderSheet(char);
+    });
+
+    // Remove WP from sheet
+    el.querySelectorAll('[data-wpsheetidx]').forEach(btn => {
       btn.addEventListener('click', () => {
-        char.preparedSpells.splice(parseInt(btn.dataset.spellidx), 1);
+        char.weaponProficiencies.splice(parseInt(btn.dataset.wpsheetidx), 1);
         saveCurrent(); renderSheet(char);
       });
     });
 
-    // Reset spells (long rest)
-    el.querySelector('#reset-spells-btn')?.addEventListener('click', () => {
-      if (char.preparedSpells) {
-        char.preparedSpells.forEach(s => s.cast = false);
-        saveCurrent(); renderSheet(char);
-      }
-    });
 
     // Add language
     el.querySelector('#add-lang-btn')?.addEventListener('click', () => {
