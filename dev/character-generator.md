@@ -1036,6 +1036,18 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
   }
 
   // ============ UI: WEAPON PROFICIENCIES ============
+  function wpRemaining() {
+    const total = genState.classData?.weapon_slots_start || 0;
+    const used = (genState.wpChoices||[]).reduce((s,c) => s + (c.slots||1), 0);
+    return total - used;
+  }
+
+  function wpAddChoice(choice) {
+    if (wpRemaining() < choice.slots) return;
+    genState.wpChoices.push(choice);
+    showWPStep();
+  }
+
   function showWPStep() {
     hideGenSteps();
     document.getElementById('step-wp').style.display = 'block';
@@ -1043,83 +1055,85 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
 
     const cls = genState.classData;
     const totalSlots = cls.weapon_slots_start;
-    const usedSlots = genState.wpChoices.reduce((sum, c) => sum + (c.slots || 1), 0);
-    const remaining = totalSlots - usedSlots;
-
-    // Weapon groups available to this class
+    const remaining = wpRemaining();
     const classGroups = cls.weapon_groups || [];
     const hasAllGroups = classGroups.includes('all');
-    const allowedWeapons = cls.weapons_allowed || null; // for restricted classes like wizard/druid
+    const allowedWeapons = cls.weapons_allowed || null;
+    const profs = DATA.proficiencies;
+    const allWeapons = getWeaponData();
 
-    // Header
-    document.getElementById('wp-header').innerHTML = `
-      <div style="font-size:1.1rem;font-weight:bold;color:#4a1a6b;">Slots: ${remaining} remaining of ${totalSlots}</div>
-      <div style="font-size:.85rem;color:#888;margin-top:.25rem;">
+    // Build entire step content
+    let html = `
+      <div style="font-size:1.1rem;font-weight:bold;color:#4a1a6b;margin-bottom:.5rem;">
+        Slots: ${remaining} remaining of ${totalSlots}
+      </div>
+      <div style="font-size:.85rem;color:#888;margin-bottom:.75rem;">
         ${allowedWeapons ? `<strong>Weapons allowed:</strong> ${allowedWeapons.join(', ')}` :
           hasAllGroups ? '<strong>All weapon groups available</strong>' :
           `<strong>Groups:</strong> ${classGroups.join(', ')}`}
         | Non-proficiency penalty: ${cls.nonproficiency_penalty}
-      </div>
-    `;
+      </div>`;
 
-    // Build available options
-    const profs = DATA.proficiencies;
-    const allWeapons = getWeaponData();
-    let optionsHtml = '';
+    // Summary of current choices (show at top so you always see what you've picked)
+    if (genState.wpChoices.length > 0) {
+      html += `<div style="border:1px solid #4a1a6b;border-radius:6px;padding:.75rem;margin-bottom:1rem;background:#faf5ff;">
+        <h3 style="font-size:.95rem;color:#4a1a6b;margin:0 0 .5rem 0;">Your Choices</h3>
+        ${genState.wpChoices.map((c, i) => `<div class="cart-item">
+          <span class="ci-name"><strong>${c.name}</strong> <span style="color:#888;font-size:.8rem;">(${c.slots} slot${c.slots>1?'s':''})</span></span>
+          <span class="ci-remove" data-action="wp-remove" data-idx="${i}">&times;</span>
+        </div>`).join('')}
+      </div>`;
+    }
 
-    // Individual weapons
     if (remaining >= 1) {
+      // Individual weapons
       const weaponList = allowedWeapons
         ? allWeapons.filter(w => allowedWeapons.some(aw => w.name.toLowerCase().includes(aw)))
         : allWeapons;
 
-      optionsHtml += `<div style="margin:.75rem 0;">
-        <h3 style="font-size:.95rem;color:#333;margin-bottom:.5rem;">Weapons Training</h3>
-        <div class="add-row">
-          <select id="wp-weapon-select" style="max-width:250px;">
-            <option value="">Single Weapon Proficiency...</option>
+      html += `<h3 style="font-size:.95rem;color:#333;margin-bottom:.5rem;">Weapons Training</h3>
+        <div class="add-row" style="margin-bottom:.75rem;">
+          <select data-action="wp-weapon-select" style="max-width:250px;">
+            <option value="">Single Weapon Proficiency (1 slot)...</option>
             ${weaponList.map(w => `<option value="${w.name}">${w.name} (${w.damage}, ${w.init||''})</option>`).join('')}
           </select>
-          <button id="wp-add-weapon-btn" class="btn-small">Add (1 slot)</button>
-        </div>
-      </div>`;
+          <button data-action="wp-add-weapon" class="btn-small">Add</button>
+        </div>`;
 
-      // Weapon groups (if class has access)
+      // Weapon groups
       if (hasAllGroups || classGroups.length > 0) {
         const groups = DATA.equipment.weapon_groups || {};
         const availGroups = hasAllGroups ? Object.keys(groups) : classGroups;
-        optionsHtml += `<div style="margin:.75rem 0;">
-          <div class="add-row">
-            <select id="wp-group-select" style="max-width:250px;">
-              <option value="">Weapon Group (2 slots)...</option>
-              ${availGroups.map(g => {
-                const weapons = groups[g] || [];
-                return `<option value="${g}">${g.replace(/_/g,' ')} (${weapons.slice(0,3).join(', ')}...)</option>`;
-              }).join('')}
-            </select>
-            <button id="wp-add-group-btn" class="btn-small">Add (2 slots)</button>
-          </div>
+        html += `<div class="add-row" style="margin-bottom:.75rem;">
+          <select data-action="wp-group-select" style="max-width:250px;">
+            <option value="">Weapon Group (${remaining >= 2 ? '2 slots' : '1 slot, -1 penalty'})...</option>
+            ${availGroups.map(g => {
+              const weapons = groups[g] || [];
+              return `<option value="${g}">${g.replace(/_/g,' ')} (${weapons.slice(0,3).join(', ')}...)</option>`;
+            }).join('')}
+          </select>
+          <button data-action="wp-add-group" class="btn-small">Add</button>
         </div>`;
       }
 
       // Fighting styles
-      optionsHtml += `<h3 style="font-size:.95rem;color:#333;margin:.75rem 0 .5rem 0;">Fighting Styles</h3>`;
-      optionsHtml += `<div class="option-grid" style="grid-template-columns:repeat(auto-fill,minmax(220px,1fr));" id="wp-styles-grid">`;
+      html += `<h3 style="font-size:.95rem;color:#333;margin:.5rem 0;">Fighting Styles</h3>
+        <div class="option-grid" style="grid-template-columns:repeat(auto-fill,minmax(220px,1fr));">`;
       for (const style of profs.fighting_styles) {
         const alreadyPicked = genState.wpChoices.some(c => c.id === style.id);
-        optionsHtml += `<div class="option-card${alreadyPicked?' disabled':''}" data-style="${style.id}" style="padding:.75rem;">
+        html += `<div class="option-card${alreadyPicked?' disabled':''}" data-action="wp-add-style" data-id="${style.id}" style="padding:.75rem;">
           <h3 style="font-size:.9rem;">${style.name}</h3>
           <div class="card-desc">${style.description}</div>
           <div class="card-detail" style="color:#4a1a6b;">1 slot</div>
         </div>`;
       }
-      optionsHtml += `</div>`;
+      html += `</div>`;
 
       // Maneuvers
-      optionsHtml += `<h3 style="font-size:.95rem;color:#333;margin:.75rem 0 .5rem 0;">Maneuvers Training</h3>`;
+      html += `<h3 style="font-size:.95rem;color:#333;margin:.75rem 0 .5rem 0;">Maneuvers Training</h3>`;
       for (const m of profs.maneuvers) {
         const alreadyPicked = genState.wpChoices.some(c => c.id === m.id);
-        optionsHtml += `<div class="option-card${alreadyPicked?' disabled':''}" data-maneuver="${m.id}" style="padding:.75rem;margin-bottom:.5rem;">
+        html += `<div class="option-card${alreadyPicked?' disabled':''}" data-action="wp-add-maneuver" data-id="${m.id}" style="padding:.75rem;margin-bottom:.5rem;">
           <h3 style="font-size:.9rem;">${m.name}</h3>
           <div class="card-desc">${m.description}</div>
           <div class="card-detail" style="color:#b45309;">${m.requirements}</div>
@@ -1128,99 +1142,60 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
 
       // Fighter specialization
       if (cls.id === 'fighter') {
-        optionsHtml += `<div style="margin:.75rem 0;">
-          <div class="add-row">
-            <select id="wp-spec-select" style="max-width:250px;">
-              <option value="">Weapon Specialization (Fighter only)...</option>
-              ${allWeapons.map(w => `<option value="${w.name}">${w.name}</option>`).join('')}
-            </select>
-            <button id="wp-add-spec-btn" class="btn-small">Add (1 slot)</button>
-          </div>
+        html += `<div class="add-row" style="margin:.75rem 0;">
+          <select data-action="wp-spec-select" style="max-width:250px;">
+            <option value="">Weapon Specialization (Fighter only, 1 slot)...</option>
+            ${allWeapons.map(w => `<option value="${w.name}">${w.name}</option>`).join('')}
+          </select>
+          <button data-action="wp-add-spec" class="btn-small">Add</button>
         </div>`;
       }
+    } else {
+      html += `<p style="color:#2e7d32;font-weight:bold;">All ${totalSlots} slots spent. You can remove choices above or continue.</p>`;
     }
 
-    document.getElementById('wp-choices').innerHTML = remaining > 0 ? optionsHtml :
-      '<p style="color:#888;">All slots spent.</p>';
+    // Render into the container divs
+    document.getElementById('wp-header').innerHTML = '';
+    document.getElementById('wp-choices').innerHTML = html;
+    document.getElementById('wp-summary').innerHTML = '';
 
-    // Summary of current choices
-    const summaryHtml = genState.wpChoices.length === 0 ? '' :
-      `<h3 style="font-size:.95rem;color:#333;">Your Choices</h3>` +
-      genState.wpChoices.map((c, i) => `<div class="cart-item">
-        <span class="ci-name"><strong>${c.name}</strong> <span style="color:#888;font-size:.8rem;">(${c.slots} slot${c.slots>1?'s':''})</span></span>
-        <span class="ci-remove" data-wpidx="${i}">&times;</span>
-      </div>`).join('');
-    document.getElementById('wp-summary').innerHTML = summaryHtml;
+    // Attach ALL event listeners via delegation on wp-choices
+    const container = document.getElementById('wp-choices');
+    container.addEventListener('click', function handler(e) {
+      const target = e.target.closest('[data-action]');
+      if (!target) return;
+      const action = target.dataset.action;
 
-    // Event listeners
-    el_wpAddWeapon();
-    el_wpAddGroup();
-    el_wpAddStyles();
-    el_wpAddManeuvers();
-    el_wpAddSpec();
-    el_wpRemove();
-  }
-
-  function el_wpAddWeapon() {
-    document.getElementById('wp-add-weapon-btn')?.addEventListener('click', () => {
-      const sel = document.getElementById('wp-weapon-select');
-      if (!sel?.value) return;
-      genState.wpChoices.push({ type:'weapon', name: sel.value, slots: 1 });
-      showWPStep();
-    });
-  }
-  function el_wpAddGroup() {
-    document.getElementById('wp-add-group-btn')?.addEventListener('click', () => {
-      const sel = document.getElementById('wp-group-select');
-      if (!sel?.value) return;
-      const cls = genState.classData;
-      const remaining = cls.weapon_slots_start - genState.wpChoices.reduce((s,c)=>s+(c.slots||1),0);
-      const groupName = sel.value.replace(/_/g,' ');
-      if (remaining >= 2) {
-        genState.wpChoices.push({ type:'group', id: sel.value, name: `Weapon Group: ${groupName}`, slots: 2 });
-      } else if (remaining >= 1) {
-        genState.wpChoices.push({ type:'group_partial', id: sel.value, name: `Weapon Group: ${groupName} (1/2 — -1 penalty)`, slots: 1 });
+      if (action === 'wp-remove') {
+        genState.wpChoices.splice(parseInt(target.dataset.idx), 1);
+        showWPStep();
       }
-      showWPStep();
-    });
-  }
-  function el_wpAddStyles() {
-    document.querySelectorAll('#wp-styles-grid .option-card:not(.disabled)').forEach(card => {
-      card.addEventListener('click', () => {
-        const styleId = card.dataset.style;
-        const style = DATA.proficiencies.fighting_styles.find(s => s.id === styleId);
-        if (!style) return;
-        genState.wpChoices.push({ type:'style', id: styleId, name: style.name, desc: style.description, slots: 1 });
-        showWPStep();
-      });
-    });
-  }
-  function el_wpAddManeuvers() {
-    document.querySelectorAll('[data-maneuver]').forEach(card => {
-      if (card.classList.contains('disabled')) return;
-      card.addEventListener('click', () => {
-        const mId = card.dataset.maneuver;
-        const m = DATA.proficiencies.maneuvers.find(x => x.id === mId);
-        if (!m) return;
-        genState.wpChoices.push({ type:'maneuver', id: mId, name: m.name, desc: m.description, slots: 1 });
-        showWPStep();
-      });
-    });
-  }
-  function el_wpAddSpec() {
-    document.getElementById('wp-add-spec-btn')?.addEventListener('click', () => {
-      const sel = document.getElementById('wp-spec-select');
-      if (!sel?.value) return;
-      genState.wpChoices.push({ type:'specialization', name: `Weapon Specialization: ${sel.value}`, slots: 1 });
-      showWPStep();
-    });
-  }
-  function el_wpRemove() {
-    document.querySelectorAll('[data-wpidx]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        genState.wpChoices.splice(parseInt(btn.dataset.wpidx), 1);
-        showWPStep();
-      });
+      if (action === 'wp-add-weapon') {
+        const sel = container.querySelector('[data-action="wp-weapon-select"]');
+        if (sel?.value) wpAddChoice({ type:'weapon', name: sel.value, slots: 1 });
+      }
+      if (action === 'wp-add-group') {
+        const sel = container.querySelector('[data-action="wp-group-select"]');
+        if (!sel?.value) return;
+        const groupName = sel.value.replace(/_/g,' ');
+        if (wpRemaining() >= 2) {
+          wpAddChoice({ type:'group', id: sel.value, name: `Weapon Group: ${groupName}`, slots: 2 });
+        } else {
+          wpAddChoice({ type:'group_partial', id: sel.value, name: `Weapon Group: ${groupName} (1/2, -1 penalty)`, slots: 1 });
+        }
+      }
+      if (action === 'wp-add-style') {
+        const style = profs.fighting_styles.find(s => s.id === target.dataset.id);
+        if (style) wpAddChoice({ type:'style', id: style.id, name: style.name, desc: style.description, slots: 1 });
+      }
+      if (action === 'wp-add-maneuver') {
+        const m = profs.maneuvers.find(x => x.id === target.dataset.id);
+        if (m) wpAddChoice({ type:'maneuver', id: m.id, name: m.name, desc: m.description, slots: 1 });
+      }
+      if (action === 'wp-add-spec') {
+        const sel = container.querySelector('[data-action="wp-spec-select"]');
+        if (sel?.value) wpAddChoice({ type:'specialization', name: `Weapon Specialization: ${sel.value}`, slots: 1 });
+      }
     });
   }
 
@@ -2023,11 +1998,6 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
     genState.charClass = null; genState.classData = null;
     showAncestryStep();
   });
-  document.getElementById('back-to-class-btn').addEventListener('click', () => {
-    genState.charClass = null; genState.classData = null;
-    showClassStep();
-  });
-
   // Weapon proficiencies step
   document.getElementById('back-to-class-from-wp-btn').addEventListener('click', () => {
     genState.charClass = null; genState.classData = null; genState.wpChoices = [];
