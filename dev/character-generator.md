@@ -423,6 +423,26 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
   function loadChars() {
     try { characters = JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
     catch(e) { characters = []; }
+    // Migrate old characters
+    characters.forEach(c => {
+      if (!c.weaponProficiencies) c.weaponProficiencies = [];
+      if (!c.weapons) c.weapons = [];
+      if (!c.equipment) c.equipment = [];
+      if (c.armorBonus === undefined) c.armorBonus = 0;
+      if (c.shieldBonus === undefined) c.shieldBonus = 0;
+      if (c.miscACBonus === undefined) c.miscACBonus = 0;
+      if (c.gold === undefined) c.gold = 0;
+      if (!c.classId && c.className) c.classId = c.className.toLowerCase();
+      if (!c.ancestryId && c.ancestry) c.ancestryId = c.ancestry.toLowerCase().replace(/\s+/g,'-');
+      // Migrate string specials to objects with descriptions
+      if (c.specials && c.specials.length > 0 && typeof c.specials[0] === 'string') {
+        const abilities = CLASS_ABILITIES[c.classId] || [];
+        c.specials = c.specials.map(name => {
+          const found = abilities.find(a => a.name === name);
+          return found || { name, desc: null };
+        });
+      }
+    });
   }
   function saveChars() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(characters));
