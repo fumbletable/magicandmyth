@@ -435,6 +435,8 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
     characters.forEach(c => {
       if (!c.weaponProficiencies) c.weaponProficiencies = [];
       if (!c.nonweaponProficiencies) c.nonweaponProficiencies = [];
+      if (!c.preparedSpells) c.preparedSpells = [];
+      if (!c.baseLanguageCount) c.baseLanguageCount = (c.languages||[]).length;
       if (!c.weapons) c.weapons = [];
       if (!c.equipment) c.equipment = [];
       if (c.armorBonus === undefined) c.armorBonus = 0;
@@ -1949,7 +1951,64 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
         <button id="add-nwp-btn" class="btn-small">Add</button>
       </div>
       <div class="card-detail" style="margin-top:.5rem;"><strong>Armor Allowed:</strong> ${char.armor}</div>
-      ${char.spellcasting ? `<div class="card-detail"><strong>Spellcasting:</strong> ${char.spellcasting.type} (${char.spellcasting.attribute})</div>` : ''}
+      ${char.spellcasting ? (() => {
+        const sc = char.spellcasting;
+        const isArcane = sc.type === 'arcane';
+        const castAttr = sc.attribute;
+        const castScore = char.finalAttrs?.[castAttr] || 10;
+        const castMod = getCheckMod(castScore);
+
+        // Base spells per day at L1 (all L1 casters get 1)
+        const baseSpells = char.level >= 1 ? 1 : 0;
+
+        // Bonus spells from attribute
+        const bonusStr = isArcane
+          ? lookup(DATA.attributes.intelligence.bonus_arcane_spells, castScore)
+          : lookup(DATA.attributes.wisdom.bonus_divine_spells, castScore);
+        // Parse bonus string like "2/1" = 2 bonus L1, 1 bonus L2
+        let bonusL1 = 0;
+        if (bonusStr && bonusStr !== '0' && bonusStr !== null) {
+          const parts = String(bonusStr).split('/');
+          bonusL1 = parseInt(parts[0]) || 0;
+        }
+
+        const totalSlots = baseSpells + bonusL1;
+        if (!char.preparedSpells) char.preparedSpells = [];
+        const prepCount = char.preparedSpells.length;
+
+        // Spell links
+        const spellPageBase = isArcane ? `${BASE}/players/spells/arcane/` : `${BASE}/players/spells/divine/`;
+
+        return `<h2>Spellcasting (${sc.type})</h2>
+          <div class="derived-grid" style="margin-bottom:.75rem;">
+            <div class="dg-box"><div class="dg-label">${castAttr}</div><div class="dg-value">${castScore}</div></div>
+            <div class="dg-box"><div class="dg-label">Check Mod</div><div class="dg-value">${formatMod(castMod)}</div></div>
+            <div class="dg-box"><div class="dg-label">L1 Slots</div><div class="dg-value">${totalSlots}</div></div>
+            <div class="dg-box"><div class="dg-label">Prepared</div><div class="dg-value" style="${prepCount > totalSlots ? 'color:#c44;' : ''}">${prepCount}/${totalSlots}</div></div>
+          </div>
+          <div style="font-size:.8rem;color:#888;margin-bottom:.5rem;">
+            ${baseSpells} base + ${bonusL1} bonus from ${castAttr} ${castScore}
+            ${isArcane ? ' | Arcane: memorise from spellbook' : ' | Divine: granted through prayer'}
+            | <a href="${spellPageBase}" style="color:#4a1a6b;">Spell list &rarr;</a>
+          </div>
+
+          ${char.preparedSpells.length > 0 ? `<div style="margin:.5rem 0;">
+            ${char.preparedSpells.map((sp, i) => `<div class="cart-item">
+              <span class="ci-name">${sp.name}${sp.cast ? ' <span style="color:#c44;font-size:.75rem;">(CAST)</span>' : ''}</span>
+              <span style="display:flex;gap:.25rem;">
+                ${!sp.cast ? `<button class="btn-small" data-action="cast-spell" data-idx="${i}" style="font-size:.7rem;padding:.1rem .3rem;color:#c44;">Cast</button>` : ''}
+                <span class="ci-remove" data-spellidx="${i}">&times;</span>
+              </span>
+            </div>`).join('')}
+          </div>` : ''}
+
+          <div class="add-row">
+            <input type="text" id="add-spell-input" placeholder="Add spell name...">
+            <button id="add-spell-btn" class="btn-small">Add</button>
+          </div>
+          ${totalSlots > 0 && char.preparedSpells.some(s => s.cast) ? `<button id="reset-spells-btn" class="btn-small" style="margin-top:.5rem;">Long Rest (reset all spells)</button>` : ''}
+        `;
+      })() : ''}
 
       <h2>Equipment</h2>
       <div style="margin-bottom:.5rem;font-size:.9rem;"><strong>Gold:</strong> <span class="editable" data-field="gold" title="Click to edit">${char.gold}</span> gp</div>
@@ -2106,6 +2165,48 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
         saveCurrent();
         renderSheet(char);
       });
+    });
+
+    // Add spell
+    const addSpellBtn = el.querySelector('#add-spell-btn');
+    const addSpellInput = el.querySelector('#add-spell-input');
+    if (addSpellBtn && addSpellInput) {
+      const doAddSpell = () => {
+        const name = addSpellInput.value.trim();
+        if (!name) return;
+        if (!char.preparedSpells) char.preparedSpells = [];
+        char.preparedSpells.push({ name, cast: false });
+        saveCurrent(); renderSheet(char);
+      };
+      addSpellBtn.addEventListener('click', doAddSpell);
+      addSpellInput.addEventListener('keydown', e => { if (e.key === 'Enter') doAddSpell(); });
+    }
+
+    // Cast spell
+    el.querySelectorAll('[data-action="cast-spell"]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const idx = parseInt(btn.dataset.idx);
+        if (char.preparedSpells?.[idx]) {
+          char.preparedSpells[idx].cast = true;
+          saveCurrent(); renderSheet(char);
+        }
+      });
+    });
+
+    // Remove spell
+    el.querySelectorAll('[data-spellidx]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        char.preparedSpells.splice(parseInt(btn.dataset.spellidx), 1);
+        saveCurrent(); renderSheet(char);
+      });
+    });
+
+    // Reset spells (long rest)
+    el.querySelector('#reset-spells-btn')?.addEventListener('click', () => {
+      if (char.preparedSpells) {
+        char.preparedSpells.forEach(s => s.cast = false);
+        saveCurrent(); renderSheet(char);
+      }
     });
 
     // Add language
