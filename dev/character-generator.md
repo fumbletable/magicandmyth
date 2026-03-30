@@ -1355,7 +1355,7 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
 
   // ============ UI: WEAPON PROFICIENCIES ============
   function wpRemaining() {
-    const total = genState.classData?.weapon_slots_start || 0;
+    const total = (genState.classData?.weapon_slots_start || 0) + (genState.ancestryData?.bonus_wp_slots || 0);
     const used = (genState.wpChoices||[]).reduce((s,c) => s + (c.slots||1), 0);
     return total - used;
   }
@@ -1372,7 +1372,7 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
     if (!genState.wpChoices) genState.wpChoices = [];
 
     const cls = genState.classData;
-    const totalSlots = cls.weapon_slots_start;
+    const totalSlots = cls.weapon_slots_start + (genState.ancestryData?.bonus_wp_slots || 0);
     const remaining = wpRemaining();
     const classGroups = cls.weapon_groups || [];
     const hasAllGroups = classGroups.includes('all');
@@ -1530,9 +1530,9 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
     // Slot calculation
     const baseSlots = cls.nwp_slots_start || 3;
     const thiefBonus = cls.id === 'thief' ? 4 : 0;
-    const halfElfBonus = anc.id === 'half-elf' ? 1 : 0;
+    const ancestryNWPBonus = anc.bonus_nwp_slots || (anc.id === 'half-elf' ? 1 : 0);
     const intBonus = getIntLangs(fa.INT || 10); // bonus languages = bonus NWP slots
-    const totalSlots = baseSlots + thiefBonus + halfElfBonus + intBonus;
+    const totalSlots = baseSlots + thiefBonus + ancestryNWPBonus + intBonus;
     const usedSlots = genState.nwpChoices.reduce((s, c) => s + (c.slots || 1), 0);
     const remaining = totalSlots - usedSlots;
 
@@ -1547,7 +1547,7 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
         Slots: ${remaining} remaining of ${totalSlots}
       </div>
       <div style="font-size:.8rem;color:#888;margin-bottom:.75rem;">
-        ${baseSlots} base${thiefBonus ? ` + ${thiefBonus} rogue bonus` : ''}${halfElfBonus ? ' + 1 half-elf' : ''}${intBonus ? ` + ${intBonus} INT bonus` : ''}
+        ${baseSlots} base${thiefBonus ? ` + ${thiefBonus} rogue bonus` : ''}${ancestryNWPBonus ? ` + ${ancestryNWPBonus} ${anc.name}` : ''}${intBonus ? ` + ${intBonus} INT bonus` : ''}
         &mdash; Groups: ${allGroups.join(', ')}
       </div>`;
 
@@ -1915,8 +1915,8 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
       specials,
       alignment: genState.alignment ? (ALIGNMENT_NAMES[genState.alignment] || genState.alignment) : '',
       spellcasting: cls.spellcasting || null,
-      wpSlots: cls.weapon_slots_start,
-      nwpSlots: cls.nwp_slots_start + (cls.id === 'thief' ? 4 : 0) + (anc.id === 'half-elf' ? 1 : 0),
+      wpSlots: cls.weapon_slots_start + (anc.bonus_wp_slots || 0),
+      nwpSlots: cls.nwp_slots_start + (cls.id === 'thief' ? 4 : 0) + (anc.bonus_nwp_slots || (anc.id === 'half-elf' ? 1 : 0)),
       nwpGroups: cls.nwp_groups || [],
       armor: cls.armor,
       weapons: [],

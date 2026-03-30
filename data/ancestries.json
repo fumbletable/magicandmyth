@@ -286,8 +286,18 @@
       "languages": ["common"],
       "bonus_languages": ["any"],
       "senses": {},
-      "traits": [],
+      "traits": [
+        {
+          "name": "Ambitious Start",
+          "description": "+1 weapon proficiency slot and +1 nonweapon proficiency slot at character creation."
+        }
+      ],
       "proficiencies": {},
+      "free_weapon_choices": [
+        { "label": "Human Sword Training", "choose": 1, "options": ["Bastard Sword", "Broad Sword", "Cutlass", "Falchion", "Great Sword", "Katana", "Khopesh", "Longsword", "Rapier", "Scimitar", "Short Sword", "Two-Handed Sword"] }
+      ],
+      "bonus_wp_slots": 1,
+      "bonus_nwp_slots": 1,
       "weapons_armor": "Any allowed by class.",
       "allowed_classes": ["barbarian", "bard", "cleric", "druid", "fighter", "monk", "paladin", "ranger", "thief", "wizard"]
     }
