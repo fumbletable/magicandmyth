@@ -2158,14 +2158,17 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
     const nonProfPenalty = cls?.nonproficiency_penalty || -3;
 
     const hasRangedMastery = char.classTalent === 'Ranged Mastery';
+    const hasFinesse = (char.weaponProficiencies||[]).some(wp => wp.type === 'style' && wp.id === 'finesse');
     const weaponRows = char.weapons.map((w, i) => {
       const prof = isWeaponProficient(w.name, w.groups || []);
       const profPenalty = prof.proficient ? prof.penalty : nonProfPenalty;
-      const rangedMasteryAtk = (w.category === 'ranged' && hasRangedMastery) ? 0 : 0; // no atk bonus from RM
       const rangedMasteryDmg = (w.category === 'ranged' && hasRangedMastery) ? 1 : 0;
+      const isFinesse = hasFinesse && w.category === 'melee' && (w.groups||[]).some(g => g === 'finesse');
       const atkMod = (w.category === 'ranged'
         ? char.bth + getDexRanged(fa.DEX||10)
-        : char.bth + getStrAtkDmg(fa.STR||10)) + profPenalty;
+        : isFinesse
+          ? char.bth + getDexRanged(fa.DEX||10)
+          : char.bth + getStrAtkDmg(fa.STR||10)) + profPenalty;
       const dmgMod = (w.category === 'ranged' ? 0 : getStrAtkDmg(fa.STR||10)) + rangedMasteryDmg;
       const dmgStr = dmgMod !== 0 ? `${w.damage}${formatMod(dmgMod)}` : w.damage;
       const lgDmg = w.damage_large || w.damage;
