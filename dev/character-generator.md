@@ -1224,8 +1224,9 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
     const anc = genState.ancestryData;
     const hasWeaponChoices = anc.free_weapon_choices && anc.free_weapon_choices.some(c => c.choose > 0);
     const hasNWPChoices = anc.free_nwp_choices && anc.free_nwp_choices.some(c => c.choose > 0);
+    const hasAmbitiousStart = anc.ambitious_start_choice;
     // If no choices needed, auto-collect and skip
-    if (!hasWeaponChoices && !hasNWPChoices) {
+    if (!hasWeaponChoices && !hasNWPChoices && !hasAmbitiousStart) {
       genState.ancestryFreeWPs = [];
       genState.ancestryFreeNWPs = [];
       // Auto-add any auto items
@@ -1316,8 +1317,28 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
         }
       }
     }
+    // Ambitious Start choice (half-elf: +1 WP or +1 NWP)
+    if (anc.ambitious_start_choice) {
+      html += `<h3 style="font-size:.95rem;color:#4a1a6b;margin:.75rem 0 .5rem 0;">Ambitious Start: Bonus Slot</h3>`;
+      const choice = genState.ambitiousStartChoice || null;
+      html += `<div class="option-grid" style="grid-template-columns:repeat(2,1fr);">
+        <div class="option-card${choice==='wp'?' disabled':''}" data-action="ambitious-wp" style="padding:.75rem;text-align:center;${choice==='wp'?'border-color:#2e7d32;background:#e8f5e9;':''}">
+          <strong>+1 Weapon Proficiency Slot</strong>
+          <div style="font-size:.8rem;color:#666;">Extra weapon training</div>
+        </div>
+        <div class="option-card${choice==='nwp'?' disabled':''}" data-action="ambitious-nwp" style="padding:.75rem;text-align:center;${choice==='nwp'?'border-color:#2e7d32;background:#e8f5e9;':''}">
+          <strong>+1 Nonweapon Proficiency Slot</strong>
+          <div style="font-size:.8rem;color:#666;">Extra skill training</div>
+        </div>
+      </div>`;
+      if (choice) {
+        html += `<div style="font-size:.85rem;color:#2e7d32;margin-top:.25rem;">Chosen: +1 ${choice==='wp'?'Weapon':'Nonweapon'} Proficiency slot <span data-action="ambitious-clear" style="cursor:pointer;color:#c44;">&times; change</span></div>`;
+      }
+    }
+
     // Check if all choices are made
     let allDone = true;
+    if (anc.ambitious_start_choice && !genState.ambitiousStartChoice) allDone = false;
     if (anc.free_weapon_choices) {
       for (const c of anc.free_weapon_choices) {
         if (c.choose > 0 && genState.ancestryFreeWPs.filter(w => w.choiceLabel === c.label).length < c.choose) allDone = false;
@@ -1343,6 +1364,15 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
         renderAncestryProfs();
       });
     });
+    container.querySelectorAll('[data-action="ambitious-wp"]').forEach(el => {
+      el.addEventListener('click', () => { genState.ambitiousStartChoice = 'wp'; renderAncestryProfs(); });
+    });
+    container.querySelectorAll('[data-action="ambitious-nwp"]').forEach(el => {
+      el.addEventListener('click', () => { genState.ambitiousStartChoice = 'nwp'; renderAncestryProfs(); });
+    });
+    container.querySelectorAll('[data-action="ambitious-clear"]').forEach(el => {
+      el.addEventListener('click', () => { genState.ambitiousStartChoice = null; renderAncestryProfs(); });
+    });
     container.querySelectorAll('[data-rmfwp]').forEach(el => {
       el.addEventListener('click', () => {
         const choiceWPs = genState.ancestryFreeWPs.filter(w => w.choiceLabel);
@@ -1355,7 +1385,8 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
 
   // ============ UI: WEAPON PROFICIENCIES ============
   function wpRemaining() {
-    const total = (genState.classData?.weapon_slots_start || 0) + (genState.ancestryData?.bonus_wp_slots || 0);
+    const ambitiousWP = genState.ambitiousStartChoice === 'wp' ? 1 : 0;
+    const total = (genState.classData?.weapon_slots_start || 0) + (genState.ancestryData?.bonus_wp_slots || 0) + ambitiousWP;
     const used = (genState.wpChoices||[]).reduce((s,c) => s + (c.slots||1), 0);
     return total - used;
   }
@@ -1372,7 +1403,8 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
     if (!genState.wpChoices) genState.wpChoices = [];
 
     const cls = genState.classData;
-    const totalSlots = cls.weapon_slots_start + (genState.ancestryData?.bonus_wp_slots || 0);
+    const ambitiousWP = genState.ambitiousStartChoice === 'wp' ? 1 : 0;
+    const totalSlots = cls.weapon_slots_start + (genState.ancestryData?.bonus_wp_slots || 0) + ambitiousWP;
     const remaining = wpRemaining();
     const classGroups = cls.weapon_groups || [];
     const hasAllGroups = classGroups.includes('all');
@@ -1530,7 +1562,8 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
     // Slot calculation
     const baseSlots = cls.nwp_slots_start || 3;
     const thiefBonus = cls.id === 'thief' ? 4 : 0;
-    const ancestryNWPBonus = anc.bonus_nwp_slots || (anc.id === 'half-elf' ? 1 : 0);
+    const ambitiousNWP = genState.ambitiousStartChoice === 'nwp' ? 1 : 0;
+    const ancestryNWPBonus = (anc.bonus_nwp_slots || 0) + ambitiousNWP;
     const intBonus = getIntLangs(fa.INT || 10); // bonus languages = bonus NWP slots
     const totalSlots = baseSlots + thiefBonus + ancestryNWPBonus + intBonus;
     const usedSlots = genState.nwpChoices.reduce((s, c) => s + (c.slots || 1), 0);
@@ -1915,8 +1948,8 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
       specials,
       alignment: genState.alignment ? (ALIGNMENT_NAMES[genState.alignment] || genState.alignment) : '',
       spellcasting: cls.spellcasting || null,
-      wpSlots: cls.weapon_slots_start + (anc.bonus_wp_slots || 0),
-      nwpSlots: cls.nwp_slots_start + (cls.id === 'thief' ? 4 : 0) + (anc.bonus_nwp_slots || (anc.id === 'half-elf' ? 1 : 0)),
+      wpSlots: cls.weapon_slots_start + (anc.bonus_wp_slots || 0) + (genState.ambitiousStartChoice === 'wp' ? 1 : 0),
+      nwpSlots: cls.nwp_slots_start + (cls.id === 'thief' ? 4 : 0) + (anc.bonus_nwp_slots || 0) + (genState.ambitiousStartChoice === 'nwp' ? 1 : 0),
       nwpGroups: cls.nwp_groups || [],
       armor: cls.armor,
       weapons: [],
@@ -2104,7 +2137,7 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
       const wName = weaponName.toLowerCase();
       for (const wp of wps) {
         // Direct weapon proficiency or specialization
-        if (wp.type === 'weapon' || wp.type === 'specialization') {
+        if (wp.type === 'weapon' || wp.type === 'specialization' || wp.type === 'ancestry_free') {
           if (wp.name.toLowerCase().includes(wName) || wName.includes(wp.name.toLowerCase())) return { proficient: true, penalty: 0 };
         }
         // Full weapon group

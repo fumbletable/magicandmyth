@@ -186,6 +186,7 @@
           "description": "One additional proficiency slot at character creation (nonweapon or weapon)."
         }
       ],
+      "ambitious_start_choice": true,
       "proficiencies": {
         "weaponry_optional": "Free proficiency in longsword, elven thin blade, rapier, or any bow."
       },
