@@ -2108,7 +2108,9 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
     const armorAC = char.armorBonus || 0;
     const shieldAC = char.shieldBonus || 0;
     const miscAC = char.miscACBonus || 0;
-    const baseAC = 10 + armorAC + shieldAC + dexDef + miscAC;
+    // Nimble Defense: thief with DEX 15+ gets +1 AC in thief-allowed armor
+    const nimbleDefense = (char.classId === 'thief' && (fa.DEX||10) >= 15 && (char.specials||[]).some(s => (s.name||s) === 'Nimble Defense')) ? 1 : 0;
+    const baseAC = 10 + armorAC + shieldAC + dexDef + miscAC + nimbleDefense;
     char.ac = baseAC;
     const flatFooted = 10 + armorAC + shieldAC + miscAC;
     const rearAC = Math.max(baseAC - 2, 10);
@@ -2234,7 +2236,7 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
           <div style="font-size:.75rem;color:#888;">
             Armor: <span class="editable" data-field="armorBonus" title="Armor AC bonus">${char.armorBonus||0}</span> +
             Shield: <span class="editable" data-field="shieldBonus" title="Shield bonus">${char.shieldBonus||0}</span> +
-            DEX: ${formatMod(dexDef)} +
+            DEX: ${formatMod(dexDef)}${nimbleDefense ? ' + Nimble: +1' : ''} +
             Misc: <span class="editable" data-field="miscACBonus" title="Other bonuses">${char.miscACBonus||0}</span>
           </div>
         </div>
