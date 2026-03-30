@@ -116,6 +116,20 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
       <button id="nwp-done-btn" class="btn-primary" style="margin-top:1rem;">Continue to Equipment &rarr;</button>
     </div>
 
+    <!-- Step 5b: Class Talent -->
+    <div id="step-talent" class="gen-step" style="display:none;">
+      <h2>Class Talent</h2>
+      <button id="back-to-nwp-from-talent-btn" class="btn-back">&larr; Back to Nonweapon Proficiencies</button>
+      <p style="font-size:.9rem;color:#666;">Choose one class talent for Level 1. <em>Optional &mdash; check with your GM.</em></p>
+      <div id="talent-selected" style="display:none;margin:.75rem 0;padding:.5rem .75rem;background:#e8f5e9;border-left:3px solid #2e7d32;border-radius:0 4px 4px 0;">
+        <strong id="talent-selected-name"></strong>
+        <span id="talent-clear" style="cursor:pointer;color:#c44;margin-left:.5rem;">&times;</span>
+      </div>
+      <div id="talent-options" class="option-grid" style="grid-template-columns:repeat(auto-fill,minmax(200px,1fr));"></div>
+      <button id="talent-done-btn" class="btn-primary" style="margin-top:1rem;">Continue to Equipment &rarr;</button>
+      <button id="talent-skip-btn" class="btn-secondary" style="margin-top:1rem;margin-left:.5rem;">Skip (no talent)</button>
+    </div>
+
     <!-- Step 6: Equipment -->
     <div id="step-equip" class="gen-step" style="display:none;">
       <h2>Step 6: Equipment</h2>
@@ -480,6 +494,33 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
     ]
   };
 
+  // Class talents available at Level 1 (excludes those with Minimum Level > 1 or talent prerequisites)
+  const CLASS_TALENTS_L1 = {
+    barbarian: ["Ancestral Steel","Attribute Training","Blind Fighting","Combat Defense","Crude Weapons Master","Endurance","Hunter's Scent","Intimidate","Mounted Combat","Nomad","Power Attack","Show of Strength","Vicious Hurler","Ward of Fury"],
+    bard: ["Ambidexterity","Arcane Lore","Attribute Training","Bardic Lure","Battle Lore","Blind Fighting","Broaden Horizon","Credent Sage","Dagger Toss","Display Weaponry","Fame","Mounted Combat","Poison Use","Theology"],
+    cleric: ["Aligned Servant","Attribute Training","Battle Blessing","Detect Necromancy","Detect Residue","Divine Focus","Expeditious Healing","Inquisitor","Interaction","Leadership","Mounted Combat","Prophet","Scholar","Theology","Turn Target","Undead Hunter"],
+    druid: ["Attribute Training","Beastmaster","Cast Nature","Companion Training","Hand of Death","Lesser Grove","Mounted Combat","Storm Mastery","Terrain Walker","Theology","Totem","Worldly Stride"],
+    fighter: ["Allied Fighting","Ambidexterity","Assess Wounds","Attribute Training","Blind Fighting","Combat Defense","Fighter's Mark","Intimidate","Knowledge of Weapons and Armor","Leadership","Manipulate Field","Mounted Combat","Power Attack","Ranged Mastery","Rogue's Life","Show of Strength","Single-Minded","Spirit of Steel"],
+    monk: ["Accelerated Ki","Ambidexterity","Attribute Training","Blind Fighting","Death Attack","Flurry of Blows","Jump Initiative","Mounted Combat","Pathfinder","Poison Use","Ranged Mastery","Roguish Bent","Scholar","Self Defense","Theology","Urban Tracker"],
+    paladin: ["Allied Fighting","Attribute Training","Blind Fighting","Companion Training","Detect Necromancy","Detect Residue","Divine Aid","Holy Light","Interaction","Leadership","Manipulate Field","Mounted Combat","Scholar"],
+    ranger: ["Attribute Training","Beastmaster","Blind Fighting","Companion Training","Defender","Mounted Combat","Poison Use","Primitive Empathy","Ranged Mastery","Ranger's Bane","Two Weapon Mastery","Urban Stealth","Urban Tracker"],
+    thief: ["Ambidexterity","Attribute Training","Blind Fighting","Dagger Toss","Death Attack","Dirty Fighting","Fast Talking","Fence","Jump Initiative","Mounted Combat","Nonweapon Mastery","Poison Use","Ranged Mastery","Silver Tongue","Theology","Thug Minded","Trailing"],
+    wizard: ["Arcane Force","Attribute Training","Item Lore","Light Armor Use","Mounted Combat","Offensive Spell Mastery I","Scholar","Theology","Versatile Casting","Wandcraft"]
+  };
+
+  // Map talent name to which page file it lives on
+  function getTalentPageLink(name) {
+    const first = name.charAt(0).toUpperCase();
+    let page;
+    if (first <= 'C') page = 'talents-a-c';
+    else if (first <= 'H') page = 'talents-d-h';
+    else if (first <= 'N') page = 'talents-i-n';
+    else if (first <= 'S') page = 'talents-o-s';
+    else page = 'talents-t-z';
+    const anchor = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+$/, '');
+    return `${BASE}/players/class-talents/${page}#${anchor}`;
+  }
+
   document.getElementById('loading').style.display = 'none';
   document.getElementById('my-characters').style.display = 'block';
 
@@ -514,7 +555,7 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
       // Identity
       id: () => genId(), name: 'Unknown', ancestry: 'Human', ancestryId: 'human',
       className: 'Fighter', classId: 'fighter', level: 1, xp: 0,
-      xpNote: null, xpType: null, alignment: '',
+      xpNote: null, xpType: null, alignment: '', classTalent: null,
       // Attributes
       baseAttrs: () => ({ STR:10, DEX:10, CON:10, INT:10, WIS:10, CHA:10 }),
       ancestryMods: () => ({}), humanBonus: null,
@@ -1607,6 +1648,40 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
     }, { once: true });
   }
 
+  // ============ UI: CLASS TALENT ============
+  function showTalentStep() {
+    hideGenSteps();
+    document.getElementById('step-talent').style.display = 'block';
+    if (!genState.talent) genState.talent = null;
+    const talents = CLASS_TALENTS_L1[genState.classData.id] || [];
+    const container = document.getElementById('talent-options');
+    const selectedDiv = document.getElementById('talent-selected');
+    if (genState.talent) {
+      selectedDiv.style.display = 'block';
+      document.getElementById('talent-selected-name').textContent = genState.talent;
+    } else {
+      selectedDiv.style.display = 'none';
+    }
+    container.innerHTML = talents.map(t => {
+      const picked = genState.talent === t;
+      const link = getTalentPageLink(t);
+      return `<div class="option-card${picked?' disabled':''}" data-talent="${t}" style="padding:.5rem .75rem;">
+        <strong style="font-size:.9rem;">${t}</strong>
+        <div style="font-size:.75rem;"><a href="${link}" target="_blank" style="color:#4a1a6b;" onclick="event.stopPropagation();">Details &rarr;</a></div>
+      </div>`;
+    }).join('');
+    container.querySelectorAll('.option-card:not(.disabled)').forEach(el => {
+      el.addEventListener('click', () => {
+        genState.talent = el.dataset.talent;
+        showTalentStep();
+      });
+    });
+    document.getElementById('talent-clear').addEventListener('click', () => {
+      genState.talent = null;
+      showTalentStep();
+    });
+  }
+
   // ============ UI: EQUIPMENT SHOPPING ============
   function showEquipStep() {
     hideGenSteps();
@@ -1859,6 +1934,7 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
         ...(genState.nwpChoices ? genState.nwpChoices : [])
       ],
       gold: genState.gold || 0,
+      classTalent: genState.talent || null,
       notes: '',
       createdAt: new Date().toISOString()
     };
@@ -2182,6 +2258,7 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
       })()}
 
       ${specialsHtml ? `<h2>Class Abilities (Level 1)</h2>${specialsHtml}` : ''}
+      ${char.classTalent ? `<h2>Class Talent</h2><div class="ability-box"><div class="ab-name">${char.classTalent} <span class="ab-arrow">&#9654;</span></div><div class="ab-desc"><a href="${getTalentPageLink(char.classTalent)}" target="_blank" style="color:#4a1a6b;">Full description &rarr;</a></div></div>` : ''}
 
       <h2>Weapon Proficiencies</h2>
       ${(char.weaponProficiencies||[]).length > 0 ? (char.weaponProficiencies||[]).map((wp, i) =>
@@ -2786,7 +2863,10 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
   });
   document.getElementById('wp-done-btn').addEventListener('click', showNWPStep);
   document.getElementById('back-to-wp-from-nwp-btn').addEventListener('click', showWPStep);
-  document.getElementById('nwp-done-btn').addEventListener('click', showEquipStep);
+  document.getElementById('nwp-done-btn').addEventListener('click', showTalentStep);
+  document.getElementById('back-to-nwp-from-talent-btn').addEventListener('click', showNWPStep);
+  document.getElementById('talent-done-btn').addEventListener('click', showEquipStep);
+  document.getElementById('talent-skip-btn').addEventListener('click', () => { genState.talent = null; showEquipStep(); });
   document.getElementById('back-to-nwp-btn').addEventListener('click', showNWPStep);
 
   // Equipment step
