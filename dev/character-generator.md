@@ -81,6 +81,23 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
       <div id="class-options" class="option-grid"></div>
     </div>
 
+    <!-- Step 3b: Alignment -->
+    <div id="step-alignment" class="gen-step" style="display:none;">
+      <h2>Choose Alignment</h2>
+      <button id="back-to-class-from-align-btn" class="btn-back">&larr; Back to Class</button>
+      <p id="align-note" style="color:#888;font-size:.9rem;"></p>
+      <div id="alignment-options" class="option-grid" style="grid-template-columns:repeat(3,1fr);"></div>
+    </div>
+
+    <!-- Step 3c: Ancestry Free Proficiencies -->
+    <div id="step-ancestry-profs" class="gen-step" style="display:none;">
+      <h2>Ancestry Proficiencies</h2>
+      <button id="back-to-align-btn" class="btn-back">&larr; Back to Alignment</button>
+      <p style="font-size:.9rem;color:#666;">These are <strong>free</strong> &mdash; they don't cost proficiency slots.</p>
+      <div id="ancestry-prof-content"></div>
+      <button id="ancestry-prof-done-btn" class="btn-primary" style="margin-top:1rem;">Continue to Weapon Proficiencies &rarr;</button>
+    </div>
+
     <!-- Step 4: Weapon Proficiencies -->
     <div id="step-wp" class="gen-step" style="display:none;">
       <h2>Step 4: Weapon Proficiencies</h2>
@@ -409,6 +426,60 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
     ]
   };
 
+  // Alignment data
+  const ALIGNMENT_NAMES = {
+    'LG':'Lawful Good','NG':'Neutral Good','CG':'Chaotic Good',
+    'LN':'Lawful Neutral','TN':'True Neutral','CN':'Chaotic Neutral',
+    'LE':'Lawful Evil','NE':'Neutral Evil','CE':'Chaotic Evil'
+  };
+  function getAllowedAlignments(alignText) {
+    if (!alignText) return Object.keys(ALIGNMENT_NAMES);
+    const t = alignText.toLowerCase();
+    if (t === 'any') return Object.keys(ALIGNMENT_NAMES);
+    if (t.includes('true neutral')) return ['TN'];
+    if (t === 'lawful good') return ['LG'];
+    if (t.includes('any non-lawful')) return ['NG','CG','TN','CN','NE','CE'];
+    if (t.includes('any lawful')) return ['LG','LN','LE'];
+    if (t.includes('any good')) return ['LG','NG','CG'];
+    if (t.includes('any neutral') || t.includes('neutrality on one axis')) return ['NG','LN','TN','CN','NE'];
+    if (t.includes('within one step')) return Object.keys(ALIGNMENT_NAMES); // GM decides
+    return Object.keys(ALIGNMENT_NAMES);
+  }
+
+  // Class free NWPs (don't cost slots)
+  const CLASS_FREE_NWPS = {
+    barbarian: [
+      { name:"Wilderness Survival", attr:"WIS", group:"Nature", slots:0, level:"Minor", bonus:2, free:true }
+    ],
+    bard: [
+      { name:"Decipher Script", attr:"INT", group:"Rogue", slots:0, level:"Minor", bonus:2, free:true },
+      { name:"Perception", attr:"INT", group:"Rogue", slots:0, level:"Minor", bonus:2, free:true }
+    ],
+    cleric: [
+      { name:"Religion", attr:"INT", group:"Academic", slots:0, level:"Minor", bonus:2, free:true }
+    ],
+    druid: [
+      { name:"Animal Handling", attr:"WIS", group:"Nature", slots:0, level:"Minor", bonus:2, free:true },
+      { name:"Tracking", attr:"WIS", group:"Nature", slots:0, level:"Minor", bonus:2, free:true },
+      { name:"Wilderness Survival", attr:"WIS", group:"Nature", slots:0, level:"Minor", bonus:2, free:true }
+    ],
+    fighter: [],
+    monk: [],
+    paladin: [],
+    ranger: [
+      { name:"Animal Handling", attr:"WIS", group:"Nature", slots:0, level:"Minor", bonus:2, free:true },
+      { name:"Stealth (wilderness)", attr:"DEX", group:"Rogue", slots:0, level:"Minor", bonus:2, free:true },
+      { name:"Wilderness Survival", attr:"WIS", group:"Nature", slots:0, level:"Minor", bonus:2, free:true },
+      { name:"Tracking", attr:"WIS", group:"Nature", slots:0, level:"Minor", bonus:2, free:true }
+    ],
+    thief: [
+      { name:"Climbing (DEX)", attr:"DEX", group:"General", slots:0, level:"Minor", bonus:2, free:true }
+    ],
+    wizard: [
+      { name:"Spellcraft", attr:"INT", group:"Academic", slots:0, level:"Minor", bonus:2, free:true }
+    ]
+  };
+
   document.getElementById('loading').style.display = 'none';
   document.getElementById('my-characters').style.display = 'block';
 
@@ -426,6 +497,9 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
     charClass: null,
     classData: null,
     humanBonus: null,
+    alignment: null,
+    ancestryFreeWPs: [],
+    ancestryFreeNWPs: [],
     name: ''
   };
 
@@ -440,7 +514,7 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
       // Identity
       id: () => genId(), name: 'Unknown', ancestry: 'Human', ancestryId: 'human',
       className: 'Fighter', classId: 'fighter', level: 1, xp: 0,
-      xpNote: null, xpType: null,
+      xpNote: null, xpType: null, alignment: '',
       // Attributes
       baseAttrs: () => ({ STR:10, DEX:10, CON:10, INT:10, WIS:10, CHA:10 }),
       ancestryMods: () => ({}), humanBonus: null,
@@ -671,7 +745,7 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
   }
 
   function showGenerator() {
-    genState = { method:'legacy', scores:[], assigned:{}, ancestry:null, ancestryData:null, charClass:null, classData:null, humanBonus:null, name:'' };
+    genState = { method:'legacy', scores:[], assigned:{}, ancestry:null, ancestryData:null, charClass:null, classData:null, humanBonus:null, alignment:null, ancestryFreeWPs:[], ancestryFreeNWPs:[], name:'' };
     hideAll();
     document.getElementById('gen-steps').style.display = 'block';
     document.getElementById('step-attrs').style.display = 'block';
@@ -1074,7 +1148,168 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
     const c = DATA.classes.find(x => x.id === id);
     genState.charClass = id;
     genState.classData = c;
-    showWPStep();
+    showAlignmentStep();
+  }
+
+  // ============ UI: ALIGNMENT ============
+  function showAlignmentStep() {
+    const cls = genState.classData;
+    const allowed = getAllowedAlignments(cls.alignment);
+    // If only one option, auto-select and skip
+    if (allowed.length === 1) {
+      genState.alignment = allowed[0];
+      showAncestryProfsStep();
+      return;
+    }
+    hideGenSteps();
+    document.getElementById('step-alignment').style.display = 'block';
+    document.getElementById('align-note').textContent = `${cls.name} alignment: ${cls.alignment}`;
+    const grid = document.getElementById('alignment-options');
+    grid.innerHTML = allowed.map(a =>
+      `<div class="option-card" data-align="${a}" style="text-align:center;padding:.75rem;">
+        <h3 style="font-size:.95rem;">${ALIGNMENT_NAMES[a]}</h3>
+      </div>`
+    ).join('');
+    grid.querySelectorAll('.option-card').forEach(el => {
+      el.addEventListener('click', () => {
+        genState.alignment = el.dataset.align;
+        showAncestryProfsStep();
+      });
+    });
+  }
+
+  // ============ UI: ANCESTRY FREE PROFICIENCIES ============
+  function showAncestryProfsStep() {
+    const anc = genState.ancestryData;
+    const hasWeaponChoices = anc.free_weapon_choices && anc.free_weapon_choices.some(c => c.choose > 0);
+    const hasNWPChoices = anc.free_nwp_choices && anc.free_nwp_choices.some(c => c.choose > 0);
+    // If no choices needed, auto-collect and skip
+    if (!hasWeaponChoices && !hasNWPChoices) {
+      genState.ancestryFreeWPs = [];
+      genState.ancestryFreeNWPs = [];
+      // Auto-add any auto items
+      if (anc.free_weapon_choices) {
+        for (const c of anc.free_weapon_choices) {
+          if (c.auto) genState.ancestryFreeWPs.push(...c.auto.map(n => ({ type:'ancestry_free', name:n, slots:0 })));
+        }
+      }
+      if (anc.free_nwp_choices) {
+        for (const c of anc.free_nwp_choices) {
+          if (c.choose === 0) genState.ancestryFreeNWPs.push(...c.options.map(o => ({...o, free:true, slots:0})));
+        }
+      }
+      showWPStep();
+      return;
+    }
+    hideGenSteps();
+    document.getElementById('step-ancestry-profs').style.display = 'block';
+    genState.ancestryFreeWPs = [];
+    genState.ancestryFreeNWPs = [];
+    // Auto-add auto items
+    if (anc.free_weapon_choices) {
+      for (const c of anc.free_weapon_choices) {
+        if (c.auto) genState.ancestryFreeWPs.push(...c.auto.map(n => ({ type:'ancestry_free', name:n, slots:0 })));
+      }
+    }
+    if (anc.free_nwp_choices) {
+      for (const c of anc.free_nwp_choices) {
+        if (c.choose === 0) genState.ancestryFreeNWPs.push(...c.options.map(o => ({...o, free:true, slots:0})));
+      }
+    }
+    renderAncestryProfs();
+  }
+
+  function renderAncestryProfs() {
+    const anc = genState.ancestryData;
+    const container = document.getElementById('ancestry-prof-content');
+    let html = '';
+    // Show auto-added items
+    if (genState.ancestryFreeWPs.length > 0) {
+      html += `<div style="margin-bottom:.75rem;"><strong>Automatic:</strong> ${genState.ancestryFreeWPs.map(w => w.name).join(', ')}</div>`;
+    }
+    if (genState.ancestryFreeNWPs.length > 0) {
+      html += `<div style="margin-bottom:.75rem;"><strong>Free skills:</strong> ${genState.ancestryFreeNWPs.map(n => n.name).join(', ')}</div>`;
+    }
+    // Show choices needed
+    if (anc.free_weapon_choices) {
+      for (const choice of anc.free_weapon_choices) {
+        if (choice.choose > 0) {
+          const picked = genState.ancestryFreeWPs.filter(w => w.choiceLabel === choice.label);
+          const remaining = choice.choose - picked.length;
+          html += `<h3 style="font-size:.95rem;color:#4a1a6b;margin:.75rem 0 .5rem 0;">${choice.label} (choose ${choice.choose})</h3>`;
+          if (picked.length > 0) {
+            html += `<div style="margin-bottom:.5rem;color:#2e7d32;">${picked.map((p,i) => `<strong>${p.name}</strong> <span class="wt-remove" data-rmfwp="${i}" style="cursor:pointer;color:#c44;">&times;</span>`).join(', ')}</div>`;
+          }
+          if (remaining > 0) {
+            html += `<div class="option-grid" style="grid-template-columns:repeat(auto-fill,minmax(180px,1fr));">`;
+            for (const opt of choice.options) {
+              const alreadyPicked = picked.some(p => p.name === opt);
+              html += `<div class="option-card${alreadyPicked?' disabled':''}" data-action="pick-free-wp" data-name="${opt}" data-label="${choice.label}" style="padding:.5rem .75rem;">
+                <strong style="font-size:.9rem;">${opt}</strong>
+              </div>`;
+            }
+            html += `</div>`;
+          }
+        }
+      }
+    }
+    if (anc.free_nwp_choices) {
+      for (const choice of anc.free_nwp_choices) {
+        if (choice.choose > 0) {
+          const picked = genState.ancestryFreeNWPs.filter(n => n.choiceLabel === choice.label);
+          const remaining = choice.choose - picked.length;
+          html += `<h3 style="font-size:.95rem;color:#4a1a6b;margin:.75rem 0 .5rem 0;">${choice.label} (choose ${choice.choose})</h3>`;
+          if (picked.length > 0) {
+            html += `<div style="margin-bottom:.5rem;color:#2e7d32;">${picked.map(p => `<strong>${p.name}</strong>`).join(', ')}</div>`;
+          }
+          if (remaining > 0) {
+            html += `<div class="option-grid" style="grid-template-columns:repeat(auto-fill,minmax(220px,1fr));">`;
+            for (const opt of choice.options) {
+              const alreadyPicked = picked.some(p => p.name === opt.name);
+              html += `<div class="option-card${alreadyPicked?' disabled':''}" data-action="pick-free-nwp" data-name="${opt.name}" data-attr="${opt.attr}" data-group="${opt.group}" data-label="${choice.label}" style="padding:.5rem .75rem;">
+                <strong style="font-size:.9rem;">${opt.name}</strong> <span style="color:#888;font-size:.8rem;">(${opt.attr})</span>
+              </div>`;
+            }
+            html += `</div>`;
+          }
+        }
+      }
+    }
+    // Check if all choices are made
+    let allDone = true;
+    if (anc.free_weapon_choices) {
+      for (const c of anc.free_weapon_choices) {
+        if (c.choose > 0 && genState.ancestryFreeWPs.filter(w => w.choiceLabel === c.label).length < c.choose) allDone = false;
+      }
+    }
+    if (anc.free_nwp_choices) {
+      for (const c of anc.free_nwp_choices) {
+        if (c.choose > 0 && genState.ancestryFreeNWPs.filter(n => n.choiceLabel === c.label).length < c.choose) allDone = false;
+      }
+    }
+    document.getElementById('ancestry-prof-done-btn').style.display = allDone ? '' : 'none';
+    container.innerHTML = html;
+    // Events
+    container.querySelectorAll('[data-action="pick-free-wp"]').forEach(el => {
+      el.addEventListener('click', () => {
+        genState.ancestryFreeWPs.push({ type:'ancestry_free', name: el.dataset.name, choiceLabel: el.dataset.label, slots:0 });
+        renderAncestryProfs();
+      });
+    });
+    container.querySelectorAll('[data-action="pick-free-nwp"]').forEach(el => {
+      el.addEventListener('click', () => {
+        genState.ancestryFreeNWPs.push({ name: el.dataset.name, attr: el.dataset.attr, group: el.dataset.group, choiceLabel: el.dataset.label, slots:0, level:'Minor', bonus:2, free:true });
+        renderAncestryProfs();
+      });
+    });
+    container.querySelectorAll('[data-rmfwp]').forEach(el => {
+      el.addEventListener('click', () => {
+        const choiceWPs = genState.ancestryFreeWPs.filter(w => w.choiceLabel);
+        choiceWPs.splice(parseInt(el.dataset.rmfwp), 1);
+        genState.ancestryFreeWPs = genState.ancestryFreeWPs.filter(w => !w.choiceLabel).concat(choiceWPs);
+        renderAncestryProfs();
+      });
+    });
   }
 
   // ============ UI: WEAPON PROFICIENCIES ============
@@ -1603,6 +1838,7 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
       languages: [...(anc.languages || [])],
       baseLanguageCount: (anc.languages || []).length,
       specials,
+      alignment: genState.alignment ? (ALIGNMENT_NAMES[genState.alignment] || genState.alignment) : '',
       spellcasting: cls.spellcasting || null,
       wpSlots: cls.weapon_slots_start,
       nwpSlots: cls.nwp_slots_start + (cls.id === 'thief' ? 4 : 0) + (anc.id === 'half-elf' ? 1 : 0),
@@ -1613,8 +1849,15 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
       armorBonus: 0,
       shieldBonus: 0,
       miscACBonus: 0,
-      weaponProficiencies: genState.wpChoices ? [...genState.wpChoices] : [],
-      nonweaponProficiencies: genState.nwpChoices ? [...genState.nwpChoices] : [],
+      weaponProficiencies: [
+        ...(genState.ancestryFreeWPs || []),
+        ...(genState.wpChoices ? genState.wpChoices : [])
+      ],
+      nonweaponProficiencies: [
+        ...(genState.ancestryFreeNWPs || []),
+        ...(CLASS_FREE_NWPS[cls.id] || []),
+        ...(genState.nwpChoices ? genState.nwpChoices : [])
+      ],
       gold: genState.gold || 0,
       notes: '',
       createdAt: new Date().toISOString()
@@ -1843,6 +2086,7 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
       <div class="sheet-header">
         <h1 class="editable" data-field="name" title="Click to rename">${char.name}</h1>
         <div class="sh-subtitle">${char.ancestry} ${char.className} &mdash; Level <span class="editable" data-field="level" title="Click to edit">${char.level}</span></div>
+        ${char.alignment ? `<div style="font-size:.9rem;color:#555;">${char.alignment}</div>` : ''}
         <div style="font-size:.85rem;color:#666;margin-top:.25rem;">
           XP: <span class="editable" data-field="xp" title="Click to edit">${char.xp}</span>
           ${xpHtml}
@@ -1949,7 +2193,7 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
         </div>`
       ).join('') : ''}
       <div style="font-size:.8rem;color:#888;margin-bottom:.5rem;">
-        ${char.wpSlots - (char.weaponProficiencies||[]).reduce((s,p)=>s+(p.slots||1),0)} of ${char.wpSlots} slots remaining
+        ${char.wpSlots - (char.weaponProficiencies||[]).filter(p=>p.slots!==0).reduce((s,p)=>s+(p.slots||1),0)} of ${char.wpSlots} slots remaining
       </div>
       <div class="add-row">
         <select id="add-wp-select">
@@ -1971,17 +2215,18 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
           ${(char.nonweaponProficiencies||[]).map((p, i) => {
             const attrScore = char.finalAttrs[p.attr] || 10;
             const totalBonus = getCheckMod(attrScore) + (p.bonus || 2);
+            const isFree = p.free || p.slots === 0;
             return `<tr>
-              <td>${p.name}</td>
+              <td>${p.name}${isFree ? ' <span style="font-size:.65rem;color:#2e7d32;">(free)</span>' : ''}</td>
               <td>${p.attr}</td>
               <td style="color:#4a1a6b;font-weight:bold;">${p.level || 'Minor'}</td>
               <td style="font-weight:bold;">${formatMod(totalBonus)}</td>
-              <td><span class="wt-remove" data-nwpidx="${i}">&times;</span></td>
+              <td>${!isFree ? `<span class="wt-remove" data-nwpidx="${i}">&times;</span>` : ''}</td>
             </tr>`;
           }).join('')}
         </table>` : ''}
       <div style="font-size:.8rem;color:#888;margin-bottom:.5rem;">
-        <strong>Groups:</strong> ${char.nwpGroups.join(', ')} | <strong>Slots:</strong> ${char.nwpSlots} total, ${char.nwpSlots - (char.nonweaponProficiencies||[]).reduce((s,p)=>s+(p.slots||1),0)} remaining
+        <strong>Groups:</strong> ${char.nwpGroups.join(', ')} | <strong>Slots:</strong> ${char.nwpSlots} total, ${char.nwpSlots - (char.nonweaponProficiencies||[]).filter(p=>!p.free&&p.slots!==0).reduce((s,p)=>s+(p.slots||1),0)} remaining
       </div>
       <div class="add-row">
         <select id="add-nwp-select">
@@ -2523,9 +2768,20 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
     genState.charClass = null; genState.classData = null;
     showAncestryStep();
   });
+  // Alignment step
+  document.getElementById('back-to-class-from-align-btn').addEventListener('click', () => {
+    genState.alignment = null;
+    showClassStep();
+  });
+  // Ancestry profs step
+  document.getElementById('back-to-align-btn').addEventListener('click', () => {
+    genState.ancestryFreeWPs = []; genState.ancestryFreeNWPs = [];
+    showAlignmentStep();
+  });
+  document.getElementById('ancestry-prof-done-btn').addEventListener('click', showWPStep);
   // Weapon proficiencies step
   document.getElementById('back-to-class-from-wp-btn').addEventListener('click', () => {
-    genState.charClass = null; genState.classData = null; genState.wpChoices = [];
+    genState.charClass = null; genState.classData = null; genState.wpChoices = []; genState.alignment = null; genState.ancestryFreeWPs = []; genState.ancestryFreeNWPs = [];
     showClassStep();
   });
   document.getElementById('wp-done-btn').addEventListener('click', showNWPStep);

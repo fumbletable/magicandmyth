@@ -40,6 +40,15 @@
         "ancestral": "Minor proficiency in either Engineering or Mining.",
         "weaponry_optional": "Proficiency in either hammers or picks (one and two-handed versions)."
       },
+      "free_weapon_choices": [
+        { "label": "Dwarf Weapon Training", "choose": 1, "options": ["War Hammer + Maul (hammers group)", "War Pick + Heavy Pick (picks group)"], "ids": ["hammers", "picks"] }
+      ],
+      "free_nwp_choices": [
+        { "label": "Dwarven Craft", "choose": 1, "options": [
+          { "name": "Engineering", "attr": "INT", "group": "Academic", "slots": 1, "level": "Minor", "bonus": 2 },
+          { "name": "Mining", "attr": "INT", "group": "Academic", "slots": 1, "level": "Minor", "bonus": 2 }
+        ]}
+      ],
       "weapons_armor": "Any allowed by class. Tend not to use bows or elven armor.",
       "allowed_classes": ["barbarian", "cleric", "druid", "fighter", "paladin", "ranger", "thief"],
       "restricted_classes": {
@@ -82,6 +91,9 @@
       "proficiencies": {
         "weaponry_optional": "Free weapon proficiency in one of: longsword, elven thin blade, short sword, rapier, or bow."
       },
+      "free_weapon_choices": [
+        { "label": "Elven Weapon Training", "choose": 1, "options": ["Longsword", "Elven Thin Blade", "Short Sword", "Rapier", "Short Bow", "Long Bow"] }
+      ],
       "weapons_armor": "Any allowed by class. Tend not to use axes or heavy armor.",
       "allowed_classes": ["bard", "cleric", "druid", "fighter", "monk", "paladin", "ranger", "thief", "wizard"]
     },
@@ -130,6 +142,15 @@
         "ancestral": "Minor proficiency in Gemcutting and Engineering.",
         "weaponry_optional": "Proficient with shortspear. Double damage when set for charge."
       },
+      "free_weapon_choices": [
+        { "label": "Gnome Weapon Training", "choose": 0, "auto": ["Spear (shortspear)"] }
+      ],
+      "free_nwp_choices": [
+        { "label": "Gnome Crafts", "choose": 0, "options": [
+          { "name": "Craft (Gemcutting)", "attr": "INT", "group": "General", "slots": 1, "level": "Minor", "bonus": 2 },
+          { "name": "Engineering", "attr": "INT", "group": "Academic", "slots": 1, "level": "Minor", "bonus": 2 }
+        ]}
+      ],
       "weapons_armor": "Any allowed by class. Weapons one size smaller, one less damage die category.",
       "size_note": "Small. Weapons deal one less dice category in damage (e.g., 1d6 becomes 1d4).",
       "allowed_classes": ["bard", "cleric", "druid", "fighter", "thief"],
@@ -168,6 +189,9 @@
       "proficiencies": {
         "weaponry_optional": "Free proficiency in longsword, elven thin blade, rapier, or any bow."
       },
+      "free_weapon_choices": [
+        { "label": "Half-Elf Weapon Training", "choose": 1, "options": ["Longsword", "Elven Thin Blade", "Rapier", "Short Bow", "Long Bow"] }
+      ],
       "weapons_armor": "Any not forbidden by class.",
       "allowed_classes": ["barbarian", "bard", "cleric", "druid", "fighter", "monk", "paladin", "ranger", "thief", "wizard"]
     },
@@ -197,6 +221,16 @@
         "ancestral": "Minor proficiency in either Wilderness Survival or Mountaineering.",
         "weaponry_optional": "Proficient in any one axe and unarmed attacks."
       },
+      "free_weapon_choices": [
+        { "label": "Half-Orc Weapon Training", "choose": 1, "options": ["Battle Axe", "Great Axe", "Hand/Throwing Axe"] },
+        { "label": "Half-Orc Unarmed", "choose": 0, "auto": ["Unarmed Combat"] }
+      ],
+      "free_nwp_choices": [
+        { "label": "Half-Orc Survival", "choose": 1, "options": [
+          { "name": "Wilderness Survival", "attr": "WIS", "group": "Nature", "slots": 1, "level": "Minor", "bonus": 2 },
+          { "name": "Mountaineering", "attr": "WIS", "group": "Nature", "slots": 1, "level": "Minor", "bonus": 2 }
+        ]}
+      ],
       "weapons_armor": "Any allowed by class.",
       "allowed_classes": ["barbarian", "bard", "cleric", "druid", "fighter", "monk", "paladin", "ranger", "thief", "wizard"],
       "class_notes": {
@@ -235,6 +269,10 @@
       "proficiencies": {
         "weaponry_optional": "Free proficiency in slings and one of: javelins, throwing dagger, throwing axe, or spear. +1 attack and damage with slings."
       },
+      "free_weapon_choices": [
+        { "label": "Halfling Sling Mastery", "choose": 0, "auto": ["Sling (+1 atk/dmg)"] },
+        { "label": "Halfling Thrown Weapon", "choose": 1, "options": ["Javelin", "Dagger (thrown)", "Hand/Throwing Axe", "Spear"] }
+      ],
       "weapons_armor": "Any allowed by class. Weapons one size smaller, one less damage die category.",
       "size_note": "Small. Weapons deal one less dice category in damage.",
       "allowed_classes": ["bard", "cleric", "druid", "fighter", "ranger", "thief", "wizard"]
