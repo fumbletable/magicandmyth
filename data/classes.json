@@ -4,7 +4,11 @@
       "id": "barbarian",
       "name": "Barbarian",
       "hit_die": "d12",
-      "allowed_ancestries": ["human", "half-orc", "half-elf"],
+      "allowed_ancestries": [
+        "human",
+        "half-orc",
+        "half-elf"
+      ],
       "alignment": "Any non-lawful",
       "attribute_requirements": {
         "note": "Optional. Suffer -10% XP if not met.",
@@ -12,82 +16,701 @@
         "CON": 12
       },
       "prime_example": {
-        "ancestries": ["human", "half-orc"],
-        "requirements": { "STR": 16, "CON": 16 },
+        "ancestries": [
+          "human",
+          "half-orc"
+        ],
+        "requirements": {
+          "STR": 16,
+          "CON": 16
+        },
         "bonus": "+10% XP"
       },
       "weapon_slots_start": 4,
       "weapon_slot_rate": "Every 3rd level",
       "nonproficiency_penalty": -2,
       "bth_level1": 0,
-      "weapon_groups": ["axes", "blades", "bows", "clubs_maces", "picks_hammers", "simple_melee", "simple_ranged"],
+      "weapon_groups": [
+        "axes",
+        "blades",
+        "bows",
+        "clubs_maces",
+        "picks_hammers",
+        "simple_melee",
+        "simple_ranged"
+      ],
       "nwp_slots_start": 2,
-      "nwp_groups": ["General", "Nature"],
+      "nwp_groups": [
+        "General",
+        "Nature"
+      ],
       "armor": "Padded cloth, leather, studded leather, hide. Bucklers and small shields only.",
-      "saves_level1": { "fort": 6, "reflex": 5, "will": 4 },
+      "saves_level1": {
+        "fort": 6,
+        "reflex": 5,
+        "will": 4
+      },
       "level_chart": [
-        { "level":1, "xp":0, "hp":"1d12 max", "bth":0, "attack_rate":"1/1", "nwp":2, "wp":4, "fort":6, "reflex":5, "will":4, "special":["Danger Sense","Home Terrain","Warrior Prowess","Wilderness Skills"] },
-        { "level":2, "xp":2250, "hp":"2d12", "bth":1, "attack_rate":"1/1", "nwp":2, "wp":4, "fort":7, "reflex":5, "will":4, "special":["First Ancestral Power"] },
-        { "level":3, "xp":4500, "hp":"3d12", "bth":2, "attack_rate":"1/1", "nwp":2, "wp":5, "fort":7, "reflex":6, "will":5, "special":[] },
-        { "level":4, "xp":9000, "hp":"4d12", "bth":3, "attack_rate":"1/1", "nwp":3, "wp":5, "fort":8, "reflex":6, "will":5, "special":["Second Ancestral Power"] },
-        { "level":5, "xp":18000, "hp":"5d12", "bth":4, "attack_rate":"1/1", "nwp":3, "wp":5, "fort":8, "reflex":7, "will":6, "special":[] },
-        { "level":6, "xp":36000, "hp":"6d12", "bth":5, "attack_rate":"1/1", "nwp":3, "wp":6, "fort":9, "reflex":7, "will":7, "special":["Third Ancestral Power"] },
-        { "level":7, "xp":75000, "hp":"7d12", "bth":6, "attack_rate":"3/2", "nwp":3, "wp":6, "fort":9, "reflex":8, "will":7, "special":[] },
-        { "level":8, "xp":150000, "hp":"8d12", "bth":7, "attack_rate":"3/2", "nwp":4, "wp":6, "fort":10, "reflex":8, "will":8, "special":["Enhanced Ancestral Power"] },
-        { "level":9, "xp":300000, "hp":"9d12", "bth":8, "attack_rate":"3/2", "nwp":4, "wp":7, "fort":10, "reflex":9, "will":8, "special":[] },
-        { "level":10, "xp":600000, "hp":"9d12+3", "bth":9, "attack_rate":"3/2", "nwp":4, "wp":7, "fort":11, "reflex":9, "will":9, "special":["Enhanced Ancestral Power"] },
-        { "level":11, "xp":900000, "hp":"9d12+6", "bth":10, "attack_rate":"3/2", "nwp":4, "wp":7, "fort":11, "reflex":10, "will":10, "special":[] },
-        { "level":12, "xp":1200000, "hp":"9d12+9", "bth":11, "attack_rate":"3/2", "nwp":5, "wp":8, "fort":12, "reflex":10, "will":10, "special":["Enhanced Ancestral Power"] },
-        { "level":13, "xp":1500000, "hp":"9d12+12", "bth":12, "attack_rate":"2/1", "nwp":5, "wp":8, "fort":12, "reflex":11, "will":11, "special":[] },
-        { "level":14, "xp":1800000, "hp":"9d12+15", "bth":13, "attack_rate":"2/1", "nwp":5, "wp":8, "fort":13, "reflex":11, "will":11, "special":["Legendary Ancestral Power"] },
-        { "level":15, "xp":2100000, "hp":"9d12+18", "bth":14, "attack_rate":"2/1", "nwp":5, "wp":9, "fort":13, "reflex":12, "will":12, "special":[] },
-        { "level":16, "xp":2400000, "hp":"9d12+21", "bth":15, "attack_rate":"2/1", "nwp":6, "wp":9, "fort":14, "reflex":12, "will":13, "special":["Legendary Ancestral Power"] },
-        { "level":17, "xp":2700000, "hp":"9d12+24", "bth":16, "attack_rate":"2/1", "nwp":6, "wp":9, "fort":14, "reflex":13, "will":13, "special":[] },
-        { "level":18, "xp":3000000, "hp":"9d12+27", "bth":17, "attack_rate":"2/1", "nwp":6, "wp":10, "fort":15, "reflex":13, "will":14, "special":["Legendary Ancestral Power"] },
-        { "level":19, "xp":3300000, "hp":"9d12+30", "bth":18, "attack_rate":"2/1", "nwp":6, "wp":10, "fort":15, "reflex":13, "will":14, "special":[] },
-        { "level":20, "xp":3600000, "hp":"9d12+33", "bth":19, "attack_rate":"2/1", "nwp":7, "wp":10, "fort":15, "reflex":13, "will":14, "special":["Ascension"] }
+        {
+          "level": 1,
+          "xp": 0,
+          "hp": "1d12 max",
+          "bth": 0,
+          "attack_rate": "1/1",
+          "nwp": 2,
+          "wp": 4,
+          "fort": 6,
+          "reflex": 5,
+          "will": 4,
+          "special": [
+            "Danger Sense",
+            "Home Terrain",
+            "Warrior Prowess",
+            "Wilderness Skills"
+          ]
+        },
+        {
+          "level": 2,
+          "xp": 2250,
+          "hp": "2d12",
+          "bth": 1,
+          "attack_rate": "1/1",
+          "nwp": 2,
+          "wp": 4,
+          "fort": 7,
+          "reflex": 5,
+          "will": 4,
+          "special": [
+            "First Ancestral Power"
+          ]
+        },
+        {
+          "level": 3,
+          "xp": 4500,
+          "hp": "3d12",
+          "bth": 2,
+          "attack_rate": "1/1",
+          "nwp": 2,
+          "wp": 5,
+          "fort": 7,
+          "reflex": 6,
+          "will": 5,
+          "special": []
+        },
+        {
+          "level": 4,
+          "xp": 9000,
+          "hp": "4d12",
+          "bth": 3,
+          "attack_rate": "1/1",
+          "nwp": 3,
+          "wp": 5,
+          "fort": 8,
+          "reflex": 6,
+          "will": 5,
+          "special": [
+            "Second Ancestral Power"
+          ]
+        },
+        {
+          "level": 5,
+          "xp": 18000,
+          "hp": "5d12",
+          "bth": 4,
+          "attack_rate": "1/1",
+          "nwp": 3,
+          "wp": 5,
+          "fort": 8,
+          "reflex": 7,
+          "will": 6,
+          "special": []
+        },
+        {
+          "level": 6,
+          "xp": 36000,
+          "hp": "6d12",
+          "bth": 5,
+          "attack_rate": "1/1",
+          "nwp": 3,
+          "wp": 6,
+          "fort": 9,
+          "reflex": 7,
+          "will": 7,
+          "special": [
+            "Third Ancestral Power"
+          ]
+        },
+        {
+          "level": 7,
+          "xp": 75000,
+          "hp": "7d12",
+          "bth": 6,
+          "attack_rate": "3/2",
+          "nwp": 3,
+          "wp": 6,
+          "fort": 9,
+          "reflex": 8,
+          "will": 7,
+          "special": []
+        },
+        {
+          "level": 8,
+          "xp": 150000,
+          "hp": "8d12",
+          "bth": 7,
+          "attack_rate": "3/2",
+          "nwp": 4,
+          "wp": 6,
+          "fort": 10,
+          "reflex": 8,
+          "will": 8,
+          "special": [
+            "Enhanced Ancestral Power"
+          ]
+        },
+        {
+          "level": 9,
+          "xp": 300000,
+          "hp": "9d12",
+          "bth": 8,
+          "attack_rate": "3/2",
+          "nwp": 4,
+          "wp": 7,
+          "fort": 10,
+          "reflex": 9,
+          "will": 8,
+          "special": []
+        },
+        {
+          "level": 10,
+          "xp": 600000,
+          "hp": "9d12+3",
+          "bth": 9,
+          "attack_rate": "3/2",
+          "nwp": 4,
+          "wp": 7,
+          "fort": 11,
+          "reflex": 9,
+          "will": 9,
+          "special": [
+            "Enhanced Ancestral Power"
+          ]
+        },
+        {
+          "level": 11,
+          "xp": 900000,
+          "hp": "9d12+6",
+          "bth": 10,
+          "attack_rate": "3/2",
+          "nwp": 4,
+          "wp": 7,
+          "fort": 11,
+          "reflex": 10,
+          "will": 10,
+          "special": []
+        },
+        {
+          "level": 12,
+          "xp": 1200000,
+          "hp": "9d12+9",
+          "bth": 11,
+          "attack_rate": "3/2",
+          "nwp": 5,
+          "wp": 8,
+          "fort": 12,
+          "reflex": 10,
+          "will": 10,
+          "special": [
+            "Enhanced Ancestral Power"
+          ]
+        },
+        {
+          "level": 13,
+          "xp": 1500000,
+          "hp": "9d12+12",
+          "bth": 12,
+          "attack_rate": "2/1",
+          "nwp": 5,
+          "wp": 8,
+          "fort": 12,
+          "reflex": 11,
+          "will": 11,
+          "special": []
+        },
+        {
+          "level": 14,
+          "xp": 1800000,
+          "hp": "9d12+15",
+          "bth": 13,
+          "attack_rate": "2/1",
+          "nwp": 5,
+          "wp": 8,
+          "fort": 13,
+          "reflex": 11,
+          "will": 11,
+          "special": [
+            "Legendary Ancestral Power"
+          ]
+        },
+        {
+          "level": 15,
+          "xp": 2100000,
+          "hp": "9d12+18",
+          "bth": 14,
+          "attack_rate": "2/1",
+          "nwp": 5,
+          "wp": 9,
+          "fort": 13,
+          "reflex": 12,
+          "will": 12,
+          "special": []
+        },
+        {
+          "level": 16,
+          "xp": 2400000,
+          "hp": "9d12+21",
+          "bth": 15,
+          "attack_rate": "2/1",
+          "nwp": 6,
+          "wp": 9,
+          "fort": 14,
+          "reflex": 12,
+          "will": 13,
+          "special": [
+            "Legendary Ancestral Power"
+          ]
+        },
+        {
+          "level": 17,
+          "xp": 2700000,
+          "hp": "9d12+24",
+          "bth": 16,
+          "attack_rate": "2/1",
+          "nwp": 6,
+          "wp": 9,
+          "fort": 14,
+          "reflex": 13,
+          "will": 13,
+          "special": []
+        },
+        {
+          "level": 18,
+          "xp": 3000000,
+          "hp": "9d12+27",
+          "bth": 17,
+          "attack_rate": "2/1",
+          "nwp": 6,
+          "wp": 10,
+          "fort": 15,
+          "reflex": 13,
+          "will": 14,
+          "special": [
+            "Legendary Ancestral Power"
+          ]
+        },
+        {
+          "level": 19,
+          "xp": 3300000,
+          "hp": "9d12+30",
+          "bth": 18,
+          "attack_rate": "2/1",
+          "nwp": 6,
+          "wp": 10,
+          "fort": 15,
+          "reflex": 13,
+          "will": 14,
+          "special": []
+        },
+        {
+          "level": 20,
+          "xp": 3600000,
+          "hp": "9d12+33",
+          "bth": 19,
+          "attack_rate": "2/1",
+          "nwp": 7,
+          "wp": 10,
+          "fort": 15,
+          "reflex": 13,
+          "will": 14,
+          "special": [
+            "Ascension"
+          ]
+        }
       ]
     },
     {
       "id": "bard",
       "name": "Bard",
       "hit_die": "d6",
-      "allowed_ancestries": ["human", "half-elf", "halfling", "gnome"],
+      "allowed_ancestries": [
+        "human",
+        "half-elf",
+        "halfling",
+        "gnome"
+      ],
       "alignment": "Any neutral (must have neutrality on one axis)",
       "prime_example": {
-        "ancestries": ["human", "half-elf", "halfling", "gnome"],
-        "requirements": { "INT": 16, "CHA": 16 },
+        "ancestries": [
+          "human",
+          "half-elf",
+          "halfling",
+          "gnome"
+        ],
+        "requirements": {
+          "INT": 16,
+          "CHA": 16
+        },
         "bonus": "+10% XP"
       },
       "weapon_slots_start": 2,
       "weapon_slot_rate": "Every 4th level",
       "nonproficiency_penalty": -3,
-      "weapon_groups": ["all"],
+      "weapon_groups": [
+        "all"
+      ],
       "weapon_restriction": "Any weapon no larger than the bard",
       "bth_level1": 0,
       "nwp_slots_start": 3,
-      "nwp_groups": ["Academic", "General", "Rogue"],
+      "nwp_groups": [
+        "Academic",
+        "General",
+        "Rogue"
+      ],
       "armor": "Leather, padded, studded leather, brigandine, elven/mithral chain. No shields.",
-      "saves_level1": { "fort": 4, "reflex": 5, "will": 4 },
+      "saves_level1": {
+        "fort": 4,
+        "reflex": 5,
+        "will": 4
+      },
       "attribute_requirements": {
         "note": "Suffer -10% XP if both INT < 12 and CHA < 14.",
         "INT": 12,
         "CHA": 14
-      }
+      },
+      "level_chart": [
+        {
+          "level": 1,
+          "xp": 0,
+          "hp": "1d6 max",
+          "bth": 0,
+          "attack_rate": "1/1",
+          "nwp": 3,
+          "wp": 2,
+          "fort": 4,
+          "reflex": 5,
+          "will": 4,
+          "special": [
+            "Bard Knowledge +1",
+            "Bardic Performance +1",
+            "Rogue Proficiencies"
+          ]
+        },
+        {
+          "level": 2,
+          "xp": 1250,
+          "hp": "2d6",
+          "bth": 0,
+          "attack_rate": "1/1",
+          "nwp": 3,
+          "wp": 2,
+          "fort": 5,
+          "reflex": 6,
+          "will": 4,
+          "special": [
+            "Arcane Spells",
+            "Armored Caster",
+            "Bardic Knowledge +2"
+          ]
+        },
+        {
+          "level": 3,
+          "xp": 2500,
+          "hp": "3d6",
+          "bth": 1,
+          "attack_rate": "1/1",
+          "nwp": 3,
+          "wp": 2,
+          "fort": 5,
+          "reflex": 6,
+          "will": 5,
+          "special": [
+            "Bardic Performance +2"
+          ]
+        },
+        {
+          "level": 4,
+          "xp": 5000,
+          "hp": "4d6",
+          "bth": 1,
+          "attack_rate": "1/1",
+          "nwp": 4,
+          "wp": 3,
+          "fort": 5,
+          "reflex": 7,
+          "will": 5,
+          "special": [
+            "Bardic Knowledge +3"
+          ]
+        },
+        {
+          "level": 5,
+          "xp": 10000,
+          "hp": "5d6",
+          "bth": 2,
+          "attack_rate": "1/1",
+          "nwp": 4,
+          "wp": 3,
+          "fort": 5,
+          "reflex": 7,
+          "will": 6,
+          "special": []
+        },
+        {
+          "level": 6,
+          "xp": 20000,
+          "hp": "6d6",
+          "bth": 2,
+          "attack_rate": "1/1",
+          "nwp": 4,
+          "wp": 3,
+          "fort": 6,
+          "reflex": 8,
+          "will": 6,
+          "special": [
+            "Bardic Knowledge +4",
+            "Bardic Performance +3"
+          ]
+        },
+        {
+          "level": 7,
+          "xp": 40000,
+          "hp": "7d6",
+          "bth": 3,
+          "attack_rate": "1/1",
+          "nwp": 4,
+          "wp": 3,
+          "fort": 7,
+          "reflex": 8,
+          "will": 7,
+          "special": [
+            "Bardic Influence"
+          ]
+        },
+        {
+          "level": 8,
+          "xp": 70000,
+          "hp": "8d6",
+          "bth": 3,
+          "attack_rate": "1/1",
+          "nwp": 5,
+          "wp": 4,
+          "fort": 7,
+          "reflex": 9,
+          "will": 7,
+          "special": [
+            "Activate Arcane Scrolls",
+            "Bardic Knowledge +5"
+          ]
+        },
+        {
+          "level": 9,
+          "xp": 110000,
+          "hp": "9d6",
+          "bth": 4,
+          "attack_rate": "1/1",
+          "nwp": 5,
+          "wp": 4,
+          "fort": 7,
+          "reflex": 9,
+          "will": 8,
+          "special": [
+            "Bardic Performance +4",
+            "Renown"
+          ]
+        },
+        {
+          "level": 10,
+          "xp": 160000,
+          "hp": "9d6+2",
+          "bth": 4,
+          "attack_rate": "1/1",
+          "nwp": 5,
+          "wp": 4,
+          "fort": 7,
+          "reflex": 10,
+          "will": 8,
+          "special": [
+            "Activate Magic",
+            "Bardic Knowledge +6"
+          ]
+        },
+        {
+          "level": 11,
+          "xp": 220000,
+          "hp": "9d6+4",
+          "bth": 5,
+          "attack_rate": "1/1",
+          "nwp": 5,
+          "wp": 4,
+          "fort": 8,
+          "reflex": 10,
+          "will": 9,
+          "special": []
+        },
+        {
+          "level": 12,
+          "xp": 440000,
+          "hp": "9d6+6",
+          "bth": 5,
+          "attack_rate": "1/1",
+          "nwp": 6,
+          "wp": 5,
+          "fort": 9,
+          "reflex": 11,
+          "will": 9,
+          "special": [
+            "Bardic Knowledge +7",
+            "Bardic Performance +5"
+          ]
+        },
+        {
+          "level": 13,
+          "xp": 660000,
+          "hp": "9d6+8",
+          "bth": 6,
+          "attack_rate": "1/1",
+          "nwp": 6,
+          "wp": 5,
+          "fort": 9,
+          "reflex": 11,
+          "will": 10,
+          "special": []
+        },
+        {
+          "level": 14,
+          "xp": 880000,
+          "hp": "9d6+10",
+          "bth": 6,
+          "attack_rate": "1/1",
+          "nwp": 6,
+          "wp": 5,
+          "fort": 9,
+          "reflex": 12,
+          "will": 10,
+          "special": [
+            "Bardic Knowledge +8"
+          ]
+        },
+        {
+          "level": 15,
+          "xp": 1100000,
+          "hp": "9d6+12",
+          "bth": 7,
+          "attack_rate": "1/1",
+          "nwp": 6,
+          "wp": 5,
+          "fort": 9,
+          "reflex": 12,
+          "will": 11,
+          "special": [
+            "Bardic Performance +6"
+          ]
+        },
+        {
+          "level": 16,
+          "xp": 1320000,
+          "hp": "9d6+14",
+          "bth": 7,
+          "attack_rate": "1/1",
+          "nwp": 7,
+          "wp": 6,
+          "fort": 10,
+          "reflex": 13,
+          "will": 11,
+          "special": [
+            "Bardic Knowledge +9"
+          ]
+        },
+        {
+          "level": 17,
+          "xp": 1540000,
+          "hp": "9d6+16",
+          "bth": 8,
+          "attack_rate": "1/1",
+          "nwp": 7,
+          "wp": 6,
+          "fort": 11,
+          "reflex": 13,
+          "will": 12,
+          "special": []
+        },
+        {
+          "level": 18,
+          "xp": 1760000,
+          "hp": "9d6+18",
+          "bth": 8,
+          "attack_rate": "1/1",
+          "nwp": 7,
+          "wp": 6,
+          "fort": 11,
+          "reflex": 14,
+          "will": 12,
+          "special": [
+            "Bardic Knowledge +10",
+            "Bardic Performance +7"
+          ]
+        },
+        {
+          "level": 19,
+          "xp": 1980000,
+          "hp": "9d6+20",
+          "bth": 9,
+          "attack_rate": "1/1",
+          "nwp": 7,
+          "wp": 6,
+          "fort": 11,
+          "reflex": 14,
+          "will": 13,
+          "special": []
+        },
+        {
+          "level": 20,
+          "xp": 2200000,
+          "hp": "9d6+22",
+          "bth": 9,
+          "attack_rate": "1/1",
+          "nwp": 8,
+          "wp": 7,
+          "fort": 11,
+          "reflex": 15,
+          "will": 13,
+          "special": [
+            "Bardic Knowledge +11",
+            "Legend"
+          ]
+        }
+      ]
     },
     {
       "id": "cleric",
       "name": "Cleric",
       "hit_die": "d8",
-      "allowed_ancestries": ["all"],
+      "allowed_ancestries": [
+        "all"
+      ],
       "alignment": "Within one step of deity's alignment",
       "attribute_requirements": {
         "note": "Optional. Suffer -10% XP if not met.",
         "WIS": 10
       },
       "prime_example": {
-        "ancestries": ["human", "dwarf"],
-        "requirements": { "WIS": 16 },
+        "ancestries": [
+          "human",
+          "dwarf"
+        ],
+        "requirements": {
+          "WIS": 16
+        },
         "bonus": "+10% XP",
         "note": "Specific mythoi may require additional attributes."
       },
@@ -95,79 +718,1024 @@
       "weapon_slots_start": 2,
       "weapon_slot_rate": "Every 4th level",
       "nonproficiency_penalty": -3,
-      "weapon_groups": ["clubs_maces", "flails", "picks_hammers", "simple_melee"],
+      "weapon_groups": [
+        "clubs_maces",
+        "flails",
+        "picks_hammers",
+        "simple_melee"
+      ],
       "nwp_slots_start": 4,
-      "nwp_groups": ["Academic", "General"],
+      "nwp_groups": [
+        "Academic",
+        "General"
+      ],
       "armor": "Any. Shields allowed. Weapon restrictions vary by mythos.",
-      "saves_level1": { "fort": 6, "reflex": 4, "will": 5 },
+      "saves_level1": {
+        "fort": 6,
+        "reflex": 4,
+        "will": 5
+      },
       "spellcasting": {
         "type": "divine",
         "attribute": "WIS",
         "access": "Spheres determined by mythos"
-      }
+      },
+      "level_chart": [
+        {
+          "level": 1,
+          "xp": 0,
+          "hp": "1d8 max",
+          "bth": 0,
+          "attack_rate": "1/1",
+          "nwp": 4,
+          "wp": 2,
+          "fort": 6,
+          "reflex": 4,
+          "will": 5,
+          "special": [
+            "Level 1 Spells",
+            "Religion",
+            "Spontaneous Cure Spells",
+            "Turn Undead (1d6)"
+          ]
+        },
+        {
+          "level": 2,
+          "xp": 1500,
+          "hp": "2d8",
+          "bth": 0,
+          "attack_rate": "1/1",
+          "nwp": 4,
+          "wp": 2,
+          "fort": 7,
+          "reflex": 4,
+          "will": 5,
+          "special": [
+            "Turn Undead (2d6)"
+          ]
+        },
+        {
+          "level": 3,
+          "xp": 3000,
+          "hp": "3d8",
+          "bth": 1,
+          "attack_rate": "1/1",
+          "nwp": 5,
+          "wp": 2,
+          "fort": 7,
+          "reflex": 5,
+          "will": 5,
+          "special": [
+            "Level 2 Spells"
+          ]
+        },
+        {
+          "level": 4,
+          "xp": 6000,
+          "hp": "4d8",
+          "bth": 2,
+          "attack_rate": "1/1",
+          "nwp": 5,
+          "wp": 3,
+          "fort": 7,
+          "reflex": 5,
+          "will": 6,
+          "special": []
+        },
+        {
+          "level": 5,
+          "xp": 13000,
+          "hp": "5d8",
+          "bth": 2,
+          "attack_rate": "1/1",
+          "nwp": 5,
+          "wp": 3,
+          "fort": 8,
+          "reflex": 5,
+          "will": 7,
+          "special": [
+            "Level 3 Spells"
+          ]
+        },
+        {
+          "level": 6,
+          "xp": 27500,
+          "hp": "6d8",
+          "bth": 3,
+          "attack_rate": "1/1",
+          "nwp": 6,
+          "wp": 3,
+          "fort": 8,
+          "reflex": 6,
+          "will": 8,
+          "special": []
+        },
+        {
+          "level": 7,
+          "xp": 55000,
+          "hp": "7d8",
+          "bth": 4,
+          "attack_rate": "1/1",
+          "nwp": 6,
+          "wp": 3,
+          "fort": 9,
+          "reflex": 6,
+          "will": 8,
+          "special": [
+            "Level 4 Spells",
+            "Scribe"
+          ]
+        },
+        {
+          "level": 8,
+          "xp": 110000,
+          "hp": "8d8",
+          "bth": 4,
+          "attack_rate": "1/1",
+          "nwp": 6,
+          "wp": 4,
+          "fort": 9,
+          "reflex": 7,
+          "will": 8,
+          "special": []
+        },
+        {
+          "level": 9,
+          "xp": 225000,
+          "hp": "9d8",
+          "bth": 5,
+          "attack_rate": "1/1",
+          "nwp": 7,
+          "wp": 4,
+          "fort": 10,
+          "reflex": 7,
+          "will": 8,
+          "special": [
+            "Level 5 Spells",
+            "Prepare Divine Potions",
+            "Renown"
+          ]
+        },
+        {
+          "level": 10,
+          "xp": 450000,
+          "hp": "9d8+2",
+          "bth": 6,
+          "attack_rate": "1/1",
+          "nwp": 7,
+          "wp": 4,
+          "fort": 10,
+          "reflex": 8,
+          "will": 9,
+          "special": [
+            "Sphere Specialization"
+          ]
+        },
+        {
+          "level": 11,
+          "xp": 675000,
+          "hp": "9d8+4",
+          "bth": 6,
+          "attack_rate": "1/1",
+          "nwp": 7,
+          "wp": 4,
+          "fort": 10,
+          "reflex": 8,
+          "will": 10,
+          "special": [
+            "Level 6 Spells"
+          ]
+        },
+        {
+          "level": 12,
+          "xp": 900000,
+          "hp": "9d8+6",
+          "bth": 7,
+          "attack_rate": "1/1",
+          "nwp": 8,
+          "wp": 5,
+          "fort": 11,
+          "reflex": 8,
+          "will": 10,
+          "special": []
+        },
+        {
+          "level": 13,
+          "xp": 1125000,
+          "hp": "9d8+8",
+          "bth": 8,
+          "attack_rate": "1/1",
+          "nwp": 8,
+          "wp": 5,
+          "fort": 11,
+          "reflex": 9,
+          "will": 10,
+          "special": [
+            "Level 7 Spells"
+          ]
+        },
+        {
+          "level": 14,
+          "xp": 1350000,
+          "hp": "9d8+10",
+          "bth": 8,
+          "attack_rate": "1/1",
+          "nwp": 8,
+          "wp": 5,
+          "fort": 11,
+          "reflex": 9,
+          "will": 11,
+          "special": [
+            "Sphere Mastery"
+          ]
+        },
+        {
+          "level": 15,
+          "xp": 1575000,
+          "hp": "9d8+12",
+          "bth": 9,
+          "attack_rate": "1/1",
+          "nwp": 9,
+          "wp": 5,
+          "fort": 12,
+          "reflex": 9,
+          "will": 11,
+          "special": []
+        },
+        {
+          "level": 16,
+          "xp": 1800000,
+          "hp": "9d8+14",
+          "bth": 10,
+          "attack_rate": "1/1",
+          "nwp": 9,
+          "wp": 6,
+          "fort": 12,
+          "reflex": 10,
+          "will": 11,
+          "special": []
+        },
+        {
+          "level": 17,
+          "xp": 2025000,
+          "hp": "9d8+16",
+          "bth": 10,
+          "attack_rate": "1/1",
+          "nwp": 9,
+          "wp": 6,
+          "fort": 12,
+          "reflex": 10,
+          "will": 12,
+          "special": [
+            "Sphere Specialization"
+          ]
+        },
+        {
+          "level": 18,
+          "xp": 2250000,
+          "hp": "9d8+18",
+          "bth": 11,
+          "attack_rate": "1/1",
+          "nwp": 10,
+          "wp": 6,
+          "fort": 13,
+          "reflex": 11,
+          "will": 12,
+          "special": []
+        },
+        {
+          "level": 19,
+          "xp": 2475000,
+          "hp": "9d8+20",
+          "bth": 12,
+          "attack_rate": "1/1",
+          "nwp": 10,
+          "wp": 6,
+          "fort": 13,
+          "reflex": 12,
+          "will": 12,
+          "special": [
+            "Sphere Mastery"
+          ]
+        },
+        {
+          "level": 20,
+          "xp": 2700000,
+          "hp": "9d8+22",
+          "bth": 12,
+          "attack_rate": "1/1",
+          "nwp": 10,
+          "wp": 7,
+          "fort": 13,
+          "reflex": 12,
+          "will": 13,
+          "special": [
+            "Divine Blood"
+          ]
+        }
+      ]
     },
     {
       "id": "druid",
       "name": "Druid",
       "hit_die": "d8",
-      "allowed_ancestries": ["all"],
+      "allowed_ancestries": [
+        "all"
+      ],
       "alignment": "True Neutral",
       "attribute_requirements": {
         "note": "Optional. Suffer -10% XP if not met.",
         "WIS": 15
       },
       "prime_example": {
-        "ancestries": ["human", "half-elf"],
-        "requirements": { "WIS": 17 },
+        "ancestries": [
+          "human",
+          "half-elf"
+        ],
+        "requirements": {
+          "WIS": 17
+        },
         "bonus": "+10% XP"
       },
       "weapon_slots_start": 2,
       "weapon_slot_rate": "Every 4th level",
       "nonproficiency_penalty": -3,
       "weapon_groups": [],
-      "weapons_allowed": ["club", "dagger", "dart", "scimitar", "sickle", "sling", "spear", "staff"],
+      "weapons_allowed": [
+        "club",
+        "dagger",
+        "dart",
+        "scimitar",
+        "sickle",
+        "sling",
+        "spear",
+        "staff"
+      ],
       "bth_level1": 0,
       "nwp_slots_start": 4,
-      "nwp_groups": ["Academic", "General", "Nature"],
+      "nwp_groups": [
+        "Academic",
+        "General",
+        "Nature"
+      ],
       "armor": "Leather, padded, hide. Wooden shields only.",
-      "saves_level1": { "fort": 6, "reflex": 4, "will": 5 },
+      "saves_level1": {
+        "fort": 6,
+        "reflex": 4,
+        "will": 5
+      },
       "spellcasting": {
         "type": "divine",
         "attribute": "WIS",
         "access": "Nature-focused spheres"
-      }
+      },
+      "level_chart": [
+        {
+          "level": 1,
+          "xp": 0,
+          "hp": "1d8 max",
+          "bth": 0,
+          "attack_rate": "1/1",
+          "nwp": 4,
+          "wp": 2,
+          "fort": 6,
+          "reflex": 4,
+          "will": 5,
+          "special": [
+            "Home Terrain",
+            "Level 1 Spells",
+            "Nature Proficiencies",
+            "Wild Speak"
+          ]
+        },
+        {
+          "level": 2,
+          "xp": 1500,
+          "hp": "2d8",
+          "bth": 0,
+          "attack_rate": "1/1",
+          "nwp": 4,
+          "wp": 2,
+          "fort": 7,
+          "reflex": 4,
+          "will": 5,
+          "special": [
+            "Nature Lore"
+          ]
+        },
+        {
+          "level": 3,
+          "xp": 3000,
+          "hp": "3d8",
+          "bth": 1,
+          "attack_rate": "1/1",
+          "nwp": 5,
+          "wp": 2,
+          "fort": 7,
+          "reflex": 5,
+          "will": 5,
+          "special": [
+            "Level 2 Spells",
+            "Wild Stride"
+          ]
+        },
+        {
+          "level": 4,
+          "xp": 6000,
+          "hp": "4d8",
+          "bth": 2,
+          "attack_rate": "1/1",
+          "nwp": 5,
+          "wp": 3,
+          "fort": 7,
+          "reflex": 5,
+          "will": 6,
+          "special": [
+            "Magic Protection +2"
+          ]
+        },
+        {
+          "level": 5,
+          "xp": 13000,
+          "hp": "5d8",
+          "bth": 2,
+          "attack_rate": "1/1",
+          "nwp": 5,
+          "wp": 3,
+          "fort": 8,
+          "reflex": 5,
+          "will": 7,
+          "special": [
+            "Level 3 Spells",
+            "Nature's Aspect"
+          ]
+        },
+        {
+          "level": 6,
+          "xp": 27500,
+          "hp": "6d8",
+          "bth": 3,
+          "attack_rate": "1/1",
+          "nwp": 6,
+          "wp": 3,
+          "fort": 8,
+          "reflex": 6,
+          "will": 8,
+          "special": [
+            "Magic Protection +3"
+          ]
+        },
+        {
+          "level": 7,
+          "xp": 55000,
+          "hp": "7d8",
+          "bth": 4,
+          "attack_rate": "1/1",
+          "nwp": 6,
+          "wp": 3,
+          "fort": 9,
+          "reflex": 6,
+          "will": 8,
+          "special": [
+            "Level 4 Spells",
+            "Shapechange"
+          ]
+        },
+        {
+          "level": 8,
+          "xp": 110000,
+          "hp": "8d8",
+          "bth": 4,
+          "attack_rate": "1/1",
+          "nwp": 6,
+          "wp": 4,
+          "fort": 9,
+          "reflex": 7,
+          "will": 8,
+          "special": []
+        },
+        {
+          "level": 9,
+          "xp": 225000,
+          "hp": "9d8",
+          "bth": 5,
+          "attack_rate": "1/1",
+          "nwp": 7,
+          "wp": 4,
+          "fort": 10,
+          "reflex": 7,
+          "will": 8,
+          "special": [
+            "Level 5 Spells"
+          ]
+        },
+        {
+          "level": 10,
+          "xp": 450000,
+          "hp": "9d8+2",
+          "bth": 6,
+          "attack_rate": "1/1",
+          "nwp": 7,
+          "wp": 4,
+          "fort": 10,
+          "reflex": 8,
+          "will": 9,
+          "special": [
+            "Magic Protection +4"
+          ]
+        },
+        {
+          "level": 11,
+          "xp": 675000,
+          "hp": "9d8+4",
+          "bth": 6,
+          "attack_rate": "1/1",
+          "nwp": 7,
+          "wp": 4,
+          "fort": 10,
+          "reflex": 8,
+          "will": 10,
+          "special": [
+            "Level 6 Spells"
+          ]
+        },
+        {
+          "level": 12,
+          "xp": 900000,
+          "hp": "9d8+6",
+          "bth": 7,
+          "attack_rate": "1/1",
+          "nwp": 8,
+          "wp": 5,
+          "fort": 11,
+          "reflex": 8,
+          "will": 10,
+          "special": [
+            "Druid Title"
+          ]
+        },
+        {
+          "level": 13,
+          "xp": 1125000,
+          "hp": "9d8+8",
+          "bth": 8,
+          "attack_rate": "1/1",
+          "nwp": 8,
+          "wp": 5,
+          "fort": 11,
+          "reflex": 9,
+          "will": 10,
+          "special": [
+            "Archdruid",
+            "Level 7 Spells"
+          ]
+        },
+        {
+          "level": 14,
+          "xp": 1350000,
+          "hp": "9d8+10",
+          "bth": 8,
+          "attack_rate": "1/1",
+          "nwp": 8,
+          "wp": 5,
+          "fort": 11,
+          "reflex": 9,
+          "will": 11,
+          "special": [
+            "Great Druid Title"
+          ]
+        },
+        {
+          "level": 15,
+          "xp": 1575000,
+          "hp": "9d8+12",
+          "bth": 9,
+          "attack_rate": "1/1",
+          "nwp": 9,
+          "wp": 5,
+          "fort": 12,
+          "reflex": 9,
+          "will": 11,
+          "special": [
+            "Hierophant Druid Title"
+          ]
+        },
+        {
+          "level": 16,
+          "xp": 1800000,
+          "hp": "9d8+14",
+          "bth": 10,
+          "attack_rate": "1/1",
+          "nwp": 9,
+          "wp": 6,
+          "fort": 12,
+          "reflex": 10,
+          "will": 11,
+          "special": [
+            "Hierophant Power"
+          ]
+        },
+        {
+          "level": 17,
+          "xp": 2025000,
+          "hp": "9d8+16",
+          "bth": 10,
+          "attack_rate": "1/1",
+          "nwp": 9,
+          "wp": 6,
+          "fort": 12,
+          "reflex": 10,
+          "will": 12,
+          "special": [
+            "Hierophant Power"
+          ]
+        },
+        {
+          "level": 18,
+          "xp": 2250000,
+          "hp": "9d8+18",
+          "bth": 11,
+          "attack_rate": "1/1",
+          "nwp": 10,
+          "wp": 6,
+          "fort": 13,
+          "reflex": 11,
+          "will": 12,
+          "special": [
+            "Hierophant Power"
+          ]
+        },
+        {
+          "level": 19,
+          "xp": 2475000,
+          "hp": "9d8+20",
+          "bth": 12,
+          "attack_rate": "1/1",
+          "nwp": 10,
+          "wp": 6,
+          "fort": 13,
+          "reflex": 12,
+          "will": 12,
+          "special": [
+            "Hierophant Power"
+          ]
+        },
+        {
+          "level": 20,
+          "xp": 2700000,
+          "hp": "9d8+22",
+          "bth": 12,
+          "attack_rate": "1/1",
+          "nwp": 10,
+          "wp": 7,
+          "fort": 13,
+          "reflex": 12,
+          "will": 13,
+          "special": [
+            "Hierophant Power"
+          ]
+        }
+      ]
     },
     {
       "id": "fighter",
       "name": "Fighter",
       "hit_die": "d10",
-      "allowed_ancestries": ["all"],
+      "allowed_ancestries": [
+        "all"
+      ],
       "alignment": "Any",
       "attribute_requirements": {
         "note": "Optional. Suffer -10% XP if not met.",
         "STR": 10
       },
       "prime_example": {
-        "ancestries": ["human"],
-        "requirements": { "STR": 16 },
+        "ancestries": [
+          "human"
+        ],
+        "requirements": {
+          "STR": 16
+        },
         "bonus": "+10% XP"
       },
       "bth_level1": 1,
       "weapon_slots_start": 4,
       "weapon_slot_rate": "Every 3rd level",
       "nonproficiency_penalty": -2,
-      "weapon_groups": ["all"],
+      "weapon_groups": [
+        "all"
+      ],
       "nwp_slots_start": 3,
-      "nwp_groups": ["General", "Nature"],
+      "nwp_groups": [
+        "General",
+        "Nature"
+      ],
       "armor": "Any. Shields allowed.",
-      "saves_level1": { "fort": 5, "reflex": 5, "will": 4 },
-      "special_features": ["Weapon Specialization (fighter only)"]
+      "saves_level1": {
+        "fort": 5,
+        "reflex": 5,
+        "will": 4
+      },
+      "special_features": [
+        "Weapon Specialization (fighter only)"
+      ],
+      "level_chart": [
+        {
+          "level": 1,
+          "xp": 0,
+          "hp": "1d10 max",
+          "bth": 1,
+          "attack_rate": "1/1",
+          "nwp": 3,
+          "wp": 4,
+          "fort": 5,
+          "reflex": 5,
+          "will": 4,
+          "special": [
+            "Warrior Prowess",
+            "Weapon Specialization"
+          ]
+        },
+        {
+          "level": 2,
+          "xp": 2000,
+          "hp": "2d10",
+          "bth": 2,
+          "attack_rate": "1/1",
+          "nwp": 3,
+          "wp": 4,
+          "fort": 6,
+          "reflex": 5,
+          "will": 4,
+          "special": [
+            "Fearless +1"
+          ]
+        },
+        {
+          "level": 3,
+          "xp": 4000,
+          "hp": "3d10",
+          "bth": 3,
+          "attack_rate": "1/1",
+          "nwp": 3,
+          "wp": 5,
+          "fort": 6,
+          "reflex": 6,
+          "will": 5,
+          "special": []
+        },
+        {
+          "level": 4,
+          "xp": 8000,
+          "hp": "4d10",
+          "bth": 4,
+          "attack_rate": "1/1",
+          "nwp": 4,
+          "wp": 5,
+          "fort": 7,
+          "reflex": 6,
+          "will": 5,
+          "special": []
+        },
+        {
+          "level": 5,
+          "xp": 16000,
+          "hp": "5d10",
+          "bth": 5,
+          "attack_rate": "1/1",
+          "nwp": 4,
+          "wp": 5,
+          "fort": 7,
+          "reflex": 7,
+          "will": 6,
+          "special": [
+            "Fearless +2"
+          ]
+        },
+        {
+          "level": 6,
+          "xp": 32000,
+          "hp": "6d10",
+          "bth": 6,
+          "attack_rate": "1/1",
+          "nwp": 4,
+          "wp": 6,
+          "fort": 8,
+          "reflex": 7,
+          "will": 7,
+          "special": []
+        },
+        {
+          "level": 7,
+          "xp": 64000,
+          "hp": "7d10",
+          "bth": 7,
+          "attack_rate": "3/2",
+          "nwp": 4,
+          "wp": 6,
+          "fort": 8,
+          "reflex": 8,
+          "will": 7,
+          "special": [
+            "Weapon Mastery"
+          ]
+        },
+        {
+          "level": 8,
+          "xp": 125000,
+          "hp": "8d10",
+          "bth": 8,
+          "attack_rate": "3/2",
+          "nwp": 5,
+          "wp": 6,
+          "fort": 9,
+          "reflex": 8,
+          "will": 8,
+          "special": [
+            "Fearless +3"
+          ]
+        },
+        {
+          "level": 9,
+          "xp": 250000,
+          "hp": "9d10",
+          "bth": 9,
+          "attack_rate": "3/2",
+          "nwp": 5,
+          "wp": 7,
+          "fort": 9,
+          "reflex": 9,
+          "will": 8,
+          "special": [
+            "Renown"
+          ]
+        },
+        {
+          "level": 10,
+          "xp": 500000,
+          "hp": "9d10+3",
+          "bth": 10,
+          "attack_rate": "3/2",
+          "nwp": 5,
+          "wp": 7,
+          "fort": 10,
+          "reflex": 9,
+          "will": 9,
+          "special": [
+            "Mass Focus"
+          ]
+        },
+        {
+          "level": 11,
+          "xp": 750000,
+          "hp": "9d10+6",
+          "bth": 11,
+          "attack_rate": "3/2",
+          "nwp": 5,
+          "wp": 7,
+          "fort": 10,
+          "reflex": 10,
+          "will": 10,
+          "special": [
+            "Fearless +4"
+          ]
+        },
+        {
+          "level": 12,
+          "xp": 1000000,
+          "hp": "9d10+9",
+          "bth": 12,
+          "attack_rate": "3/2",
+          "nwp": 6,
+          "wp": 8,
+          "fort": 11,
+          "reflex": 10,
+          "will": 10,
+          "special": []
+        },
+        {
+          "level": 13,
+          "xp": 1250000,
+          "hp": "9d10+12",
+          "bth": 13,
+          "attack_rate": "2/1",
+          "nwp": 6,
+          "wp": 8,
+          "fort": 11,
+          "reflex": 11,
+          "will": 11,
+          "special": [
+            "Weapon High Mastery"
+          ]
+        },
+        {
+          "level": 14,
+          "xp": 1500000,
+          "hp": "9d10+15",
+          "bth": 14,
+          "attack_rate": "2/1",
+          "nwp": 6,
+          "wp": 8,
+          "fort": 12,
+          "reflex": 11,
+          "will": 11,
+          "special": [
+            "Fearless +5"
+          ]
+        },
+        {
+          "level": 15,
+          "xp": 1750000,
+          "hp": "9d10+18",
+          "bth": 15,
+          "attack_rate": "2/1",
+          "nwp": 6,
+          "wp": 9,
+          "fort": 13,
+          "reflex": 12,
+          "will": 12,
+          "special": []
+        },
+        {
+          "level": 16,
+          "xp": 2000000,
+          "hp": "9d10+21",
+          "bth": 16,
+          "attack_rate": "2/1",
+          "nwp": 7,
+          "wp": 9,
+          "fort": 13,
+          "reflex": 12,
+          "will": 13,
+          "special": []
+        },
+        {
+          "level": 17,
+          "xp": 2250000,
+          "hp": "9d10+24",
+          "bth": 17,
+          "attack_rate": "2/1",
+          "nwp": 7,
+          "wp": 9,
+          "fort": 14,
+          "reflex": 13,
+          "will": 13,
+          "special": [
+            "Fear Immunity"
+          ]
+        },
+        {
+          "level": 18,
+          "xp": 2500000,
+          "hp": "9d10+27",
+          "bth": 18,
+          "attack_rate": "2/1",
+          "nwp": 7,
+          "wp": 10,
+          "fort": 14,
+          "reflex": 13,
+          "will": 14,
+          "special": []
+        },
+        {
+          "level": 19,
+          "xp": 2750000,
+          "hp": "9d10+30",
+          "bth": 19,
+          "attack_rate": "5/2",
+          "nwp": 7,
+          "wp": 10,
+          "fort": 14,
+          "reflex": 14,
+          "will": 14,
+          "special": [
+            "Weapon Grand Mastery"
+          ]
+        },
+        {
+          "level": 20,
+          "xp": 3000000,
+          "hp": "9d10+33",
+          "bth": 20,
+          "attack_rate": "5/2",
+          "nwp": 8,
+          "wp": 10,
+          "fort": 15,
+          "reflex": 14,
+          "will": 14,
+          "special": [
+            "Legend of Steel"
+          ]
+        }
+      ]
     },
     {
       "id": "monk",
       "name": "Monk",
       "hit_die": "d8",
-      "allowed_ancestries": ["all"],
+      "allowed_ancestries": [
+        "all"
+      ],
       "alignment": "Any lawful",
       "attribute_requirements": {
         "note": "Optional. Suffer -10% XP if not met.",
@@ -177,26 +1745,355 @@
         "WIS": 14
       },
       "prime_example": {
-        "ancestries": ["human", "half-elf", "half-orc"],
-        "requirements": { "STR": 14, "DEX": 14, "CON": 14, "WIS": 16 },
+        "ancestries": [
+          "human",
+          "half-elf",
+          "half-orc"
+        ],
+        "requirements": {
+          "STR": 14,
+          "DEX": 14,
+          "CON": 14,
+          "WIS": 16
+        },
         "bonus": "+10% XP"
       },
       "weapon_slots_start": 2,
       "weapon_slot_rate": "Every 4th level",
       "nonproficiency_penalty": -3,
       "bth_level1": 0,
-      "weapon_groups": ["martial_arts"],
+      "weapon_groups": [
+        "martial_arts"
+      ],
       "weapon_restriction": "Any weapon no larger than the monk, with exception of ranged or martial arts",
       "nwp_slots_start": 4,
-      "nwp_groups": ["Academic", "General"],
+      "nwp_groups": [
+        "Academic",
+        "General"
+      ],
       "armor": "None. AC improves with level.",
-      "saves_level1": { "fort": 5, "reflex": 5, "will": 5 }
+      "saves_level1": {
+        "fort": 5,
+        "reflex": 5,
+        "will": 5
+      },
+      "level_chart": [
+        {
+          "level": 1,
+          "xp": 0,
+          "hp": "1d8 max",
+          "bth": 0,
+          "attack_rate": "1/1",
+          "nwp": 4,
+          "wp": 2,
+          "fort": 5,
+          "reflex": 5,
+          "will": 5,
+          "special": [
+            "Intuitive Defense",
+            "Ki Powers",
+            "Martial Arts Specialization"
+          ]
+        },
+        {
+          "level": 2,
+          "xp": 1500,
+          "hp": "2d8",
+          "bth": 1,
+          "attack_rate": "1/1",
+          "nwp": 4,
+          "wp": 2,
+          "fort": 5,
+          "reflex": 5,
+          "will": 5,
+          "special": [
+            "Shield Thoughts"
+          ]
+        },
+        {
+          "level": 3,
+          "xp": 3000,
+          "hp": "3d8",
+          "bth": 2,
+          "attack_rate": "1/1",
+          "nwp": 5,
+          "wp": 2,
+          "fort": 6,
+          "reflex": 6,
+          "will": 6,
+          "special": [
+            "Fast Movement +10",
+            "Ki Powers",
+            "Martial Arts Expertise"
+          ]
+        },
+        {
+          "level": 4,
+          "xp": 6000,
+          "hp": "4d8",
+          "bth": 3,
+          "attack_rate": "1/1",
+          "nwp": 5,
+          "wp": 3,
+          "fort": 6,
+          "reflex": 6,
+          "will": 6,
+          "special": [
+            "Safe Fall 20'"
+          ]
+        },
+        {
+          "level": 5,
+          "xp": 13000,
+          "hp": "5d8",
+          "bth": 3,
+          "attack_rate": "1/1",
+          "nwp": 5,
+          "wp": 3,
+          "fort": 7,
+          "reflex": 7,
+          "will": 7,
+          "special": [
+            "Control Body"
+          ]
+        },
+        {
+          "level": 6,
+          "xp": 27500,
+          "hp": "6d8",
+          "bth": 4,
+          "attack_rate": "1/1",
+          "nwp": 6,
+          "wp": 3,
+          "fort": 7,
+          "reflex": 7,
+          "will": 7,
+          "special": [
+            "Mystic Strike +1",
+            "Fast Movement +20",
+            "Safe Fall 30'"
+          ]
+        },
+        {
+          "level": 7,
+          "xp": 55000,
+          "hp": "7d8",
+          "bth": 5,
+          "attack_rate": "1/1",
+          "nwp": 6,
+          "wp": 3,
+          "fort": 8,
+          "reflex": 8,
+          "will": 8,
+          "special": [
+            "Ki Powers",
+            "Martial Arts Mastery",
+            "Self Heal"
+          ]
+        },
+        {
+          "level": 8,
+          "xp": 110000,
+          "hp": "8d8",
+          "bth": 6,
+          "attack_rate": "1/1",
+          "nwp": 6,
+          "wp": 4,
+          "fort": 8,
+          "reflex": 8,
+          "will": 8,
+          "special": [
+            "Mystic Strike +2",
+            "Safe Fall 50'"
+          ]
+        },
+        {
+          "level": 9,
+          "xp": 225000,
+          "hp": "9d8",
+          "bth": 6,
+          "attack_rate": "1/1",
+          "nwp": 7,
+          "wp": 4,
+          "fort": 9,
+          "reflex": 9,
+          "will": 9,
+          "special": [
+            "Fast Movement +30",
+            "Strength of Will"
+          ]
+        },
+        {
+          "level": 10,
+          "xp": 450000,
+          "hp": "9d8+2",
+          "bth": 7,
+          "attack_rate": "1/1",
+          "nwp": 7,
+          "wp": 4,
+          "fort": 9,
+          "reflex": 9,
+          "will": 9,
+          "special": [
+            "Mystic Strike +3",
+            "Renown"
+          ]
+        },
+        {
+          "level": 11,
+          "xp": 675000,
+          "hp": "9d8+4",
+          "bth": 8,
+          "attack_rate": "1/1",
+          "nwp": 7,
+          "wp": 4,
+          "fort": 10,
+          "reflex": 10,
+          "will": 10,
+          "special": [
+            "Poison Immunity"
+          ]
+        },
+        {
+          "level": 12,
+          "xp": 900000,
+          "hp": "9d8+6",
+          "bth": 9,
+          "attack_rate": "1/1",
+          "nwp": 8,
+          "wp": 5,
+          "fort": 10,
+          "reflex": 10,
+          "will": 10,
+          "special": [
+            "Mystic Strike +4"
+          ]
+        },
+        {
+          "level": 13,
+          "xp": 1125000,
+          "hp": "9d8+8",
+          "bth": 9,
+          "attack_rate": "1/1",
+          "nwp": 8,
+          "wp": 5,
+          "fort": 11,
+          "reflex": 11,
+          "will": 11,
+          "special": [
+            "Ki Powers",
+            "High Mastery"
+          ]
+        },
+        {
+          "level": 14,
+          "xp": 1350000,
+          "hp": "9d8+10",
+          "bth": 10,
+          "attack_rate": "1/1",
+          "nwp": 8,
+          "wp": 5,
+          "fort": 11,
+          "reflex": 11,
+          "will": 11,
+          "special": [
+            "Mystic Strike +5"
+          ]
+        },
+        {
+          "level": 15,
+          "xp": 1575000,
+          "hp": "9d8+12",
+          "bth": 11,
+          "attack_rate": "1/1",
+          "nwp": 9,
+          "wp": 5,
+          "fort": 12,
+          "reflex": 12,
+          "will": 12,
+          "special": [
+            "Iron Tower"
+          ]
+        },
+        {
+          "level": 16,
+          "xp": 1800000,
+          "hp": "9d8+14",
+          "bth": 12,
+          "attack_rate": "1/1",
+          "nwp": 9,
+          "wp": 6,
+          "fort": 12,
+          "reflex": 12,
+          "will": 12,
+          "special": []
+        },
+        {
+          "level": 17,
+          "xp": 2025000,
+          "hp": "9d8+16",
+          "bth": 12,
+          "attack_rate": "1/1",
+          "nwp": 9,
+          "wp": 6,
+          "fort": 13,
+          "reflex": 13,
+          "will": 13,
+          "special": []
+        },
+        {
+          "level": 18,
+          "xp": 2250000,
+          "hp": "9d8+18",
+          "bth": 13,
+          "attack_rate": "1/1",
+          "nwp": 10,
+          "wp": 6,
+          "fort": 13,
+          "reflex": 13,
+          "will": 13,
+          "special": [
+            "Ki Powers",
+            "Martial Arts Grand Mastery"
+          ]
+        },
+        {
+          "level": 19,
+          "xp": 2475000,
+          "hp": "9d8+20",
+          "bth": 14,
+          "attack_rate": "1/1",
+          "nwp": 10,
+          "wp": 6,
+          "fort": 14,
+          "reflex": 14,
+          "will": 14,
+          "special": []
+        },
+        {
+          "level": 20,
+          "xp": 2700000,
+          "hp": "9d8+22",
+          "bth": 15,
+          "attack_rate": "1/1",
+          "nwp": 10,
+          "wp": 7,
+          "fort": 14,
+          "reflex": 14,
+          "will": 14,
+          "special": [
+            "Celestial Spirit"
+          ]
+        }
+      ]
     },
     {
       "id": "paladin",
       "name": "Paladin",
       "hit_die": "d10",
-      "allowed_ancestries": ["all"],
+      "allowed_ancestries": [
+        "all"
+      ],
       "alignment": "Lawful Good",
       "alignment_note": "Gnomes and half-orcs often fail to qualify due to chaotic/evil tendencies.",
       "attribute_requirements": {
@@ -207,30 +2104,351 @@
         "CHA": 15
       },
       "prime_example": {
-        "ancestries": ["human"],
-        "requirements": { "STR": 16, "CON": 10, "WIS": 13, "CHA": 16 },
+        "ancestries": [
+          "human"
+        ],
+        "requirements": {
+          "STR": 16,
+          "CON": 10,
+          "WIS": 13,
+          "CHA": 16
+        },
         "bonus": "+10% XP"
       },
       "weapon_slots_start": 4,
       "weapon_slot_rate": "Every 3rd level",
       "nonproficiency_penalty": -2,
-      "weapon_groups": ["all"],
+      "weapon_groups": [
+        "all"
+      ],
       "bth_level1": 0,
       "nwp_slots_start": 3,
-      "nwp_groups": ["Academic", "General"],
+      "nwp_groups": [
+        "Academic",
+        "General"
+      ],
       "armor": "Any. Shields allowed.",
-      "saves_level1": { "fort": 5, "reflex": 5, "will": 4 },
+      "saves_level1": {
+        "fort": 5,
+        "reflex": 5,
+        "will": 4
+      },
       "spellcasting": {
         "type": "divine",
         "attribute": "WIS",
         "access": "Limited divine spells at higher levels"
-      }
+      },
+      "level_chart": [
+        {
+          "level": 1,
+          "xp": 0,
+          "hp": "1d10 max",
+          "bth": 0,
+          "attack_rate": "1/1",
+          "nwp": 3,
+          "wp": 4,
+          "fort": 5,
+          "reflex": 5,
+          "will": 4,
+          "special": [
+            "Aura of Good",
+            "Detect Evil",
+            "Healing Touch",
+            "Immunity to Disease",
+            "Warrior Prowess"
+          ]
+        },
+        {
+          "level": 2,
+          "xp": 2250,
+          "hp": "2d10",
+          "bth": 1,
+          "attack_rate": "1/1",
+          "nwp": 3,
+          "wp": 4,
+          "fort": 6,
+          "reflex": 5,
+          "will": 4,
+          "special": [
+            "Smite Evil"
+          ]
+        },
+        {
+          "level": 3,
+          "xp": 4500,
+          "hp": "3d10",
+          "bth": 2,
+          "attack_rate": "1/1",
+          "nwp": 3,
+          "wp": 5,
+          "fort": 6,
+          "reflex": 6,
+          "will": 5,
+          "special": [
+            "Turn Evil"
+          ]
+        },
+        {
+          "level": 4,
+          "xp": 9000,
+          "hp": "4d10",
+          "bth": 3,
+          "attack_rate": "1/1",
+          "nwp": 4,
+          "wp": 5,
+          "fort": 7,
+          "reflex": 6,
+          "will": 5,
+          "special": [
+            "Holy Weapon",
+            "Special Mount"
+          ]
+        },
+        {
+          "level": 5,
+          "xp": 18000,
+          "hp": "5d10",
+          "bth": 4,
+          "attack_rate": "1/1",
+          "nwp": 4,
+          "wp": 5,
+          "fort": 7,
+          "reflex": 7,
+          "will": 6,
+          "special": [
+            "Fearless Aura"
+          ]
+        },
+        {
+          "level": 6,
+          "xp": 36000,
+          "hp": "6d10",
+          "bth": 5,
+          "attack_rate": "1/1",
+          "nwp": 4,
+          "wp": 6,
+          "fort": 8,
+          "reflex": 7,
+          "will": 7,
+          "special": []
+        },
+        {
+          "level": 7,
+          "xp": 75000,
+          "hp": "7d10",
+          "bth": 6,
+          "attack_rate": "3/2",
+          "nwp": 4,
+          "wp": 6,
+          "fort": 8,
+          "reflex": 8,
+          "will": 7,
+          "special": [
+            "Enhanced Holy Weapon"
+          ]
+        },
+        {
+          "level": 8,
+          "xp": 150000,
+          "hp": "8d10",
+          "bth": 7,
+          "attack_rate": "3/2",
+          "nwp": 5,
+          "wp": 6,
+          "fort": 9,
+          "reflex": 8,
+          "will": 8,
+          "special": []
+        },
+        {
+          "level": 9,
+          "xp": 300000,
+          "hp": "9d10",
+          "bth": 8,
+          "attack_rate": "3/2",
+          "nwp": 5,
+          "wp": 7,
+          "fort": 9,
+          "reflex": 9,
+          "will": 8,
+          "special": [
+            "Level 1 Divine Spells",
+            "Renown"
+          ]
+        },
+        {
+          "level": 10,
+          "xp": 600000,
+          "hp": "9d10+3",
+          "bth": 9,
+          "attack_rate": "3/2",
+          "nwp": 5,
+          "wp": 7,
+          "fort": 10,
+          "reflex": 9,
+          "will": 9,
+          "special": [
+            "Enhanced Holy Weapon"
+          ]
+        },
+        {
+          "level": 11,
+          "xp": 900000,
+          "hp": "9d10+6",
+          "bth": 10,
+          "attack_rate": "3/2",
+          "nwp": 5,
+          "wp": 7,
+          "fort": 10,
+          "reflex": 10,
+          "will": 10,
+          "special": [
+            "Level 2 Divine Spells"
+          ]
+        },
+        {
+          "level": 12,
+          "xp": 1200000,
+          "hp": "9d10+9",
+          "bth": 11,
+          "attack_rate": "3/2",
+          "nwp": 6,
+          "wp": 8,
+          "fort": 11,
+          "reflex": 10,
+          "will": 10,
+          "special": []
+        },
+        {
+          "level": 13,
+          "xp": 1500000,
+          "hp": "9d10+12",
+          "bth": 12,
+          "attack_rate": "2/1",
+          "nwp": 6,
+          "wp": 8,
+          "fort": 11,
+          "reflex": 11,
+          "will": 11,
+          "special": [
+            "Enhanced Holy Weapon",
+            "Level 3 Divine Spells"
+          ]
+        },
+        {
+          "level": 14,
+          "xp": 1800000,
+          "hp": "9d10+15",
+          "bth": 13,
+          "attack_rate": "2/1",
+          "nwp": 6,
+          "wp": 8,
+          "fort": 12,
+          "reflex": 11,
+          "will": 11,
+          "special": [
+            "Aura of Power"
+          ]
+        },
+        {
+          "level": 15,
+          "xp": 2100000,
+          "hp": "9d10+18",
+          "bth": 14,
+          "attack_rate": "2/1",
+          "nwp": 6,
+          "wp": 9,
+          "fort": 13,
+          "reflex": 12,
+          "will": 12,
+          "special": [
+            "Level 4 Divine Spells"
+          ]
+        },
+        {
+          "level": 16,
+          "xp": 2400000,
+          "hp": "9d10+21",
+          "bth": 15,
+          "attack_rate": "2/1",
+          "nwp": 7,
+          "wp": 9,
+          "fort": 13,
+          "reflex": 12,
+          "will": 13,
+          "special": [
+            "Enhanced Holy Weapon"
+          ]
+        },
+        {
+          "level": 17,
+          "xp": 2700000,
+          "hp": "9d10+24",
+          "bth": 16,
+          "attack_rate": "2/1",
+          "nwp": 7,
+          "wp": 9,
+          "fort": 14,
+          "reflex": 13,
+          "will": 13,
+          "special": [
+            "Greater Smite"
+          ]
+        },
+        {
+          "level": 18,
+          "xp": 3000000,
+          "hp": "9d10+27",
+          "bth": 17,
+          "attack_rate": "2/1",
+          "nwp": 7,
+          "wp": 10,
+          "fort": 14,
+          "reflex": 13,
+          "will": 14,
+          "special": []
+        },
+        {
+          "level": 19,
+          "xp": 3300000,
+          "hp": "9d10+30",
+          "bth": 18,
+          "attack_rate": "2/1",
+          "nwp": 7,
+          "wp": 10,
+          "fort": 14,
+          "reflex": 14,
+          "will": 14,
+          "special": [
+            "Planar Sentry"
+          ]
+        },
+        {
+          "level": 20,
+          "xp": 3600000,
+          "hp": "9d10+33",
+          "bth": 19,
+          "attack_rate": "2/1",
+          "nwp": 8,
+          "wp": 10,
+          "fort": 15,
+          "reflex": 14,
+          "will": 14,
+          "special": [
+            "Divine Champion"
+          ]
+        }
+      ]
     },
     {
       "id": "ranger",
       "name": "Ranger",
       "hit_die": "d10",
-      "allowed_ancestries": ["human", "half-elf", "elf"],
+      "allowed_ancestries": [
+        "human",
+        "half-elf",
+        "elf"
+      ],
       "alignment": "Any good (lawful good, neutral good, chaotic good)",
       "attribute_requirements": {
         "note": "Optional. Suffer -10% XP if not met.",
@@ -240,77 +2458,697 @@
         "WIS": 14
       },
       "prime_example": {
-        "ancestries": ["elf", "half-elf"],
-        "requirements": { "STR": 16, "DEX": 16, "WIS": 16 },
+        "ancestries": [
+          "elf",
+          "half-elf"
+        ],
+        "requirements": {
+          "STR": 16,
+          "DEX": 16,
+          "WIS": 16
+        },
         "bonus": "+10% XP"
       },
       "weapon_slots_start": 4,
       "weapon_slot_rate": "Every 3rd level",
       "nonproficiency_penalty": -2,
-      "weapon_groups": ["all"],
+      "weapon_groups": [
+        "all"
+      ],
       "bth_level1": 0,
       "nwp_slots_start": 3,
-      "nwp_groups": ["General", "Nature"],
+      "nwp_groups": [
+        "General",
+        "Nature"
+      ],
       "armor": "Any (some abilities penalized in heavy armor).",
-      "saves_level1": { "fort": 5, "reflex": 5, "will": 4 },
+      "saves_level1": {
+        "fort": 5,
+        "reflex": 5,
+        "will": 4
+      },
       "spellcasting": {
         "type": "divine",
         "attribute": "WIS",
         "access": "Limited divine spells at higher levels"
-      }
+      },
+      "level_chart": [
+        {
+          "level": 1,
+          "xp": 0,
+          "hp": "1d10 max",
+          "bth": 0,
+          "attack_rate": "1/1",
+          "nwp": 3,
+          "wp": 4,
+          "fort": 5,
+          "reflex": 5,
+          "will": 4,
+          "special": [
+            "Animal Empathy",
+            "Nature Proficiencies",
+            "Two Weapon Style",
+            "Warrior Prowess"
+          ]
+        },
+        {
+          "level": 2,
+          "xp": 2250,
+          "hp": "2d10",
+          "bth": 1,
+          "attack_rate": "1/1",
+          "nwp": 3,
+          "wp": 4,
+          "fort": 6,
+          "reflex": 5,
+          "will": 4,
+          "special": [
+            "Favored Enemy"
+          ]
+        },
+        {
+          "level": 3,
+          "xp": 4500,
+          "hp": "3d10",
+          "bth": 2,
+          "attack_rate": "1/1",
+          "nwp": 3,
+          "wp": 5,
+          "fort": 6,
+          "reflex": 6,
+          "will": 5,
+          "special": []
+        },
+        {
+          "level": 4,
+          "xp": 9000,
+          "hp": "4d10",
+          "bth": 3,
+          "attack_rate": "1/1",
+          "nwp": 4,
+          "wp": 5,
+          "fort": 7,
+          "reflex": 6,
+          "will": 5,
+          "special": [
+            "Animal Companion"
+          ]
+        },
+        {
+          "level": 5,
+          "xp": 18000,
+          "hp": "5d10",
+          "bth": 4,
+          "attack_rate": "1/1",
+          "nwp": 4,
+          "wp": 5,
+          "fort": 7,
+          "reflex": 7,
+          "will": 6,
+          "special": []
+        },
+        {
+          "level": 6,
+          "xp": 36000,
+          "hp": "6d10",
+          "bth": 5,
+          "attack_rate": "1/1",
+          "nwp": 4,
+          "wp": 6,
+          "fort": 8,
+          "reflex": 7,
+          "will": 7,
+          "special": []
+        },
+        {
+          "level": 7,
+          "xp": 75000,
+          "hp": "7d10",
+          "bth": 6,
+          "attack_rate": "3/2",
+          "nwp": 4,
+          "wp": 6,
+          "fort": 8,
+          "reflex": 8,
+          "will": 7,
+          "special": []
+        },
+        {
+          "level": 8,
+          "xp": 150000,
+          "hp": "8d10",
+          "bth": 7,
+          "attack_rate": "3/2",
+          "nwp": 5,
+          "wp": 6,
+          "fort": 9,
+          "reflex": 8,
+          "will": 8,
+          "special": []
+        },
+        {
+          "level": 9,
+          "xp": 300000,
+          "hp": "9d10",
+          "bth": 8,
+          "attack_rate": "3/2",
+          "nwp": 5,
+          "wp": 7,
+          "fort": 9,
+          "reflex": 9,
+          "will": 8,
+          "special": [
+            "Level 1 Divine Spells",
+            "Renown"
+          ]
+        },
+        {
+          "level": 10,
+          "xp": 600000,
+          "hp": "9d10+3",
+          "bth": 9,
+          "attack_rate": "3/2",
+          "nwp": 5,
+          "wp": 7,
+          "fort": 10,
+          "reflex": 9,
+          "will": 9,
+          "special": []
+        },
+        {
+          "level": 11,
+          "xp": 900000,
+          "hp": "9d10+6",
+          "bth": 10,
+          "attack_rate": "3/2",
+          "nwp": 5,
+          "wp": 7,
+          "fort": 10,
+          "reflex": 10,
+          "will": 10,
+          "special": [
+            "Level 2 Spells"
+          ]
+        },
+        {
+          "level": 12,
+          "xp": 1200000,
+          "hp": "9d10+9",
+          "bth": 11,
+          "attack_rate": "3/2",
+          "nwp": 6,
+          "wp": 8,
+          "fort": 11,
+          "reflex": 10,
+          "will": 10,
+          "special": []
+        },
+        {
+          "level": 13,
+          "xp": 1500000,
+          "hp": "9d10+12",
+          "bth": 12,
+          "attack_rate": "2/1",
+          "nwp": 6,
+          "wp": 8,
+          "fort": 11,
+          "reflex": 11,
+          "will": 11,
+          "special": [
+            "Level 3 Divine Spells"
+          ]
+        },
+        {
+          "level": 14,
+          "xp": 1800000,
+          "hp": "9d10+15",
+          "bth": 13,
+          "attack_rate": "2/1",
+          "nwp": 6,
+          "wp": 8,
+          "fort": 12,
+          "reflex": 11,
+          "will": 11,
+          "special": [
+            "Wild Stride"
+          ]
+        },
+        {
+          "level": 15,
+          "xp": 2100000,
+          "hp": "9d10+18",
+          "bth": 14,
+          "attack_rate": "2/1",
+          "nwp": 6,
+          "wp": 9,
+          "fort": 13,
+          "reflex": 12,
+          "will": 12,
+          "special": [
+            "Level 4 Divine Spells"
+          ]
+        },
+        {
+          "level": 16,
+          "xp": 2400000,
+          "hp": "9d10+21",
+          "bth": 15,
+          "attack_rate": "2/1",
+          "nwp": 7,
+          "wp": 9,
+          "fort": 13,
+          "reflex": 12,
+          "will": 13,
+          "special": []
+        },
+        {
+          "level": 17,
+          "xp": 2700000,
+          "hp": "9d10+24",
+          "bth": 16,
+          "attack_rate": "2/1",
+          "nwp": 7,
+          "wp": 9,
+          "fort": 14,
+          "reflex": 13,
+          "will": 13,
+          "special": [
+            "Blend"
+          ]
+        },
+        {
+          "level": 18,
+          "xp": 3000000,
+          "hp": "9d10+27",
+          "bth": 17,
+          "attack_rate": "2/1",
+          "nwp": 7,
+          "wp": 10,
+          "fort": 14,
+          "reflex": 13,
+          "will": 14,
+          "special": []
+        },
+        {
+          "level": 19,
+          "xp": 3300000,
+          "hp": "9d10+30",
+          "bth": 18,
+          "attack_rate": "2/1",
+          "nwp": 7,
+          "wp": 10,
+          "fort": 14,
+          "reflex": 14,
+          "will": 14,
+          "special": [
+            "Nature's Aspect"
+          ]
+        },
+        {
+          "level": 20,
+          "xp": 3600000,
+          "hp": "9d10+33",
+          "bth": 19,
+          "attack_rate": "2/1",
+          "nwp": 8,
+          "wp": 10,
+          "fort": 15,
+          "reflex": 14,
+          "will": 14,
+          "special": [
+            "Divine Guardian"
+          ]
+        }
+      ]
     },
     {
       "id": "thief",
       "name": "Thief",
       "hit_die": "d6",
-      "allowed_ancestries": ["all"],
+      "allowed_ancestries": [
+        "all"
+      ],
       "alignment": "Any non-lawful",
       "attribute_requirements": {
         "note": "Optional. Suffer -10% XP if not met.",
         "DEX": 14
       },
       "prime_example": {
-        "ancestries": ["halfling", "half-elf", "human"],
-        "requirements": { "DEX": 16 },
+        "ancestries": [
+          "halfling",
+          "half-elf",
+          "human"
+        ],
+        "requirements": {
+          "DEX": 16
+        },
         "bonus": "+10% XP"
       },
       "weapon_slots_start": 2,
       "weapon_slot_rate": "Every 4th level",
       "nonproficiency_penalty": -3,
-      "weapon_groups": ["crossbows", "finesse", "simple_melee", "simple_ranged", "whips"],
+      "weapon_groups": [
+        "crossbows",
+        "finesse",
+        "simple_melee",
+        "simple_ranged",
+        "whips"
+      ],
       "bth_level1": 0,
       "nwp_slots_start": 3,
-      "nwp_groups": ["Academic", "General", "Rogue"],
+      "nwp_groups": [
+        "Academic",
+        "General",
+        "Rogue"
+      ],
       "armor": "Leather, padded, studded leather, brigandine, elven/mithral chain. No shields.",
-      "saves_level1": { "fort": 4, "reflex": 5, "will": 4 },
+      "saves_level1": {
+        "fort": 4,
+        "reflex": 5,
+        "will": 4
+      },
       "level_chart": [
-        { "level":1, "xp":0, "hp":"1d6 max", "bth":0, "attack_rate":"1/1", "nwp":3, "wp":2, "fort":4, "reflex":5, "will":4, "special":["Dexterous Climb","Nimble Defense","Opportune Attack +1","Rogue Skills (4 bonus NWP)","Sneak Attack x2","Trap Lore"] },
-        { "level":2, "xp":1250, "hp":"2d6", "bth":0, "attack_rate":"1/1", "nwp":3, "wp":2, "fort":5, "reflex":6, "will":4, "special":["Opportune Attack +2","Skill Boost"] },
-        { "level":3, "xp":2500, "hp":"3d6", "bth":1, "attack_rate":"1/1", "nwp":4, "wp":2, "fort":5, "reflex":6, "will":5, "special":["Skill Boost"] },
-        { "level":4, "xp":5000, "hp":"4d6", "bth":1, "attack_rate":"1/1", "nwp":4, "wp":3, "fort":5, "reflex":7, "will":5, "special":["Opportune Attack +3","Skill Boost"] },
-        { "level":5, "xp":10000, "hp":"5d6", "bth":2, "attack_rate":"1/1", "nwp":4, "wp":3, "fort":5, "reflex":7, "will":6, "special":["Sneak Attack x3"] },
-        { "level":6, "xp":20000, "hp":"6d6", "bth":2, "attack_rate":"1/1", "nwp":5, "wp":3, "fort":6, "reflex":8, "will":6, "special":["Skill Boost"] },
-        { "level":7, "xp":40000, "hp":"7d6", "bth":3, "attack_rate":"1/1", "nwp":5, "wp":3, "fort":7, "reflex":8, "will":7, "special":["Activate Scroll"] },
-        { "level":8, "xp":70000, "hp":"8d6", "bth":3, "attack_rate":"1/1", "nwp":5, "wp":4, "fort":7, "reflex":9, "will":7, "special":["Opportune Attack +4","Skill Boost"] },
-        { "level":9, "xp":110000, "hp":"9d6", "bth":4, "attack_rate":"1/1", "nwp":6, "wp":4, "fort":7, "reflex":9, "will":8, "special":["Sneak Attack x4"] },
-        { "level":10, "xp":160000, "hp":"10d6", "bth":4, "attack_rate":"1/1", "nwp":6, "wp":4, "fort":7, "reflex":10, "will":8, "special":["Renown","Skill Boost","Touch of Fate"] },
-        { "level":11, "xp":220000, "hp":"10d6+2", "bth":5, "attack_rate":"1/1", "nwp":6, "wp":4, "fort":8, "reflex":10, "will":9, "special":["Activate Item"] },
-        { "level":12, "xp":440000, "hp":"10d6+4", "bth":5, "attack_rate":"1/1", "nwp":7, "wp":5, "fort":9, "reflex":11, "will":9, "special":["Skill Boost"] },
-        { "level":13, "xp":660000, "hp":"10d6+6", "bth":6, "attack_rate":"1/1", "nwp":7, "wp":5, "fort":9, "reflex":11, "will":10, "special":["Sneak Attack x5"] },
-        { "level":14, "xp":880000, "hp":"10d6+8", "bth":6, "attack_rate":"1/1", "nwp":7, "wp":5, "fort":9, "reflex":12, "will":10, "special":["Skill Boost"] },
-        { "level":15, "xp":1100000, "hp":"10d6+10", "bth":7, "attack_rate":"1/1", "nwp":8, "wp":5, "fort":10, "reflex":12, "will":11, "special":[] },
-        { "level":16, "xp":1320000, "hp":"10d6+12", "bth":7, "attack_rate":"1/1", "nwp":8, "wp":6, "fort":11, "reflex":13, "will":11, "special":["Skill Boost"] },
-        { "level":17, "xp":1540000, "hp":"10d6+14", "bth":8, "attack_rate":"1/1", "nwp":8, "wp":6, "fort":11, "reflex":13, "will":12, "special":["Sneak Attack x6"] },
-        { "level":18, "xp":1760000, "hp":"10d6+16", "bth":8, "attack_rate":"1/1", "nwp":9, "wp":6, "fort":11, "reflex":14, "will":12, "special":["Skill Boost"] },
-        { "level":19, "xp":1980000, "hp":"10d6+18", "bth":9, "attack_rate":"1/1", "nwp":9, "wp":6, "fort":11, "reflex":14, "will":13, "special":["Skill Boost"] },
-        { "level":20, "xp":2200000, "hp":"10d6+20", "bth":9, "attack_rate":"1/1", "nwp":9, "wp":7, "fort":11, "reflex":15, "will":13, "special":["Legend of Thieves"] }
+        {
+          "level": 1,
+          "xp": 0,
+          "hp": "1d6 max",
+          "bth": 0,
+          "attack_rate": "1/1",
+          "nwp": 3,
+          "wp": 2,
+          "fort": 4,
+          "reflex": 5,
+          "will": 4,
+          "special": [
+            "Dexterous Climb",
+            "Nimble Defense",
+            "Opportune Attack +1",
+            "Rogue Skills (4 bonus NWP)",
+            "Sneak Attack x2",
+            "Trap Lore"
+          ]
+        },
+        {
+          "level": 2,
+          "xp": 1250,
+          "hp": "2d6",
+          "bth": 0,
+          "attack_rate": "1/1",
+          "nwp": 3,
+          "wp": 2,
+          "fort": 5,
+          "reflex": 6,
+          "will": 4,
+          "special": [
+            "Opportune Attack +2",
+            "Skill Boost"
+          ]
+        },
+        {
+          "level": 3,
+          "xp": 2500,
+          "hp": "3d6",
+          "bth": 1,
+          "attack_rate": "1/1",
+          "nwp": 4,
+          "wp": 2,
+          "fort": 5,
+          "reflex": 6,
+          "will": 5,
+          "special": [
+            "Skill Boost"
+          ]
+        },
+        {
+          "level": 4,
+          "xp": 5000,
+          "hp": "4d6",
+          "bth": 1,
+          "attack_rate": "1/1",
+          "nwp": 4,
+          "wp": 3,
+          "fort": 5,
+          "reflex": 7,
+          "will": 5,
+          "special": [
+            "Opportune Attack +3",
+            "Skill Boost"
+          ]
+        },
+        {
+          "level": 5,
+          "xp": 10000,
+          "hp": "5d6",
+          "bth": 2,
+          "attack_rate": "1/1",
+          "nwp": 4,
+          "wp": 3,
+          "fort": 5,
+          "reflex": 7,
+          "will": 6,
+          "special": [
+            "Sneak Attack x3"
+          ]
+        },
+        {
+          "level": 6,
+          "xp": 20000,
+          "hp": "6d6",
+          "bth": 2,
+          "attack_rate": "1/1",
+          "nwp": 5,
+          "wp": 3,
+          "fort": 6,
+          "reflex": 8,
+          "will": 6,
+          "special": [
+            "Skill Boost"
+          ]
+        },
+        {
+          "level": 7,
+          "xp": 40000,
+          "hp": "7d6",
+          "bth": 3,
+          "attack_rate": "1/1",
+          "nwp": 5,
+          "wp": 3,
+          "fort": 7,
+          "reflex": 8,
+          "will": 7,
+          "special": [
+            "Activate Scroll"
+          ]
+        },
+        {
+          "level": 8,
+          "xp": 70000,
+          "hp": "8d6",
+          "bth": 3,
+          "attack_rate": "1/1",
+          "nwp": 5,
+          "wp": 4,
+          "fort": 7,
+          "reflex": 9,
+          "will": 7,
+          "special": [
+            "Opportune Attack +4",
+            "Skill Boost"
+          ]
+        },
+        {
+          "level": 9,
+          "xp": 110000,
+          "hp": "9d6",
+          "bth": 4,
+          "attack_rate": "1/1",
+          "nwp": 6,
+          "wp": 4,
+          "fort": 7,
+          "reflex": 9,
+          "will": 8,
+          "special": [
+            "Sneak Attack x4"
+          ]
+        },
+        {
+          "level": 10,
+          "xp": 160000,
+          "hp": "10d6",
+          "bth": 4,
+          "attack_rate": "1/1",
+          "nwp": 6,
+          "wp": 4,
+          "fort": 7,
+          "reflex": 10,
+          "will": 8,
+          "special": [
+            "Renown",
+            "Skill Boost",
+            "Touch of Fate"
+          ]
+        },
+        {
+          "level": 11,
+          "xp": 220000,
+          "hp": "10d6+2",
+          "bth": 5,
+          "attack_rate": "1/1",
+          "nwp": 6,
+          "wp": 4,
+          "fort": 8,
+          "reflex": 10,
+          "will": 9,
+          "special": [
+            "Activate Item"
+          ]
+        },
+        {
+          "level": 12,
+          "xp": 440000,
+          "hp": "10d6+4",
+          "bth": 5,
+          "attack_rate": "1/1",
+          "nwp": 7,
+          "wp": 5,
+          "fort": 9,
+          "reflex": 11,
+          "will": 9,
+          "special": [
+            "Skill Boost"
+          ]
+        },
+        {
+          "level": 13,
+          "xp": 660000,
+          "hp": "10d6+6",
+          "bth": 6,
+          "attack_rate": "1/1",
+          "nwp": 7,
+          "wp": 5,
+          "fort": 9,
+          "reflex": 11,
+          "will": 10,
+          "special": [
+            "Sneak Attack x5"
+          ]
+        },
+        {
+          "level": 14,
+          "xp": 880000,
+          "hp": "10d6+8",
+          "bth": 6,
+          "attack_rate": "1/1",
+          "nwp": 7,
+          "wp": 5,
+          "fort": 9,
+          "reflex": 12,
+          "will": 10,
+          "special": [
+            "Skill Boost"
+          ]
+        },
+        {
+          "level": 15,
+          "xp": 1100000,
+          "hp": "10d6+10",
+          "bth": 7,
+          "attack_rate": "1/1",
+          "nwp": 8,
+          "wp": 5,
+          "fort": 10,
+          "reflex": 12,
+          "will": 11,
+          "special": []
+        },
+        {
+          "level": 16,
+          "xp": 1320000,
+          "hp": "10d6+12",
+          "bth": 7,
+          "attack_rate": "1/1",
+          "nwp": 8,
+          "wp": 6,
+          "fort": 11,
+          "reflex": 13,
+          "will": 11,
+          "special": [
+            "Skill Boost"
+          ]
+        },
+        {
+          "level": 17,
+          "xp": 1540000,
+          "hp": "10d6+14",
+          "bth": 8,
+          "attack_rate": "1/1",
+          "nwp": 8,
+          "wp": 6,
+          "fort": 11,
+          "reflex": 13,
+          "will": 12,
+          "special": [
+            "Sneak Attack x6"
+          ]
+        },
+        {
+          "level": 18,
+          "xp": 1760000,
+          "hp": "10d6+16",
+          "bth": 8,
+          "attack_rate": "1/1",
+          "nwp": 9,
+          "wp": 6,
+          "fort": 11,
+          "reflex": 14,
+          "will": 12,
+          "special": [
+            "Skill Boost"
+          ]
+        },
+        {
+          "level": 19,
+          "xp": 1980000,
+          "hp": "10d6+18",
+          "bth": 9,
+          "attack_rate": "1/1",
+          "nwp": 9,
+          "wp": 6,
+          "fort": 11,
+          "reflex": 14,
+          "will": 13,
+          "special": [
+            "Skill Boost"
+          ]
+        },
+        {
+          "level": 20,
+          "xp": 2200000,
+          "hp": "10d6+20",
+          "bth": 9,
+          "attack_rate": "1/1",
+          "nwp": 9,
+          "wp": 7,
+          "fort": 11,
+          "reflex": 15,
+          "will": 13,
+          "special": [
+            "Legend of Thieves"
+          ]
+        }
       ]
     },
     {
       "id": "wizard",
       "name": "Wizard",
       "hit_die": "d4",
-      "allowed_ancestries": ["human", "half-elf", "elf", "half-orc", "halfling"],
+      "allowed_ancestries": [
+        "human",
+        "half-elf",
+        "elf",
+        "half-orc",
+        "halfling"
+      ],
       "allowed_ancestries_note": "Dwarves and gnomes cannot be wizards (Magic Disruption). Exception: gnomes may be specialist illusionists.",
       "alignment": "Any",
       "attribute_requirements": {
@@ -318,8 +3156,13 @@
         "INT": 14
       },
       "prime_example": {
-        "ancestries": ["half-elf", "human"],
-        "requirements": { "INT": 16 },
+        "ancestries": [
+          "half-elf",
+          "human"
+        ],
+        "requirements": {
+          "INT": 16
+        },
         "bonus": "+10% XP",
         "note": "Gnome illusionists with INT 16+ also qualify."
       },
@@ -327,38 +3170,315 @@
       "weapon_slot_rate": "Every 6th level",
       "nonproficiency_penalty": -5,
       "weapon_groups": [],
-      "weapons_allowed": ["dagger", "dart", "knife", "sling", "staff"],
+      "weapons_allowed": [
+        "dagger",
+        "dart",
+        "knife",
+        "sling",
+        "staff"
+      ],
       "bth_level1": 0,
       "nwp_slots_start": 3,
-      "nwp_groups": ["Academic", "General"],
+      "nwp_groups": [
+        "Academic",
+        "General"
+      ],
       "armor": "None. Cannot cast spells with somatic components while armored (unless Light Armor Use talent).",
-      "saves_level1": { "fort": 4, "reflex": 5, "will": 6 },
+      "saves_level1": {
+        "fort": 4,
+        "reflex": 5,
+        "will": 6
+      },
       "spellcasting": {
         "type": "arcane",
         "attribute": "INT",
         "access": "All schools (generalist) or restricted by specialization"
       },
       "level_chart": [
-        { "level":1, "xp":0, "hp":"1d4 max", "bth":0, "attack_rate":"1/1", "nwp":3, "wp":1, "fort":4, "reflex":5, "will":6, "special":["Specialization","Spellbook","Spellcraft","Level 1 Spells"] },
-        { "level":2, "xp":2500, "hp":"2d4", "bth":0, "attack_rate":"1/1", "nwp":3, "wp":1, "fort":4, "reflex":5, "will":7, "special":[] },
-        { "level":3, "xp":5000, "hp":"3d4", "bth":0, "attack_rate":"1/1", "nwp":4, "wp":1, "fort":5, "reflex":5, "will":7, "special":["Level 2 Spells"] },
-        { "level":4, "xp":10000, "hp":"4d4", "bth":1, "attack_rate":"1/1", "nwp":4, "wp":1, "fort":5, "reflex":6, "will":8, "special":[] },
-        { "level":5, "xp":20000, "hp":"5d4", "bth":1, "attack_rate":"1/1", "nwp":4, "wp":1, "fort":5, "reflex":6, "will":9, "special":["Level 3 Spells"] },
-        { "level":6, "xp":40000, "hp":"6d4", "bth":1, "attack_rate":"1/1", "nwp":5, "wp":2, "fort":6, "reflex":6, "will":9, "special":[] },
-        { "level":7, "xp":60000, "hp":"7d4", "bth":2, "attack_rate":"1/1", "nwp":5, "wp":2, "fort":6, "reflex":7, "will":9, "special":["Level 4 Spells"] },
-        { "level":8, "xp":90000, "hp":"8d4", "bth":2, "attack_rate":"1/1", "nwp":5, "wp":2, "fort":6, "reflex":7, "will":10, "special":[] },
-        { "level":9, "xp":135000, "hp":"9d4", "bth":2, "attack_rate":"1/1", "nwp":6, "wp":2, "fort":7, "reflex":7, "will":11, "special":["Level 5 Spells","Magecraft"] },
-        { "level":10, "xp":250000, "hp":"10d4", "bth":3, "attack_rate":"1/1", "nwp":6, "wp":2, "fort":7, "reflex":8, "will":11, "special":[] },
-        { "level":11, "xp":375000, "hp":"10d4+1", "bth":3, "attack_rate":"1/1", "nwp":6, "wp":3, "fort":7, "reflex":8, "will":12, "special":["Level 6 Spells"] },
-        { "level":12, "xp":750000, "hp":"10d4+2", "bth":3, "attack_rate":"1/1", "nwp":7, "wp":3, "fort":8, "reflex":8, "will":12, "special":[] },
-        { "level":13, "xp":1125000, "hp":"10d4+3", "bth":4, "attack_rate":"1/1", "nwp":7, "wp":3, "fort":8, "reflex":9, "will":12, "special":["Level 7 Spells"] },
-        { "level":14, "xp":1500000, "hp":"10d4+4", "bth":4, "attack_rate":"1/1", "nwp":7, "wp":3, "fort":8, "reflex":9, "will":13, "special":[] },
-        { "level":15, "xp":1875000, "hp":"10d4+5", "bth":4, "attack_rate":"1/1", "nwp":8, "wp":3, "fort":9, "reflex":9, "will":13, "special":["Level 8 Spells"] },
-        { "level":16, "xp":2250000, "hp":"10d4+6", "bth":5, "attack_rate":"1/1", "nwp":8, "wp":3, "fort":9, "reflex":10, "will":14, "special":[] },
-        { "level":17, "xp":2625000, "hp":"10d4+7", "bth":5, "attack_rate":"1/1", "nwp":8, "wp":3, "fort":9, "reflex":11, "will":14, "special":["Level 9 Spells"] },
-        { "level":18, "xp":3000000, "hp":"10d4+8", "bth":5, "attack_rate":"1/1", "nwp":9, "wp":4, "fort":10, "reflex":11, "will":14, "special":[] },
-        { "level":19, "xp":3375000, "hp":"10d4+9", "bth":6, "attack_rate":"1/1", "nwp":9, "wp":4, "fort":10, "reflex":11, "will":14, "special":[] },
-        { "level":20, "xp":3750000, "hp":"10d4+10", "bth":6, "attack_rate":"1/1", "nwp":9, "wp":4, "fort":10, "reflex":11, "will":14, "special":["High Arcana"] }
+        {
+          "level": 1,
+          "xp": 0,
+          "hp": "1d4 max",
+          "bth": 0,
+          "attack_rate": "1/1",
+          "nwp": 3,
+          "wp": 1,
+          "fort": 4,
+          "reflex": 5,
+          "will": 6,
+          "special": [
+            "Specialization",
+            "Spellbook",
+            "Spellcraft",
+            "Level 1 Spells"
+          ]
+        },
+        {
+          "level": 2,
+          "xp": 2500,
+          "hp": "2d4",
+          "bth": 0,
+          "attack_rate": "1/1",
+          "nwp": 3,
+          "wp": 1,
+          "fort": 4,
+          "reflex": 5,
+          "will": 7,
+          "special": []
+        },
+        {
+          "level": 3,
+          "xp": 5000,
+          "hp": "3d4",
+          "bth": 0,
+          "attack_rate": "1/1",
+          "nwp": 4,
+          "wp": 1,
+          "fort": 5,
+          "reflex": 5,
+          "will": 7,
+          "special": [
+            "Level 2 Spells"
+          ]
+        },
+        {
+          "level": 4,
+          "xp": 10000,
+          "hp": "4d4",
+          "bth": 1,
+          "attack_rate": "1/1",
+          "nwp": 4,
+          "wp": 1,
+          "fort": 5,
+          "reflex": 6,
+          "will": 8,
+          "special": []
+        },
+        {
+          "level": 5,
+          "xp": 20000,
+          "hp": "5d4",
+          "bth": 1,
+          "attack_rate": "1/1",
+          "nwp": 4,
+          "wp": 1,
+          "fort": 5,
+          "reflex": 6,
+          "will": 9,
+          "special": [
+            "Level 3 Spells"
+          ]
+        },
+        {
+          "level": 6,
+          "xp": 40000,
+          "hp": "6d4",
+          "bth": 1,
+          "attack_rate": "1/1",
+          "nwp": 5,
+          "wp": 2,
+          "fort": 6,
+          "reflex": 6,
+          "will": 9,
+          "special": []
+        },
+        {
+          "level": 7,
+          "xp": 60000,
+          "hp": "7d4",
+          "bth": 2,
+          "attack_rate": "1/1",
+          "nwp": 5,
+          "wp": 2,
+          "fort": 6,
+          "reflex": 7,
+          "will": 9,
+          "special": [
+            "Level 4 Spells"
+          ]
+        },
+        {
+          "level": 8,
+          "xp": 90000,
+          "hp": "8d4",
+          "bth": 2,
+          "attack_rate": "1/1",
+          "nwp": 5,
+          "wp": 2,
+          "fort": 6,
+          "reflex": 7,
+          "will": 10,
+          "special": []
+        },
+        {
+          "level": 9,
+          "xp": 135000,
+          "hp": "9d4",
+          "bth": 2,
+          "attack_rate": "1/1",
+          "nwp": 6,
+          "wp": 2,
+          "fort": 7,
+          "reflex": 7,
+          "will": 11,
+          "special": [
+            "Level 5 Spells",
+            "Magecraft"
+          ]
+        },
+        {
+          "level": 10,
+          "xp": 250000,
+          "hp": "10d4",
+          "bth": 3,
+          "attack_rate": "1/1",
+          "nwp": 6,
+          "wp": 2,
+          "fort": 7,
+          "reflex": 8,
+          "will": 11,
+          "special": []
+        },
+        {
+          "level": 11,
+          "xp": 375000,
+          "hp": "10d4+1",
+          "bth": 3,
+          "attack_rate": "1/1",
+          "nwp": 6,
+          "wp": 3,
+          "fort": 7,
+          "reflex": 8,
+          "will": 12,
+          "special": [
+            "Level 6 Spells"
+          ]
+        },
+        {
+          "level": 12,
+          "xp": 750000,
+          "hp": "10d4+2",
+          "bth": 3,
+          "attack_rate": "1/1",
+          "nwp": 7,
+          "wp": 3,
+          "fort": 8,
+          "reflex": 8,
+          "will": 12,
+          "special": []
+        },
+        {
+          "level": 13,
+          "xp": 1125000,
+          "hp": "10d4+3",
+          "bth": 4,
+          "attack_rate": "1/1",
+          "nwp": 7,
+          "wp": 3,
+          "fort": 8,
+          "reflex": 9,
+          "will": 12,
+          "special": [
+            "Level 7 Spells"
+          ]
+        },
+        {
+          "level": 14,
+          "xp": 1500000,
+          "hp": "10d4+4",
+          "bth": 4,
+          "attack_rate": "1/1",
+          "nwp": 7,
+          "wp": 3,
+          "fort": 8,
+          "reflex": 9,
+          "will": 13,
+          "special": []
+        },
+        {
+          "level": 15,
+          "xp": 1875000,
+          "hp": "10d4+5",
+          "bth": 4,
+          "attack_rate": "1/1",
+          "nwp": 8,
+          "wp": 3,
+          "fort": 9,
+          "reflex": 9,
+          "will": 13,
+          "special": [
+            "Level 8 Spells"
+          ]
+        },
+        {
+          "level": 16,
+          "xp": 2250000,
+          "hp": "10d4+6",
+          "bth": 5,
+          "attack_rate": "1/1",
+          "nwp": 8,
+          "wp": 3,
+          "fort": 9,
+          "reflex": 10,
+          "will": 14,
+          "special": []
+        },
+        {
+          "level": 17,
+          "xp": 2625000,
+          "hp": "10d4+7",
+          "bth": 5,
+          "attack_rate": "1/1",
+          "nwp": 8,
+          "wp": 3,
+          "fort": 9,
+          "reflex": 11,
+          "will": 14,
+          "special": [
+            "Level 9 Spells"
+          ]
+        },
+        {
+          "level": 18,
+          "xp": 3000000,
+          "hp": "10d4+8",
+          "bth": 5,
+          "attack_rate": "1/1",
+          "nwp": 9,
+          "wp": 4,
+          "fort": 10,
+          "reflex": 11,
+          "will": 14,
+          "special": []
+        },
+        {
+          "level": 19,
+          "xp": 3375000,
+          "hp": "10d4+9",
+          "bth": 6,
+          "attack_rate": "1/1",
+          "nwp": 9,
+          "wp": 4,
+          "fort": 10,
+          "reflex": 11,
+          "will": 14,
+          "special": []
+        },
+        {
+          "level": 20,
+          "xp": 3750000,
+          "hp": "10d4+10",
+          "bth": 6,
+          "attack_rate": "1/1",
+          "nwp": 9,
+          "wp": 4,
+          "fort": 10,
+          "reflex": 11,
+          "will": 14,
+          "special": [
+            "High Arcana"
+          ]
+        }
       ]
     }
   ]
