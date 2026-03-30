@@ -184,7 +184,8 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
   <!-- Character Sheet -->
   <div id="char-sheet" style="display:none;"></div>
   <div id="sheet-actions" style="display:none;margin-top:1rem;">
-    <button id="export-btn" class="btn-secondary">Export JSON</button>
+    <button id="levelup-btn" class="btn-primary" style="background:#2e7d32;">Level Up</button>
+    <button id="export-btn" class="btn-secondary">
     <button id="print-btn" class="btn-secondary" style="margin-left:.5rem;">Print</button>
     <button id="delete-btn" class="btn-secondary btn-danger" style="margin-left:.5rem;">Delete</button>
     <button id="back-btn" class="btn-secondary" style="margin-left:.5rem;">Back to List</button>
@@ -2791,6 +2792,74 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
     }
   }
 
+  // ============ LEVEL UP ============
+  function doLevelUp() {
+    const char = characters.find(c => c.id === currentCharId);
+    if (!char) return;
+    const cls = DATA.classes.find(c => c.id === char.classId);
+    if (!cls || !cls.level_chart) { alert('No level chart available for ' + char.className + '. Update stats manually.'); return; }
+    const newLevel = char.level + 1;
+    const entry = cls.level_chart.find(e => e.level === newLevel);
+    if (!entry) { alert('No data for level ' + newLevel); return; }
+    const oldEntry = cls.level_chart.find(e => e.level === char.level);
+    const fa = char.finalAttrs;
+
+    // Parse HP: "2d6" means roll, "9d12+3" means fixed bonus
+    const hpMatch = entry.hp.match(/(\d+)d(\d+)(?:\+(\d+))?/);
+    let hpGain = 0;
+    let hpMethod = '';
+    if (hpMatch) {
+      const [, count, sides, fixed] = hpMatch;
+      if (fixed !== undefined) {
+        // Fixed HP gain (high levels): new fixed - old fixed
+        const oldFixed = oldEntry?.hp.match(/\+(\d+)/);
+        hpGain = parseInt(fixed) - (oldFixed ? parseInt(oldFixed[1]) : 0);
+        hpMethod = `+${hpGain} fixed`;
+      } else {
+        // Roll HP
+        const dieSize = parseInt(sides);
+        const conFort = getConFort(fa.CON || 10);
+        const rolled = roll(dieSize);
+        hpGain = Math.max(1, rolled + conFort);
+        hpMethod = `Rolled ${rolled} on d${dieSize} + ${conFort} CON = ${hpGain}`;
+      }
+    }
+
+    // Calculate new saves (base from chart + attr mods + ancestry bonuses)
+    const newSaves = {
+      fort: entry.fort + getConFort(fa.CON||10) + (char.ancestrySaveBonuses?.fort||0),
+      reflex: entry.reflex + getDexDefense(fa.DEX||10) + (char.ancestrySaveBonuses?.reflex||0),
+      will: entry.will + getWisSave(fa.WIS||10) + (char.ancestrySaveBonuses?.will||0)
+    };
+
+    // Build summary
+    const changes = [];
+    changes.push(`Level: ${char.level} → ${newLevel}`);
+    changes.push(`HP: ${char.maxHp} → ${char.maxHp + hpGain} (${hpMethod})`);
+    if (entry.bth !== char.bth) changes.push(`BTH: +${char.bth} → +${entry.bth}`);
+    if (newSaves.fort !== char.saves.fort) changes.push(`Fort: +${char.saves.fort} → +${newSaves.fort}`);
+    if (newSaves.reflex !== char.saves.reflex) changes.push(`Reflex: +${char.saves.reflex} → +${newSaves.reflex}`);
+    if (newSaves.will !== char.saves.will) changes.push(`Will: +${char.saves.will} → +${newSaves.will}`);
+    if (entry.attack_rate && oldEntry && entry.attack_rate !== oldEntry.attack_rate) changes.push(`Attack Rate: ${oldEntry.attack_rate} → ${entry.attack_rate}`);
+    if (entry.special && entry.special.length > 0) changes.push(`New abilities: ${entry.special.join(', ')}`);
+
+    // Check for new class talent slot (every 3rd level: 3, 6, 9, 12, 15, 18)
+    if (newLevel >= 3 && newLevel % 3 === 0) changes.push(`New Class Talent slot available!`);
+
+    const ok = confirm(`LEVEL UP to ${newLevel}\n\n${changes.join('\n')}\n\nApply these changes?`);
+    if (!ok) return;
+
+    // Apply
+    char.level = newLevel;
+    char.maxHp += hpGain;
+    char.hp += hpGain;
+    char.bth = entry.bth;
+    char.saves = newSaves;
+
+    saveCurrent();
+    renderSheet(char);
+  }
+
   // ============ IMPORT / EXPORT ============
   function exportChar() {
     const c = characters.find(ch => ch.id === currentCharId);
@@ -2945,6 +3014,7 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
     renderCharList();
   });
 
+  document.getElementById('levelup-btn').addEventListener('click', doLevelUp);
   document.getElementById('export-btn').addEventListener('click', exportChar);
   document.getElementById('print-btn').addEventListener('click', () => window.print());
   document.getElementById('delete-btn').addEventListener('click', deleteChar);
