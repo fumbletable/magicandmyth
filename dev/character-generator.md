@@ -2157,13 +2157,16 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
     const cls = DATA.classes.find(c => c.id === char.classId);
     const nonProfPenalty = cls?.nonproficiency_penalty || -3;
 
+    const hasRangedMastery = char.classTalent === 'Ranged Mastery';
     const weaponRows = char.weapons.map((w, i) => {
       const prof = isWeaponProficient(w.name, w.groups || []);
       const profPenalty = prof.proficient ? prof.penalty : nonProfPenalty;
+      const rangedMasteryAtk = (w.category === 'ranged' && hasRangedMastery) ? 0 : 0; // no atk bonus from RM
+      const rangedMasteryDmg = (w.category === 'ranged' && hasRangedMastery) ? 1 : 0;
       const atkMod = (w.category === 'ranged'
         ? char.bth + getDexRanged(fa.DEX||10)
         : char.bth + getStrAtkDmg(fa.STR||10)) + profPenalty;
-      const dmgMod = w.category === 'ranged' ? 0 : getStrAtkDmg(fa.STR||10);
+      const dmgMod = (w.category === 'ranged' ? 0 : getStrAtkDmg(fa.STR||10)) + rangedMasteryDmg;
       const dmgStr = dmgMod !== 0 ? `${w.damage}${formatMod(dmgMod)}` : w.damage;
       const lgDmg = w.damage_large || w.damage;
       const profStyle = prof.proficient ? '' : 'color:#c44;';
@@ -2174,7 +2177,7 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
         <td style="${profStyle}">${formatMod(atkMod)}</td>
         <td>${dmgStr} / ${lgDmg}</td>
         <td class="wt-init">${w.init || '—'}</td>
-        <td>${w.range ? w.range+'ft' : '—'}</td>
+        <td>${w.range ? (hasRangedMastery ? Math.floor(w.range*1.5)+'ft' : w.range+'ft') : '—'}</td>
         <td>${w.type || '—'}</td>
         <td><span class="wt-remove" data-widx="${i}">&times;</span></td>
       </tr>`;
