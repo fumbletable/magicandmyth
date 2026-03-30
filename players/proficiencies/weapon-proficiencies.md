@@ -36,7 +36,7 @@ Weapon proficiencies are one segment of the larger Combat system, which is detai
 
 Weapons training is entirely class specific. Each individual class entry in Chapter 3 highlights which individual weapons or weapon groups are available.
 
-Wielding a non-proficient weapon imposes an attack penalty dictated by class as well. For example, wizards have little combat training, so they suffer a steep -5 attack penalty when wielding a non-proficient weapon. Fighters, on the other hand, have extensive combat training. When wielding a non-proficient weapon, they suffer a -2 attack penalty instead. Table 38 notes these penalties for each class.
+Wielding a non-proficient weapon imposes an attack penalty dictated by class as well. For example, wizards have little combat training, so they suffer a steep -5 attack penalty when wielding a non-proficient weapon. Fighters, on the other hand, have extensive combat training. When wielding a non-proficient weapon, they suffer a -2 attack penalty instead. Table 37 notes these penalties for each class.
 
 The various weapons training proficiencies are single weapon proficiency, weapon focus, weapon group and weapon specialization.
 

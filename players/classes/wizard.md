@@ -53,7 +53,7 @@ Here again, an obsessive pursuit of perfection reigns supreme. Half-elven or hum
 
 Wizards may not become proficient in any weapon group, but may become proficient in staves, daggers, darts, knives, and slings. Use of any nonproficient weapon imposes a -5 attack penalty.
 
-Wizards cannot wear armor. There are two reasons that make it difficult for wizards to wear armor. First, the somatic component required in many of the wizard's spells restricts his ability to effectively cast these spells while wearing armor. More importantly, wizards do not train in armor; they never traded time away from their arcane studies to become familiar with wearing armor. Unless the wizard has spent the requisite weapon proficiency slots to employ spells while armored, the wizard cannot cast while wearing any armor. If he does wear armor, he cannot cast spells with a somatic component.
+Wizards cannot wear armor. There are two reasons that make it difficult for wizards to wear armor. First, the somatic component required in many of the wizard's spells restricts his ability to effectively cast these spells while wearing armor. More importantly, wizards do not train in armor; they never traded time away from their arcane studies to become familiar with wearing armor. Unless the wizard has spent the requisite class talent slot (see Light Armor Use, Chapter 6) to employ spells while armored, the wizard cannot cast while wearing any armor. If he does wear armor, he cannot cast spells with a somatic component.
 
 ## Nonweapon Proficiencies
 

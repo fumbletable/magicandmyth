@@ -114,13 +114,13 @@ Entire campaigns can be centered around the obtaining and/or retaining of an art
 
 By definition, renown is fame. Upon attaining 9th or 10th level, members of almost every class begin to receive followers and henchmen that wish for nothing more than to serve the character. Provided the character has established a stronghold of sorts, followers and henchmen simply arrive. No invitation is needed.
 
-This section talks about dealing with henchmen and followers that arrive to serve your character. If you wish to build a stronghold using very detailed rules of construction, see Appendix A: Stronghold Construction.
+This section talks about dealing with henchmen and followers that arrive to serve your character. If you wish to build a stronghold using very detailed rules of construction, see Appendix B: Stronghold Construction.
 
 ### Henchmen
 
 Once a character makes a name for himself, people of a similar mindset will seek him out and ask to join him on his adventures. These people have a variety of reasons for coming to the character: many want to learn from the character, others to worship the character's deity, still others fervently believe in the character's cause, while there are always some who just want a share in the loot from adventures. In special cases, henchmen need not even have a rational reason to join the character; rangers, for example, can attract animal companions that shouldn't have any particular reason for showing loyalty to him -- yet they do.
 
-The class descriptions have details of the kinds of henchmen any given character attracts and what conditions he must meet before they will come to him. Most classes of character must first build a stronghold (see Appendix A), which tells potential henchmen that the character is powerful enough to be reckoned with and can protect his henchmen, but also that he is unlikely to suddenly pack up and leave them to fend for themselves.
+The class descriptions have details of the kinds of henchmen any given character attracts and what conditions he must meet before they will come to him. Most classes of character must first build a stronghold (see Appendix B), which tells potential henchmen that the character is powerful enough to be reckoned with and can protect his henchmen, but also that he is unlikely to suddenly pack up and leave them to fend for themselves.
 
 The initial henchmen a character gains do not suddenly arrive all at once. Typically, over the course of some weeks to several months (or more), they will show up on the character's doorstep in ones and twos to offer their services.
 
