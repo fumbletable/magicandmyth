@@ -2094,7 +2094,7 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
         extras.push(`+${char.ancestrySaveBonuses.fort_poison} vs poison`);
       return `<div class="save-box">
         <div class="save-label">${label}</div>
-        <div class="save-total">${formatMod(total)}</div>
+        <div class="save-total editable" data-field="save-${s}" title="Click to edit">${formatMod(total)}</div>
         ${extras.length ? `<div style="font-size:.6rem;color:#4a1a6b;">${extras.join(', ')}</div>` : ''}
       </div>`;
     }).join('');
@@ -2495,9 +2495,10 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
         const current = span.textContent;
         const isNum = ['hp','maxHp','xp','level','armorBonus','shieldBonus','miscACBonus','gold'].includes(field);
         const isAttr = field && field.startsWith('attr-');
+        const isSave = field && field.startsWith('save-');
 
         const input = document.createElement('input');
-        input.type = isNum || isAttr ? 'number' : 'text';
+        input.type = isNum || isAttr || isSave ? 'number' : 'text';
         input.value = current;
         input.style.cssText = 'width:' + Math.max(60, current.length * 12) + 'px;font-size:inherit;font-weight:inherit;text-align:center;border:1px solid #4a1a6b;border-radius:3px;padding:.1rem .3rem;';
         span.replaceWith(input);
@@ -2506,7 +2507,12 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
 
         const commit = () => {
           const val = input.value.trim();
-          if (isAttr) {
+          if (isSave) {
+            const saveKey = field.replace('save-','');
+            char.saves[saveKey] = parseInt(val) || char.saves[saveKey];
+            saveCurrent();
+            renderSheet(char);
+          } else if (isAttr) {
             const attr = field.replace('attr-','');
             const n = Math.max(1, Math.min(25, parseInt(val) || char.finalAttrs[attr]));
             char.finalAttrs[attr] = n;
