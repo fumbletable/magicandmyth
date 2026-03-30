@@ -1471,7 +1471,7 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
       html += `<h3 style="font-size:.95rem;color:#333;margin:.5rem 0;">Fighting Styles</h3>
         <div class="option-grid" style="grid-template-columns:repeat(auto-fill,minmax(220px,1fr));">`;
       for (const style of profs.fighting_styles) {
-        const alreadyPicked = genState.wpChoices.some(c => c.id === style.id);
+        const alreadyPicked = genState.wpChoices.some(c => c.type === 'style' && c.id === style.id);
         html += `<div class="option-card${alreadyPicked?' disabled':''}" data-action="wp-add-style" data-id="${style.id}" style="padding:.75rem;">
           <h3 style="font-size:.9rem;">${style.name}</h3>
           <div class="card-desc">${style.description}</div>
