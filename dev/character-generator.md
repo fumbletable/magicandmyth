@@ -1566,11 +1566,8 @@ Create Magic&Myth characters step by step. Characters auto-save to your browser.
     saves.reflex += (ancestrySaveBonuses.reflex || 0);
     saves.will += (ancestrySaveBonuses.will || 0);
 
-    // BTH from level chart or default 0
-    let bth = 0;
-    if (cls.level_chart && cls.level_chart.length > 0) {
-      bth = cls.level_chart[0].bth || 0;
-    }
+    // BTH from class data
+    let bth = cls.bth_level1 || 0;
 
     // XP note
     const xpNote = getXpNote(cls, finalAttrs);

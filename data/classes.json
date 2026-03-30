@@ -19,18 +19,12 @@
       "weapon_slots_start": 4,
       "weapon_slot_rate": "Every 3rd level",
       "nonproficiency_penalty": -2,
-      "weapon_groups": ["all"],
-      "nwp_slots_start": 3,
+      "bth_level1": 0,
+      "weapon_groups": ["axes", "blades", "bows", "clubs_maces", "picks_hammers", "simple_melee", "simple_ranged"],
+      "nwp_slots_start": 2,
       "nwp_groups": ["General", "Nature"],
-      "armor": "Any (but some abilities restricted in heavy armor)",
-      "saves_level1": { "fort": 5, "reflex": 5, "will": 4 },
-      "level_chart": [
-        { "level": 1, "xp": 0, "hp": "1d12 max", "bth": 1, "special": ["Feral Senses", "Rage 1/day", "Fast Movement +10"] },
-        { "level": 2, "xp": 2000, "hp": "2d12", "bth": 1, "special": ["Uncanny Dodge"] },
-        { "level": 3, "xp": 4000, "hp": "3d12", "bth": 2, "special": [] },
-        { "level": 4, "xp": 8000, "hp": "4d12", "bth": 2, "special": ["Rage 2/day"] },
-        { "level": 5, "xp": 16000, "hp": "5d12", "bth": 3, "special": ["Improved Uncanny Dodge"] }
-      ]
+      "armor": "Padded cloth, leather, studded leather, hide. Bucklers and small shields only.",
+      "saves_level1": { "fort": 6, "reflex": 5, "will": 4 }
     },
     {
       "id": "bard",
@@ -38,9 +32,6 @@
       "hit_die": "d6",
       "allowed_ancestries": ["human", "half-elf", "halfling", "gnome"],
       "alignment": "Any neutral (must have neutrality on one axis)",
-      "attribute_requirements": {
-        "note": "No explicit minimum listed, but INT and CHA are primary."
-      },
       "prime_example": {
         "ancestries": ["human", "half-elf", "halfling", "gnome"],
         "requirements": { "INT": 16, "CHA": 16 },
@@ -51,10 +42,16 @@
       "nonproficiency_penalty": -3,
       "weapon_groups": ["all"],
       "weapon_restriction": "Any weapon no larger than the bard",
+      "bth_level1": 0,
       "nwp_slots_start": 3,
       "nwp_groups": ["Academic", "General", "Rogue"],
       "armor": "Leather, padded, studded leather, brigandine, elven/mithral chain. No shields.",
-      "saves_level1": { "fort": 4, "reflex": 5, "will": 6 }
+      "saves_level1": { "fort": 4, "reflex": 5, "will": 4 },
+      "attribute_requirements": {
+        "note": "Suffer -10% XP if both INT < 12 and CHA < 14.",
+        "INT": 12,
+        "CHA": 14
+      }
     },
     {
       "id": "cleric",
@@ -72,14 +69,15 @@
         "bonus": "+10% XP",
         "note": "Specific mythoi may require additional attributes."
       },
+      "bth_level1": 0,
       "weapon_slots_start": 2,
       "weapon_slot_rate": "Every 4th level",
       "nonproficiency_penalty": -3,
       "weapon_groups": ["clubs_maces", "flails", "picks_hammers", "simple_melee"],
-      "nwp_slots_start": 3,
+      "nwp_slots_start": 4,
       "nwp_groups": ["Academic", "General"],
       "armor": "Any. Shields allowed. Weapon restrictions vary by mythos.",
-      "saves_level1": { "fort": 5, "reflex": 4, "will": 6 },
+      "saves_level1": { "fort": 6, "reflex": 4, "will": 5 },
       "spellcasting": {
         "type": "divine",
         "attribute": "WIS",
@@ -106,10 +104,11 @@
       "nonproficiency_penalty": -3,
       "weapon_groups": [],
       "weapons_allowed": ["club", "dagger", "dart", "scimitar", "sickle", "sling", "spear", "staff"],
-      "nwp_slots_start": 3,
+      "bth_level1": 0,
+      "nwp_slots_start": 4,
       "nwp_groups": ["Academic", "General", "Nature"],
       "armor": "Leather, padded, hide. Wooden shields only.",
-      "saves_level1": { "fort": 5, "reflex": 4, "will": 6 },
+      "saves_level1": { "fort": 6, "reflex": 4, "will": 5 },
       "spellcasting": {
         "type": "divine",
         "attribute": "WIS",
@@ -131,12 +130,13 @@
         "requirements": { "STR": 16 },
         "bonus": "+10% XP"
       },
+      "bth_level1": 1,
       "weapon_slots_start": 4,
       "weapon_slot_rate": "Every 3rd level",
       "nonproficiency_penalty": -2,
       "weapon_groups": ["all"],
       "nwp_slots_start": 3,
-      "nwp_groups": ["General"],
+      "nwp_groups": ["General", "Nature"],
       "armor": "Any. Shields allowed.",
       "saves_level1": { "fort": 5, "reflex": 5, "will": 4 },
       "special_features": ["Weapon Specialization (fighter only)"]
@@ -145,7 +145,7 @@
       "id": "monk",
       "name": "Monk",
       "hit_die": "d8",
-      "allowed_ancestries": ["human", "half-elf", "half-orc"],
+      "allowed_ancestries": ["all"],
       "alignment": "Any lawful",
       "attribute_requirements": {
         "note": "Optional. Suffer -10% XP if not met.",
@@ -162,12 +162,13 @@
       "weapon_slots_start": 2,
       "weapon_slot_rate": "Every 4th level",
       "nonproficiency_penalty": -3,
+      "bth_level1": 0,
       "weapon_groups": ["martial_arts"],
       "weapon_restriction": "Any weapon no larger than the monk, with exception of ranged or martial arts",
-      "nwp_slots_start": 3,
+      "nwp_slots_start": 4,
       "nwp_groups": ["Academic", "General"],
       "armor": "None. AC improves with level.",
-      "saves_level1": { "fort": 5, "reflex": 6, "will": 6 }
+      "saves_level1": { "fort": 5, "reflex": 5, "will": 5 }
     },
     {
       "id": "paladin",
@@ -192,10 +193,11 @@
       "weapon_slot_rate": "Every 3rd level",
       "nonproficiency_penalty": -2,
       "weapon_groups": ["all"],
+      "bth_level1": 0,
       "nwp_slots_start": 3,
       "nwp_groups": ["Academic", "General"],
       "armor": "Any. Shields allowed.",
-      "saves_level1": { "fort": 5, "reflex": 5, "will": 5 },
+      "saves_level1": { "fort": 5, "reflex": 5, "will": 4 },
       "spellcasting": {
         "type": "divine",
         "attribute": "WIS",
@@ -224,10 +226,11 @@
       "weapon_slot_rate": "Every 3rd level",
       "nonproficiency_penalty": -2,
       "weapon_groups": ["all"],
+      "bth_level1": 0,
       "nwp_slots_start": 3,
       "nwp_groups": ["General", "Nature"],
       "armor": "Any (some abilities penalized in heavy armor).",
-      "saves_level1": { "fort": 5, "reflex": 5, "will": 5 },
+      "saves_level1": { "fort": 5, "reflex": 5, "will": 4 },
       "spellcasting": {
         "type": "divine",
         "attribute": "WIS",
@@ -253,6 +256,7 @@
       "weapon_slot_rate": "Every 4th level",
       "nonproficiency_penalty": -3,
       "weapon_groups": ["crossbows", "finesse", "simple_melee", "simple_ranged", "whips"],
+      "bth_level1": 0,
       "nwp_slots_start": 3,
       "nwp_groups": ["Academic", "General", "Rogue"],
       "armor": "Leather, padded, studded leather, brigandine, elven/mithral chain. No shields.",
@@ -302,6 +306,7 @@
       "nonproficiency_penalty": -5,
       "weapon_groups": [],
       "weapons_allowed": ["dagger", "dart", "knife", "sling", "staff"],
+      "bth_level1": 0,
       "nwp_slots_start": 3,
       "nwp_groups": ["Academic", "General"],
       "armor": "None. Cannot cast spells with somatic components while armored (unless Light Armor Use talent).",
